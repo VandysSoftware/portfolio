@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>House Rules — Vandy's Software Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Oswald:wght@400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Palette, base and page chrome live in styles.css.
+     Below: the components unique to this page. */
+
+  /* this page sits a touch tighter than the home page */
+  section{padding:44px 0 6px;}
+  .closer{margin-top:54px;padding:60px 20px 70px;}
+  .closer .q{font-size:46px;}
+
+  /* ---- PAGE HEAD ---- */
+  header{
+    text-align:center;padding:62px 20px 46px;border-bottom:1px solid var(--hair);
+  }
+  .back{
+    display:inline-block;font-family:'Oswald',sans-serif;font-size:10px;
+    letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+    text-decoration:none;margin-bottom:24px;
+  }
+  .back:hover{color:var(--text-bright);}
+  h1.title{
+    font-family:'Oswald',sans-serif;font-weight:600;font-size:19px;
+    letter-spacing:.36em;text-indent:.36em;text-transform:uppercase;
+    margin:0 0 12px;color:var(--heading);
+  }
+  header p{margin:0 auto;max-width:46ch;font-size:13px;color:var(--muted);}
+
+  /* ---- HOW IT GOES ---- */
+  .steps{border-left:1px solid var(--hair-solid);margin-left:8px;padding-left:0;}
+  .step{position:relative;padding:0 0 26px 26px;}
+  .step::before{
+    content:"";position:absolute;left:-5px;top:7px;width:9px;height:9px;
+    border-radius:50%;background:var(--accent);
+  }
+  .step b{
+    display:block;font-family:'Oswald',sans-serif;font-weight:600;font-size:12px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--text-bright);
+  }
+  .step span{display:block;font-size:13px;color:var(--muted);margin-top:4px;}
+  .step em{
+    font-style:normal;font-family:'Oswald',sans-serif;font-size:9px;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--accent2);
+  }
+
+  /* ---- RULES ---- */
+  .sign{border:2px solid var(--hair-solid);padding:8px;background:var(--surface);}
+  .sign-inner{border:1px solid var(--hair);padding:26px 20px 22px;}
+  .sign h2{
+    font-family:'Oswald',sans-serif;font-weight:600;font-size:14px;letter-spacing:.34em;
+    text-indent:.34em;text-transform:uppercase;text-align:center;margin:0 0 6px;color:var(--heading);
+  }
+  .sign .sub{text-align:center;font-size:11px;color:var(--muted);margin:0 0 26px;}
+  ol.rules{margin:0;padding:0;list-style:none;counter-reset:r;}
+  ol.rules li{
+    counter-increment:r;position:relative;padding-left:34px;margin-bottom:22px;
+    font-size:13px;line-height:1.65;
+  }
+  ol.rules li::before{
+    content:counter(r,decimal-leading-zero);position:absolute;left:0;top:1px;
+    font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:.08em;color:var(--accent);
+  }
+  ol.rules b{
+    display:block;font-family:'Oswald',sans-serif;font-weight:600;font-size:12px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--text-bright);margin-bottom:4px;
+  }
+  ol.rules span{color:var(--muted);}
+  .sign .foot{
+    margin-top:24px;padding-top:16px;border-top:1px dashed var(--hair);
+    text-align:center;font-size:11px;color:var(--muted);
+  }
+
+  /* ---- GLOSSARY ---- */
+  .term{border-left:3px solid var(--accent2);padding:2px 0 2px 16px;margin-bottom:22px;}
+  .term b{
+    display:block;font-family:'Oswald',sans-serif;font-weight:600;font-size:12px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--text-bright);
+  }
+  .term span{font-size:13px;color:var(--muted);}
+
+  .fineprint{
+    margin-top:34px;font-size:11px;color:var(--muted);line-height:1.7;
+    border-top:1px dashed var(--hair);padding-top:18px;
+  }
+
+  @media (max-width:430px){
+    h1.title{font-size:15px;letter-spacing:.28em;text-indent:.28em;}
+    .closer .q{font-size:34px;}
+  }
+</style>
+</head>
+<body>
+
+<button class="switch" id="switch">Lights on</button>
+
+<header>
+  <a class="back" href="index.html">&larr; Back to the bar</a>
+  <h1 class="title">House Rules</h1>
+  <p>How a project runs here, start to finish — the paperwork, the payments, and who owns what when it's done.</p>
+</header>
+
+<main class="shell">
+
+  <section>
+    <p class="eyebrow">How it goes</p>
+    <div class="steps">
+
+      <div class="step">
+        <b>1 &middot; We talk</b>
+        <span>A call or a coffee. You describe what you're trying to build, I ask questions and tell you honestly whether I'm the right fit. <em>No charge, no commitment</em></span>
+      </div>
+
+      <div class="step">
+        <b>2 &middot; NDA, if you want one</b>
+        <span>If your idea is sensitive and you'd rather have it signed before we get into detail, say so and I'll sign one. Some clients want it before step one — that's fine too. <em>On request</em></span>
+      </div>
+
+      <div class="step">
+        <b>3 &middot; Master Services Agreement</b>
+        <span>The one-time contract that governs our whole relationship: payment terms, confidentiality, IP ownership, liability limits, and how either of us can end things. Signed once, and every project after this skips straight to step four. <em>Signed once per client</em></span>
+      </div>
+
+      <div class="step">
+        <b>4 &middot; Statement of Work</b>
+        <span>The project-specific document: what I'm building, what you're getting, the milestones, the timeline, and the price. This is where scope gets pinned down so neither of us is guessing. <em>One per project</em></span>
+      </div>
+
+      <div class="step">
+        <b>5 &middot; Deposit, then build</b>
+        <span>A deposit starts the work. From there you get regular check-ins and something you can actually click on — not a three-month silence followed by a reveal. <em>Milestone billing</em></span>
+      </div>
+
+      <div class="step">
+        <b>6 &middot; Handoff</b>
+        <span>Code, accounts, documentation, and access all transferred to you. You leave owning the thing, not renting it. <em>Everything transfers</em></span>
+      </div>
+
+      <div class="step">
+        <b>7 &middot; After</b>
+        <span>Defects in what I delivered get fixed on my time for a set window after launch. Past that, bring me back as needed or set up a retainer. <em>Warranty window</em></span>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sign">
+      <div class="sign-inner">
+        <h2>The Rules</h2>
+        <p class="sub">Posted so there are no surprises later.</p>
+        <ol class="rules">
+          <li>
+            <b>We start with an MSA</b>
+            <span>One master agreement per client, signed once. It covers payment terms, IP ownership, confidentiality, liability limits, and termination. Sign it once and every project after that moves faster.</span>
+          </li>
+          <li>
+            <b>Every project gets its own SOW</b>
+            <span>Scope, deliverables, milestones, timeline, price. The MSA stays put; the SOW is what changes project to project. If we can't describe it in a SOW, we don't understand it well enough to start.</span>
+          </li>
+          <li>
+            <b>An NDA can be signed on request</b>
+            <span>Confidentiality is already covered in the MSA, but if you want a standalone NDA before we talk specifics, just ask. No friction, no charge.</span>
+          </li>
+          <li>
+            <b>You own what you paid for</b>
+            <span>The finished deliverable is yours outright — code, accounts, and access all transfer at handoff. I keep rights to the general-purpose libraries and tooling I bring with me, which is what keeps your build from starting at zero.</span>
+          </li>
+          <li>
+            <b>Scope changes get written down</b>
+            <span>New ideas are welcome. They become a change order or a new SOW rather than quietly stretching the original timeline — which protects your budget as much as my schedule.</span>
+          </li>
+          <li>
+            <b>Deposit up front, then milestones</b>
+            <span>A deposit starts the work, with the balance tied to milestones in the SOW. Invoice terms are set in the MSA so they're the same on every project.</span>
+          </li>
+          <li>
+            <b>Bugs are on me after launch</b>
+            <span>Defects in delivered work get fixed free during the warranty window named in your SOW. New features are billable — repairs aren't.</span>
+          </li>
+        </ol>
+        <div class="foot">Want to read the paperwork before we talk? Ask and I'll send the MSA and a sample SOW.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Plain english</p>
+
+    <div class="term">
+      <b>MSA — Master Services Agreement</b>
+      <span>The rules of the relationship. Signed once. Nothing in it is project-specific, which is exactly why it only has to be negotiated a single time.</span>
+    </div>
+
+    <div class="term">
+      <b>SOW — Statement of Work</b>
+      <span>The rules of one project. Signed each time. It hangs off the MSA, so it can stay short and focus on what's actually being built.</span>
+    </div>
+
+    <div class="term">
+      <b>NDA — Non-Disclosure Agreement</b>
+      <span>A promise to keep your idea to myself. Available standalone on request, and also folded into the MSA once that's signed.</span>
+    </div>
+
+    <div class="term">
+      <b>Change order</b>
+      <span>A short written amendment when scope grows mid-project. It says what's being added, what it costs, and what it does to the timeline.</span>
+    </div>
+
+    <p class="fineprint">This page describes how I like to work — it's a plain-english summary, not the contract itself and not legal advice. The signed MSA and SOW are the documents that actually govern the engagement, and you're welcome to have your own attorney review them before signing anything.</p>
+  </section>
+
+</main>
+
+<section class="closer">
+  <div class="q">What'll it be?</div>
+  <p class="sub">Tell me what you're trying to build. No charge for the conversation.</p>
+  <a class="btn" href="mailto:hello@example.com">Start a tab</a>
+</section>
+
+<footer>
+  Vandy's Software Solutions &middot; <span class="kc">Kansas City, MO</span>
+</footer>
+
+<script>
+  (function(){
+    var root = document.documentElement;
+    var btn  = document.getElementById('switch');
+    var prefersLight = window.matchMedia &&
+                       window.matchMedia('(prefers-color-scheme: light)').matches;
+    setTheme(prefersLight ? 'light' : 'dark');
+    function setTheme(mode){
+      root.setAttribute('data-theme', mode);
+      btn.textContent = mode === 'dark' ? 'Lights on' : 'Lights out';
+      btn.setAttribute('aria-label',
+        mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    }
+    btn.addEventListener('click', function(){
+      setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+  })();
+</script>
+
+</body>
+</html>

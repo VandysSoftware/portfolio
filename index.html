@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vandy's Software Solutions — Software on tap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Alfa+Slab+One&family=Oswald:wght@400;600&family=Pixelify+Sans:wght@600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Palette, base and page chrome live in styles.css.
+     Below: the theme tokens and components unique to this page. */
+
+  /* ============ SIGN THEME TOKENS ============ */
+  [data-theme="dark"]{
+    --tagline:#DFFCFD;
+
+    --glow-name:0 0 4px #fff, 0 0 12px #FF3D7F, 0 0 30px #FF3D7F, 0 0 62px rgba(255,61,127,.55);
+    --glow-rule:0 0 8px #35E0E8, 0 0 22px rgba(53,224,232,.7);
+    --glow-tag:0 0 6px #35E0E8, 0 0 18px rgba(53,224,232,.7);
+
+    --plate-bg:linear-gradient(160deg,#1A1416,#0D0B0C 60%);
+    --plate-glow:radial-gradient(ellipse 70% 60% at 50% 42%, rgba(255,61,127,.22), transparent 70%);
+    --plate-border:rgba(232,220,192,.14);
+    --chain:linear-gradient(to bottom, rgba(232,220,192,.10), rgba(232,220,192,.42));
+    --bracket:rgba(232,220,192,.34);
+    --wall:radial-gradient(ellipse 60% 40% at 50% 26%, rgba(255,61,127,.20), transparent 62%),
+           radial-gradient(ellipse 50% 34% at 50% 24%, rgba(53,224,232,.09), transparent 60%);
+    --bar-bg:linear-gradient(to bottom, rgba(11,10,10,.96), rgba(11,10,10,.72) 60%, transparent);
+    --buzz:buzz 7s infinite;
+  }
+  [data-theme="light"]{
+    --tagline:#1E1613;
+
+    --glow-name:none;--glow-rule:none;--glow-tag:none;
+
+    --plate-bg:linear-gradient(160deg,#F1E7D0,#DCCCA8 60%);
+    --plate-glow:none;
+    --plate-border:rgba(74,18,32,.3);
+    --chain:linear-gradient(to bottom, rgba(74,18,32,.25), rgba(74,18,32,.6));
+    --bracket:rgba(74,18,32,.5);
+    --wall:none;
+    --bar-bg:linear-gradient(to bottom, rgba(232,220,192,.97), rgba(232,220,192,.75) 60%, transparent);
+    --buzz:none;
+  }
+
+  :root{
+    /* driven from JS. --drop is the chain length, so the sign hangs from the
+       ceiling rather than being pushed down the page. */
+    --dock:0; --drop:22vh; --s:1; --swing:0deg; --tiltX:0deg; --tiltY:0deg;
+  }
+
+  /* the sign swings wider than the viewport on narrow screens */
+  body{overflow-x:hidden;}
+
+  /* ============ THE HANGING SIGN ============ */
+  .wall{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:var(--wall);
+    opacity:calc(1 - var(--dock) * .55);
+  }
+  .bar{
+    position:fixed;top:0;left:0;right:0;height:96px;z-index:30;pointer-events:none;
+    background:var(--bar-bg);border-bottom:1px solid var(--hair);
+    opacity:var(--dock);
+  }
+  .stage{
+    position:fixed;top:0;left:0;right:0;z-index:40;
+    display:flex;justify-content:center;perspective:900px;pointer-events:none;
+  }
+  /* scaling from 50% 0 keeps the chain tops welded to the ceiling at every
+     scale, so the sign shrinks toward the bar instead of sliding up to it */
+  .hanger{
+    transform:scale(var(--s));
+    transform-origin:50% 0;will-change:transform;
+  }
+  .rig{
+    transform:rotate(var(--swing));transform-origin:50% 0;
+    transform-style:preserve-3d;will-change:transform;
+  }
+  .chains{position:relative;height:var(--drop);}
+  .chain{position:absolute;top:0;width:2px;height:100%;background:var(--chain);}
+  .chain.l{left:calc(50% - 96px);}
+  .chain.r{left:calc(50% + 96px);}
+  .bracket{
+    position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);
+    width:210px;height:3px;background:var(--bracket);border-radius:2px;
+  }
+  .panel{
+    position:relative;padding:26px 40px 22px;
+    transform:rotateX(var(--tiltX)) rotateY(var(--tiltY));
+    transform-style:preserve-3d;will-change:transform;
+  }
+  .plate{
+    position:absolute;inset:0;transform:translateZ(-16px);
+    background:var(--plate-bg);border:1px solid var(--plate-border);
+    box-shadow:0 22px 50px rgba(0,0,0,.75);
+  }
+  html[data-theme="light"] .plate{box-shadow:0 18px 38px rgba(74,18,32,.28);}
+  .plate::after{content:"";position:absolute;inset:0;background-image:var(--plate-glow);}
+
+  .word{
+    position:relative;display:block;text-align:center;
+    font-family:'Yellowtail',cursive;font-size:88px;line-height:1;
+    transform-style:preserve-3d;
+  }
+  .word .layer{
+    position:absolute;left:0;right:0;top:0;
+    transform:translateZ(calc(var(--i) * -1.15px));color:var(--c);
+  }
+  /* in the print theme the extrusion reads as a painted wooden sign */
+  html[data-theme="light"] .word .layer{
+    color:#8A6142;opacity:calc(1 - var(--i) / 13);
+  }
+  .word .front{
+    position:relative;color:var(--script);transform:translateZ(1px);
+    text-shadow:var(--glow-name);animation:var(--buzz);
+  }
+  @keyframes buzz{0%,93%,100%{opacity:1}94%{opacity:.55}95%{opacity:1}96%{opacity:.66}}
+
+  .sign-rule{
+    height:2px;width:210px;margin:18px auto 14px;
+    background:var(--accent2);box-shadow:var(--glow-rule);transform:translateZ(2px);
+  }
+  .sign-tag{
+    font-family:'Oswald',sans-serif;font-size:15px;letter-spacing:.34em;
+    text-indent:.34em;color:var(--tagline);text-align:center;
+    text-shadow:var(--glow-tag);transform:translateZ(2px);
+    opacity:calc(1 - var(--dock) * .35);
+  }
+  .sign-legal{
+    margin-top:16px;text-align:center;font-family:'Oswald',sans-serif;font-size:9px;
+    letter-spacing:.3em;text-indent:.3em;color:var(--muted);text-transform:uppercase;
+    transform:translateZ(2px);opacity:calc(1 - var(--dock));
+  }
+
+  .hero-space{height:88vh;}
+  main{position:relative;z-index:10;}
+
+  /* ============ PAGE CONTENT ============ */
+  .intro p{margin:0 0 16px;max-width:52ch;}
+  .intro p.lead{font-size:17px;line-height:1.6;color:var(--text-bright);}
+
+  .board{border:1px solid var(--hair-solid);background:var(--surface);padding:26px 22px 10px;}
+  .item{
+    display:flex;gap:12px;align-items:baseline;padding-bottom:18px;
+    margin-bottom:18px;border-bottom:1px dashed var(--hair);
+  }
+  .item:last-child{border-bottom:0;}
+  .item h3{
+    font-family:'Oswald',sans-serif;font-weight:600;font-size:14px;letter-spacing:.12em;
+    text-transform:uppercase;margin:0;color:var(--heading);white-space:nowrap;
+  }
+  .dots{flex:1;border-bottom:1px dotted var(--hair-solid);transform:translateY(-4px);}
+  .item p{margin:0;font-size:13px;color:var(--muted);flex:0 1 58%;line-height:1.6;}
+  @media (max-width:560px){
+    .item{flex-direction:column;gap:6px;}
+    .dots{display:none;}
+    .item p{flex:1 1 auto;}
+  }
+
+  .blurb{text-align:center;font-size:13px;color:var(--muted);max-width:46ch;margin:0 auto;line-height:1.7;}
+  .blurb-cta{text-align:center;margin:22px 0 2px;}
+  .btn-ghost{
+    display:inline-block;border:1px solid var(--accent);color:var(--text-bright);
+    font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.24em;text-indent:.24em;
+    text-transform:uppercase;padding:11px 22px;text-decoration:none;font-weight:600;
+  }
+  .btn-ghost:hover{background:var(--accent);color:var(--btn-text);}
+
+  /* ============ CROSS-STITCH SAMPLER ============ */
+  .frame{
+    border:9px solid #6B4A2E;border-radius:2px;
+    box-shadow:0 0 0 2px #3C2919, 0 18px 40px rgba(0,0,0,.55);
+    max-width:420px;margin:0 auto 26px;
+  }
+  .sampler{
+    position:relative;background-color:#F4ECDA;
+    background-image:
+      repeating-linear-gradient(0deg,  rgba(120,100,70,.10) 0 1px, transparent 1px 8px),
+      repeating-linear-gradient(90deg, rgba(120,100,70,.10) 0 1px, transparent 1px 8px);
+    padding:26px 18px 24px;text-align:center;
+    box-shadow:inset 0 0 40px rgba(150,125,85,.22);
+  }
+  .stitched{
+    display:block;
+    font-family:'Pixelify Sans',monospace;font-weight:700;
+    font-size:44px;line-height:1.15;letter-spacing:.06em;
+    background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='8'%20height='8'%3E%3Cpath%20d='M1%201L7%207M7%201L1%207'%20stroke='%232E5F87'%20stroke-width='1.7'%20stroke-linecap='round'/%3E%3C/svg%3E");
+    background-size:8px 8px;
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;
+    filter:drop-shadow(0 1px 0 rgba(90,70,45,.35));
+  }
+  .band{
+    height:26px;margin:0 auto;max-width:92%;
+    background-repeat:repeat-x;background-position:center;background-size:64px 26px;
+    background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='64'%20height='26'%3E%3Cg%20stroke-linecap='round'%3E%3Cpath%20d='M2%2013L6%2013M10%2013L14%2013M18%2013L22%2013M26%2013L30%2013M34%2013L38%2013M42%2013L46%2013M50%2013L54%2013M58%2013L62%2013'%20stroke='%237A9A54'%20stroke-width='3'/%3E%3Cpath%20d='M14%206L18%2010M18%206L14%2010'%20stroke='%238E1F4B'%20stroke-width='2.4'/%3E%3Cpath%20d='M20%204L24%208M24%204L20%208'%20stroke='%235B3A6E'%20stroke-width='2.4'/%3E%3Cpath%20d='M26%206L30%2010M30%206L26%2010'%20stroke='%238E1F4B'%20stroke-width='2.4'/%3E%3Cpath%20d='M44%206L48%2010M48%206L44%2010'%20stroke='%235B3A6E'%20stroke-width='2.4'/%3E%3Cpath%20d='M50%205L54%209M54%205L50%209'%20stroke='%238E1F4B'%20stroke-width='2.4'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .band.flip{transform:scaleY(-1);}
+  @media (max-width:480px){
+    .stitched{font-size:34px;}
+    .frame{border-width:7px;}
+  }
+
+  .quote{border-left:3px solid var(--accent2);padding:2px 0 2px 18px;margin-bottom:26px;}
+  .quote p{margin:0 0 8px;font-size:14px;color:var(--text-bright);line-height:1.6;}
+  .quote .by{font-size:11px;color:var(--muted);}
+
+  .job{border-left:3px solid var(--accent);padding:4px 0 4px 18px;margin-bottom:34px;}
+  .job .status{
+    font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.26em;
+    text-transform:uppercase;color:var(--accent2);
+  }
+  .job h3{
+    font-family:'Yellowtail',cursive;font-weight:400;font-size:32px;margin:4px 0 2px;
+    color:var(--text-bright);line-height:1.1;
+  }
+  .job .kind{font-size:12px;color:var(--muted);margin:0 0 12px;}
+  .job p{margin:0 0 14px;font-size:13.5px;}
+  .stack{display:flex;flex-wrap:wrap;gap:7px;}
+  .stack span{
+    font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.14em;
+    text-transform:uppercase;border:1px solid var(--hair-solid);padding:3px 9px;color:var(--muted);
+  }
+
+  details{border-bottom:1px solid var(--hair);padding:14px 0;}
+  details summary{
+    cursor:pointer;list-style:none;font-family:'Oswald',sans-serif;font-weight:600;
+    font-size:13px;letter-spacing:.06em;color:var(--text-bright);
+    display:flex;justify-content:space-between;gap:14px;align-items:center;
+  }
+  details summary::-webkit-details-marker{display:none;}
+  details summary::after{content:"+";color:var(--accent);font-size:16px;line-height:1;}
+  details[open] summary::after{content:"–";}
+  details p{margin:12px 0 2px;font-size:13px;color:var(--muted);line-height:1.65;}
+
+  @media (max-width:520px){
+    .word{font-size:54px;}
+    .panel{padding:20px 24px 18px;}
+    .sign-rule{width:150px;}
+    .sign-tag{font-size:11px;letter-spacing:.26em;text-indent:.26em;}
+    .chain.l{left:calc(50% - 66px);}
+    .chain.r{left:calc(50% + 66px);}
+    .bracket{width:150px;}
+    .job h3{font-size:27px;}
+  }
+
+  /* ============ DESKTOP ============
+     Nothing below runs under 900px, so the phone layout is untouched. */
+  @media (min-width:900px){
+
+    /* -- the sign takes the room -- */
+    /* a bigger sign needs a longer viewing distance, or the tilt distorts */
+    .stage{perspective:1700px;}
+    .hanger{width:min(88vw,1240px);}
+    /* extrusion depth was tuned against an 88px word; scale it with the type
+       or the letters read as flat at full size */
+    .word .layer{transform:translateZ(calc(var(--i) * -0.22vw));}
+    .plate{transform:translateZ(-2.4vw);}
+    .panel{width:100%;padding:2.6vw 3vw 2.2vw;}
+    /* vw grows it with the screen, vh stops a laptop getting a sign
+       taller than its own viewport, the cap spares ultrawides */
+    .word{font-size:clamp(88px, min(26vw, 34vh), 340px);}
+    /* percentages keep the chains on the plate's shoulders as it grows */
+    .chain.l{left:18%;}
+    .chain.r{left:82%;}
+    .bracket{width:66%;}
+    .sign-rule{width:32%;margin:2vh auto 1.4vh;}
+    .sign-tag{font-size:clamp(15px,1.5vw,26px);}
+    .sign-legal{font-size:clamp(9px,.8vw,13px);}
+    /* .hero-space height is set from JS on desktop, measured off the sign */
+
+    /* -- two-column sections -- */
+    .shell{max-width:1040px;padding:0 32px;}
+    section{padding:76px 0 10px;}
+
+    .board{
+      display:grid;grid-template-columns:1fr 1fr;
+      column-gap:46px;padding:30px 26px 12px;
+    }
+    /* last row of two loses the divider, not just the final item */
+    .item:nth-last-child(-n+2){border-bottom:0;padding-bottom:0;margin-bottom:18px;}
+
+    .regulars,.shelf,.faq{display:grid;grid-template-columns:1fr 1fr;column-gap:46px;}
+    .faq details{align-self:start;}
+    .faq summary{font-size:15px;}
+    .faq details p{font-size:14.5px;line-height:1.7;}
+
+    /* the sampler was sized against a 680px column and reads small in 1040 */
+    .frame{max-width:620px;border-width:12px;}
+    .sampler{padding:34px 22px 32px;}
+    .stitched{font-size:66px;}
+    .band{height:34px;background-size:84px 34px;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .word .front{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<h1 class="visually-hidden">Vandy's Software Solutions — Software on tap</h1>
+
+<button class="switch" id="switch">Lights on</button>
+
+<div class="wall"></div>
+<div class="bar"></div>
+
+<div class="stage" aria-hidden="true">
+  <div class="hanger">
+    <div class="rig">
+      <div class="chains">
+        <div class="chain l"></div>
+        <div class="chain r"></div>
+        <div class="bracket"></div>
+      </div>
+      <div class="panel">
+        <div class="plate"></div>
+        <div class="word">
+          <span class="layer" style="--i:9;--c:#14080C">Vandy's</span>
+          <span class="layer" style="--i:8;--c:#1B0A11">Vandy's</span>
+          <span class="layer" style="--i:7;--c:#240D16">Vandy's</span>
+          <span class="layer" style="--i:6;--c:#2E101C">Vandy's</span>
+          <span class="layer" style="--i:5;--c:#3A1323">Vandy's</span>
+          <span class="layer" style="--i:4;--c:#48172B">Vandy's</span>
+          <span class="layer" style="--i:3;--c:#5A1C35">Vandy's</span>
+          <span class="layer" style="--i:2;--c:#702240">Vandy's</span>
+          <span class="layer" style="--i:1;--c:#8C2A4F">Vandy's</span>
+          <span class="front">Vandy's</span>
+        </div>
+        <div class="sign-rule"></div>
+        <div class="sign-tag">SOFTWARE ON TAP</div>
+        <div class="sign-legal">Vandy's Software Solutions &middot; Kansas City</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="hero-space"></div>
+
+<main class="shell">
+
+  <section class="intro">
+    <p class="eyebrow">Who's pouring</p>
+    <p class="lead">I'm Noah. I build web applications for businesses that need something specific and can't buy it off a shelf.</p>
+    <p>Small shop, so you talk to the person writing the code. I take a few projects at a time so each one gets real attention, and I stay reachable after launch instead of vanishing at handoff.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">What's on tap</p>
+    <div class="board">
+      <div class="item">
+        <h3>Custom Apps</h3><div class="dots"></div>
+        <p>Full web applications built from scratch — auth, data, integrations, the whole thing.</p>
+      </div>
+      <div class="item">
+        <h3>Marketing Sites</h3><div class="dots"></div>
+        <p>Fast, good-looking sites that make your business easy to find and easy to hire.</p>
+      </div>
+      <div class="item">
+        <h3>Portals &amp; Dashboards</h3><div class="dots"></div>
+        <p>Client-facing logins and internal tools that replace the spreadsheet everyone's afraid to touch.</p>
+      </div>
+      <div class="item">
+        <h3>Online Stores</h3><div class="dots"></div>
+        <p>Storefronts, checkout, and inventory wired up so orders land where they need to go.</p>
+      </div>
+      <div class="item">
+        <h3>Renovations</h3><div class="dots"></div>
+        <p>You have software that works but hurts. I clean it up, speed it up, and make it maintainable.</p>
+      </div>
+      <div class="item">
+        <h3>Integrations</h3><div class="dots"></div>
+        <p>Getting your tools to talk to each other so nobody's copying data between tabs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">House rules</p>
+    <div class="frame">
+      <div class="sampler">
+        <div class="band"></div>
+        <div class="stitched">HOUSE<br>RULES</div>
+        <div class="band flip"></div>
+      </div>
+    </div>
+    <p class="blurb">One master agreement signed once, a statement of work for each project, and an NDA any time you want one. Scope, price, and ownership all go in writing before I start — so nothing about the paperwork is a surprise later.</p>
+    <p class="blurb-cta"><a class="btn-ghost" href="house-rules.html">Read the house rules</a></p>
+  </section>
+
+  <section>
+    <p class="eyebrow">The regulars</p>
+    <div class="regulars">
+      <div class="quote">
+        <p>[Client quote goes here — one or two sentences about what you built and what changed for their business.]</p>
+        <div class="by">— Name, Title, Company</div>
+      </div>
+      <div class="quote">
+        <p>[Second quote. The strongest ones name a specific outcome rather than saying you were nice to work with.]</p>
+        <div class="by">— Name, Title, Company</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">On the shelf</p>
+    <div class="shelf">
+      <div class="job">
+        <div class="status">Own product</div>
+        <h3>Afterword</h3>
+        <p class="kind">Estate planning &amp; document management &middot; next-of-kin.us</p>
+        <p>A preparedness tool for families. Estate planning firms offer it to their clients so everything — documents, accounts, wishes — is organized in advance instead of assembled during the worst week of someone's life. Also sold directly to families who don't have a planner.</p>
+        <div class="stack"><span>TypeScript</span><span>Turborepo</span><span>AWS</span><span>Postgres</span></div>
+      </div>
+      <div class="job">
+        <div class="status">In progress</div>
+        <h3>Real estate portfolio site</h3>
+        <p class="kind">Client work &middot; house flipping &amp; listings</p>
+        <p>A site for a flipper to show off finished renovations and current listings — before-and-after work that sells itself once people can actually see it.</p>
+        <div class="stack"><span>Web</span><span>Responsive</span><span>Listings</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Ask the bartender</p>
+    <div class="faq">
+      <details>
+        <summary>What does a project cost?</summary>
+        <p>It depends on scope, which is exactly why the SOW exists. After a short conversation I'll put a fixed price and timeline in writing before anyone commits to anything.</p>
+      </details>
+      <details>
+        <summary>How long does a build take?</summary>
+        <p>A marketing site runs a few weeks. A full custom application runs a few months. I'd rather give you an honest range up front than a fast number I have to walk back.</p>
+      </details>
+      <details>
+        <summary>Will you work on software someone else built?</summary>
+        <p>Yes — that's a good share of the work. I'll start with a short review of what's there and tell you plainly whether it's worth repairing or replacing.</p>
+      </details>
+      <details>
+        <summary>What happens after launch?</summary>
+        <p>Defects are covered during the warranty window named in your SOW. Past that, you can bring me back for changes as needed or set up a monthly retainer if you'd rather have standing time on the calendar.</p>
+      </details>
+      <details>
+        <summary>Do you sign NDAs?</summary>
+        <p>Happily, on request, before we get into specifics. Confidentiality is also built into the MSA.</p>
+      </details>
+      <details>
+        <summary>Are you local?</summary>
+        <p>Based in Kansas City and glad to meet in person. Most work happens remotely, so location isn't a requirement on your end.</p>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<section class="closer">
+  <div class="q">What'll it be?</div>
+  <p class="sub">Tell me what you're trying to build. No charge for the conversation.</p>
+  <a class="btn" href="mailto:hello@example.com">Start a tab</a>
+</section>
+
+<footer>
+  Vandy's Software Solutions &middot; <span class="kc">Kansas City, MO</span>
+</footer>
+
+<script>
+/* ---------- theme ---------- */
+(function(){
+  var root = document.documentElement;
+  var btn  = document.getElementById('switch');
+  var prefersLight = window.matchMedia &&
+                     window.matchMedia('(prefers-color-scheme: light)').matches;
+  setTheme(prefersLight ? 'light' : 'dark');
+  function setTheme(mode){
+    root.setAttribute('data-theme', mode);
+    btn.textContent = mode === 'dark' ? 'Lights on' : 'Lights out';
+    btn.setAttribute('aria-label',
+      mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+  }
+  btn.addEventListener('click', function(){
+    setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+})();
+
+/* ---------- the hanging sign ---------- */
+(function(){
+  var root   = document.documentElement;
+  var reduce = window.matchMedia &&
+               window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var HERO_DROP_VH   = 0.22;
+  var DOCK_DROP_PX   = 20;   /* visible chain left once docked, in screen px */
+  var HERO_SCALE     = 1;
+  var DOCK_PANEL_PX  = 56;   /* how tall the panel should read once docked */
+  var STIFFNESS      = 0.055;
+  var DAMPING        = 0.88;
+  var IMPULSE        = 0.055;
+  /* the pivot is the ceiling now, so the same angle throws the panel much
+     further than it did when the chains started a quarter-screen down */
+  var MAX_SWING      = 3.5;
+
+  /* a viewport-sized sign has no single correct dock scale or runway length —
+     both get measured off the rendered panel instead of guessed in vh */
+  var panel     = document.querySelector('.panel');
+  var heroSpace = document.querySelector('.hero-space');
+  var dockScale = 0.34;
+  var dockDistance = 460;
+
+  function measure(){
+    var h = panel ? panel.offsetHeight : 0;
+    if(!h) return;
+    dockScale = clamp(DOCK_PANEL_PX / h, 0.06, 0.5);
+
+    /* phones keep the runway they have always had */
+    if(window.innerWidth < 900){
+      if(heroSpace) heroSpace.style.height = '';
+      dockDistance = 460;
+      return;
+    }
+
+    /* the runway only has to clear the sign at rest — any taller and the
+       sign docks while the intro is still a screen away, which reads as
+       a long stretch of nothing */
+    var vh = window.innerHeight;
+    var signBottom = vh * HERO_DROP_VH + h;
+    var runway = clamp(signBottom + vh * 0.06, vh * 0.55, vh * 0.94);
+    if(heroSpace) heroSpace.style.height = Math.round(runway) + 'px';
+
+    /* finish docking well before the runway ends so the intro arrives into
+       an already-settled header rather than a bare screen */
+    dockDistance = Math.max(240, runway * 0.55);
+  }
+  window.addEventListener('resize', measure, {passive:true});
+  window.addEventListener('load', measure);
+  /* the script face lands late and changes the panel's height with it */
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+
+  var angle = 0, vel = 0;
+  var lastScroll = window.scrollY || 0;
+  var pendingDelta = 0;
+  var tiltX = 0, tiltY = 0, targetTiltX = 0, targetTiltY = 0;
+
+  function lerp(a,b,t){ return a + (b-a)*t; }
+  function clamp(v,lo,hi){ return v < lo ? lo : (v > hi ? hi : v); }
+  function easeOutCubic(t){ return 1 - Math.pow(1-t, 3); }
+
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY || 0;
+    pendingDelta += (y - lastScroll);
+    lastScroll = y;
+  }, {passive:true});
+
+  if(!reduce && window.matchMedia('(pointer:fine)').matches){
+    window.addEventListener('mousemove', function(e){
+      targetTiltY =  ((e.clientX / window.innerWidth)  - 0.5) * 16;
+      targetTiltX = -((e.clientY / window.innerHeight) - 0.5) * 9;
+    }, {passive:true});
+  }
+
+  measure();
+
+  function frame(){
+    var dock = easeOutCubic(clamp((window.scrollY || 0) / dockDistance, 0, 1));
+    var s = lerp(HERO_SCALE, dockScale, dock);
+    /* --drop sits inside the scaled hanger, so divide it back out and the
+       value becomes on-screen pixels — without this the docked chain is
+       multiplied by the dock scale and all but disappears */
+    var drop = lerp(window.innerHeight * HERO_DROP_VH, DOCK_DROP_PX, dock) / s;
+
+    if(!reduce){
+      vel += pendingDelta * IMPULSE;
+      vel += -angle * STIFFNESS;
+      vel *= DAMPING;
+      angle += vel;
+      angle = clamp(angle, -MAX_SWING, MAX_SWING);
+      angle *= (1 - dock * 0.75);
+
+      tiltX = lerp(tiltX, targetTiltX * (1 - dock), 0.08);
+      tiltY = lerp(tiltY, targetTiltY * (1 - dock), 0.08);
+    }
+    pendingDelta = 0;
+
+    root.style.setProperty('--dock',  dock.toFixed(4));
+    root.style.setProperty('--drop',  drop.toFixed(2) + 'px');
+    root.style.setProperty('--s',     s.toFixed(4));
+    root.style.setProperty('--swing', angle.toFixed(3) + 'deg');
+    root.style.setProperty('--tiltX', tiltX.toFixed(3) + 'deg');
+    root.style.setProperty('--tiltY', tiltY.toFixed(3) + 'deg');
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+
+</body>
+</html>

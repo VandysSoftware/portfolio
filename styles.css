@@ -1,0 +1,108 @@
+/* ============================================================
+   Vandy's Software Solutions — shared foundation
+
+   Everything both pages need: the theme palette, the base
+   reset, page chrome, and the closer/footer that ends each
+   page. Page-specific components (the hanging sign, the
+   cross-stitch sampler, the rules list) stay inline in the
+   HTML file that uses them.
+   ============================================================ */
+
+/* ============ THEMES ============ */
+[data-theme="dark"]{
+  --text:#E8DCC0;--text-bright:#ffffff;--muted:rgba(232,220,192,.62);
+  --hair:rgba(232,220,192,.16);--hair-solid:rgba(232,220,192,.28);
+  --surface:rgba(0,0,0,.35);
+  --script:#FFEAF2;--accent:#FF3D7F;--accent2:#35E0E8;
+  --eyebrow:#F2A33C;--heading:#F2A33C;
+  --btn-bg:#F2A33C;--btn-text:#0B0A0A;
+
+  --glow-name-sm:0 0 4px #fff, 0 0 14px #FF3D7F, 0 0 38px rgba(255,61,127,.5);
+  --wash3:radial-gradient(ellipse at 50% 60%, rgba(255,61,127,.14), transparent 62%);
+}
+[data-theme="light"]{
+  --text:#1E1613;--text-bright:#0F0B09;--muted:rgba(30,22,19,.68);
+  --hair:rgba(74,18,32,.22);--hair-solid:rgba(74,18,32,.4);
+  --surface:rgba(74,18,32,.045);
+  --script:#4A1220;--accent:#B01243;--accent2:#4A1220;
+  --eyebrow:#96560F;--heading:#96560F;
+  --btn-bg:#4A1220;--btn-text:#E8DCC0;
+
+  --glow-name-sm:none;
+  --wash3:none;
+}
+
+/* ============ BASE ============ */
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;background-color:#0B0A0A;color-scheme:dark;}
+html[data-theme="light"]{color-scheme:light;}
+body{
+  margin:0;min-height:100vh;background-color:#0B0A0A;color:var(--text);
+  font-family:'DM Mono',monospace;font-size:14px;line-height:1.7;
+  transition:background-color .35s ease,color .35s ease;position:relative;
+}
+html[data-theme="dark"],html[data-theme="dark"] body{background-color:#0B0A0A;}
+html[data-theme="light"],html[data-theme="light"] body{background-color:#E8DCC0;}
+body::before{
+  content:"";position:fixed;top:0;left:0;right:0;bottom:0;z-index:-1;
+  pointer-events:none;background-color:#0B0A0A;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 12% 4%,  rgba(255,61,127,.13), transparent 62%),
+    radial-gradient(ellipse 70% 45% at 92% 38%, rgba(53,224,232,.09),  transparent 62%),
+    radial-gradient(ellipse 90% 45% at 48% 98%, rgba(242,163,60,.07),  transparent 62%);
+}
+html[data-theme="light"] body::before{background-color:#E8DCC0;background-image:none;}
+
+a{color:inherit;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+
+/* ============ LAYOUT ============ */
+/* 680px is a reading measure. index.html widens this on desktop because its
+   sections go two-up; house-rules.html is prose and keeps the narrow column. */
+.shell{max-width:680px;margin:0 auto;padding:0 20px;}
+.visually-hidden{
+  position:absolute;width:1px;height:1px;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;
+}
+.eyebrow{
+  font-family:'Oswald',sans-serif;letter-spacing:.3em;text-transform:uppercase;
+  font-size:10px;color:var(--eyebrow);margin:0 0 16px;
+}
+section{padding:52px 0 10px;}
+
+/* ============ THEME SWITCH ============ */
+.switch{
+  position:fixed;top:14px;right:14px;z-index:60;
+  background:var(--surface);border:1px solid var(--hair);color:var(--text);
+  font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.22em;
+  text-indent:.22em;text-transform:uppercase;padding:8px 13px;cursor:pointer;
+}
+.switch:hover{border-color:var(--hair-solid);}
+
+/* ============ CLOSER / FOOTER ============ */
+.closer{
+  margin-top:60px;text-align:center;padding:66px 20px 74px;position:relative;z-index:10;
+  border-top:1px solid var(--hair);background-image:var(--wash3);
+}
+.closer .q{
+  font-family:'Yellowtail',cursive;font-size:52px;line-height:1.1;
+  color:var(--script);text-shadow:var(--glow-name-sm);
+}
+.closer .sub{margin:16px auto 26px;max-width:40ch;font-size:13px;color:var(--muted);}
+.btn{
+  display:inline-block;background:var(--btn-bg);color:var(--btn-text);
+  font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:.26em;text-indent:.26em;
+  text-transform:uppercase;padding:14px 30px;text-decoration:none;font-weight:600;
+}
+footer{
+  position:relative;z-index:10;text-align:center;padding:26px 20px 40px;
+  font-size:11px;color:var(--muted);opacity:.8;
+}
+footer .kc{color:var(--eyebrow);}
+
+@media (max-width:520px){
+  .closer .q{font-size:38px;}
+}
+@media (prefers-reduced-motion:reduce){
+  body{transition:none;}
+}

@@ -1,0 +1,15 @@
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Nothing is built here, but keep these out if tooling ever shows up
+node_modules/
+dist/
+.env
+.env.*
