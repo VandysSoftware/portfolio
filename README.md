@@ -3,10 +3,10 @@
 The marketing site for Vandy's Software Solutions, a one-person software
 consultancy in Kansas City. Two static pages, no build step, no dependencies.
 
-Everything runs on a bar metaphor: the hero is a neon sign hanging on chains,
-services are "what's on tap," testimonials are "the regulars," work is "on the
-shelf," the FAQ is "ask the bartender," and the closing CTA is "start a tab."
-Copy changes should keep that voice.
+Everything runs on a bar metaphor: the hero is a neon CLOSED sign hanging on
+chains, services are "what's on tap," testimonials are "the regulars," work is
+"on the shelf," the FAQ is "ask the bartender," and the closing CTA is "start a
+tab." Copy changes should keep that voice.
 
 ## Files
 
@@ -69,5 +69,7 @@ the neon stops buzzing). The decorative sign rig is `aria-hidden`, with a real
 - [ ] Replace `mailto:hello@example.com` — it appears on the primary CTA of
       **both** pages
 - [ ] Replace the two placeholder testimonials in "The regulars"
-- [ ] `Alfa Slab One` is requested from Google Fonts in `index.html` but never
-      used in any rule — drop it from the font URL or start using it
+- [ ] Decide whether the hero sign should keep reading **CLOSED**. It is a
+      deliberate joke on the bar metaphor, but it is also the first thing a
+      cold visitor sees, and it argues against the "Start a tab" CTA below it.
+      The brand name survives only in the small legal line on the plate.

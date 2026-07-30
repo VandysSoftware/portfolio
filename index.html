@@ -16,7 +16,6 @@
   [data-theme="dark"]{
     --tagline:#DFFCFD;
 
-    --glow-name:0 0 4px #fff, 0 0 12px #FF3D7F, 0 0 30px #FF3D7F, 0 0 62px rgba(255,61,127,.55);
     --glow-rule:0 0 8px #35E0E8, 0 0 22px rgba(53,224,232,.7);
     --glow-tag:0 0 6px #35E0E8, 0 0 18px rgba(53,224,232,.7);
 
@@ -28,12 +27,11 @@
     --wall:radial-gradient(ellipse 60% 40% at 50% 26%, rgba(255,61,127,.20), transparent 62%),
            radial-gradient(ellipse 50% 34% at 50% 24%, rgba(53,224,232,.09), transparent 60%);
     --bar-bg:linear-gradient(to bottom, rgba(11,10,10,.96), rgba(11,10,10,.72) 60%, transparent);
-    --buzz:buzz 7s infinite;
   }
   [data-theme="light"]{
     --tagline:#1E1613;
 
-    --glow-name:none;--glow-rule:none;--glow-tag:none;
+    --glow-rule:none;--glow-tag:none;
 
     --plate-bg:linear-gradient(160deg,#F1E7D0,#DCCCA8 60%);
     --plate-glow:none;
@@ -42,7 +40,6 @@
     --bracket:rgba(74,18,32,.5);
     --wall:none;
     --bar-bg:linear-gradient(to bottom, rgba(232,220,192,.97), rgba(232,220,192,.75) 60%, transparent);
-    --buzz:none;
   }
 
   :root{
@@ -100,9 +97,14 @@
   html[data-theme="light"] .plate{box-shadow:0 18px 38px rgba(74,18,32,.28);}
   .plate::after{content:"";position:absolute;inset:0;background-image:var(--plate-glow);}
 
+  /* Alfa Slab One sets wider per em than the Yellowtail script it replaced,
+     so every size below is about three quarters of its old value to land the
+     word at a similar rendered width. text-indent offsets the trailing
+     letter-space so the word stays optically centred on the plate. */
   .word{
     position:relative;display:block;text-align:center;
-    font-family:'Yellowtail',cursive;font-size:88px;line-height:1;
+    font-family:'Alfa Slab One',serif;font-size:66px;line-height:1.05;
+    letter-spacing:.04em;text-indent:.04em;
     transform-style:preserve-3d;
   }
   .word .layer{
@@ -113,11 +115,12 @@
   html[data-theme="light"] .word .layer{
     color:#8A6142;opacity:calc(1 - var(--i) / 13);
   }
+  /* painted, not lit — no glow and no flicker. --text-bright is white on the
+     dark plate and near-black on the light theme's cream one; a literal white
+     would vanish there. The extrusion layers still give the word depth. */
   .word .front{
-    position:relative;color:var(--script);transform:translateZ(1px);
-    text-shadow:var(--glow-name);animation:var(--buzz);
+    position:relative;color:var(--text-bright);transform:translateZ(1px);
   }
-  @keyframes buzz{0%,93%,100%{opacity:1}94%{opacity:.55}95%{opacity:1}96%{opacity:.66}}
 
   .sign-rule{
     height:2px;width:210px;margin:18px auto 14px;
@@ -237,7 +240,7 @@
   details p{margin:12px 0 2px;font-size:13px;color:var(--muted);line-height:1.65;}
 
   @media (max-width:520px){
-    .word{font-size:54px;}
+    .word{font-size:42px;}
     .panel{padding:20px 24px 18px;}
     .sign-rule{width:150px;}
     .sign-tag{font-size:11px;letter-spacing:.26em;text-indent:.26em;}
@@ -262,7 +265,7 @@
     .panel{width:100%;padding:2.6vw 3vw 2.2vw;}
     /* vw grows it with the screen, vh stops a laptop getting a sign
        taller than its own viewport, the cap spares ultrawides */
-    .word{font-size:clamp(88px, min(26vw, 34vh), 340px);}
+    .word{font-size:clamp(66px, min(19vw, 24vh), 250px);}
     /* percentages keep the chains on the plate's shoulders as it grows */
     .chain.l{left:18%;}
     .chain.r{left:82%;}
@@ -295,9 +298,6 @@
     .band{height:34px;background-size:84px 34px;}
   }
 
-  @media (prefers-reduced-motion:reduce){
-    .word .front{animation:none;}
-  }
 </style>
 </head>
 <body>
@@ -320,16 +320,16 @@
       <div class="panel">
         <div class="plate"></div>
         <div class="word">
-          <span class="layer" style="--i:9;--c:#14080C">Vandy's</span>
-          <span class="layer" style="--i:8;--c:#1B0A11">Vandy's</span>
-          <span class="layer" style="--i:7;--c:#240D16">Vandy's</span>
-          <span class="layer" style="--i:6;--c:#2E101C">Vandy's</span>
-          <span class="layer" style="--i:5;--c:#3A1323">Vandy's</span>
-          <span class="layer" style="--i:4;--c:#48172B">Vandy's</span>
-          <span class="layer" style="--i:3;--c:#5A1C35">Vandy's</span>
-          <span class="layer" style="--i:2;--c:#702240">Vandy's</span>
-          <span class="layer" style="--i:1;--c:#8C2A4F">Vandy's</span>
-          <span class="front">Vandy's</span>
+          <span class="layer" style="--i:9;--c:#14080C">Closed</span>
+          <span class="layer" style="--i:8;--c:#1B0A11">Closed</span>
+          <span class="layer" style="--i:7;--c:#240D16">Closed</span>
+          <span class="layer" style="--i:6;--c:#2E101C">Closed</span>
+          <span class="layer" style="--i:5;--c:#3A1323">Closed</span>
+          <span class="layer" style="--i:4;--c:#48172B">Closed</span>
+          <span class="layer" style="--i:3;--c:#5A1C35">Closed</span>
+          <span class="layer" style="--i:2;--c:#702240">Closed</span>
+          <span class="layer" style="--i:1;--c:#8C2A4F">Closed</span>
+          <span class="front">Closed</span>
         </div>
         <div class="sign-rule"></div>
         <div class="sign-tag">SOFTWARE ON TAP</div>
