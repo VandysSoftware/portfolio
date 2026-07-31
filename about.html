@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About Noah Vandervelden — Vandy's Software Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Oswald:wght@400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Palette, base and page chrome live in styles.css.
+     Below: the components unique to this page. */
+
+  /* This page's neon gets its own tokens rather than borrowing the sign's
+     --glow-tag from index.html. Same colour today, but they are lit for
+     different reasons, so tuning one should not silently change the other. */
+  [data-theme="dark"]{
+    --neon-ink:#DFFCFD;
+    --neon-glow:0 0 5px #fff, 0 0 16px #35E0E8,
+                0 0 34px rgba(53,224,232,.75), 0 0 62px rgba(53,224,232,.38);
+    --tape:rgba(232,220,192,.20);
+    --photo-bg:#171315;
+  }
+  [data-theme="light"]{
+    --neon-ink:#4A1220;
+    --neon-glow:none;
+    --tape:rgba(74,18,32,.14);
+    --photo-bg:#EDE1C6;
+  }
+
+  /* a reading page, so it keeps the narrow column and the tighter rhythm
+     house-rules.html uses rather than the home page's wider one */
+  section{padding:44px 0 6px;}
+  .closer{margin-top:54px;padding:60px 20px 70px;}
+  .closer .q{font-size:46px;}
+
+  /* ---- PAGE HEAD ---- */
+  header{
+    text-align:center;padding:62px 20px 46px;border-bottom:1px solid var(--hair);
+  }
+  .back{
+    display:inline-block;font-family:'Oswald',sans-serif;font-size:10px;
+    letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+    text-decoration:none;margin-bottom:24px;
+  }
+  .back:hover{color:var(--text-bright);}
+  /* the real h1 is visually hidden so the page announces what it is to a
+     machine; this is the display line a reader sees */
+  .display{
+    font-family:'Oswald',sans-serif;font-weight:600;font-size:19px;
+    letter-spacing:.36em;text-indent:.36em;text-transform:uppercase;
+    margin:0 0 12px;color:var(--heading);
+  }
+  header p.sub{margin:0 auto;max-width:46ch;font-size:13px;color:var(--muted);}
+
+  /* ---- BIO ---- */
+  .bio p{margin:0 0 18px;max-width:62ch;}
+  .bio p:last-child{margin-bottom:0;}
+  .who-copy p:last-child{margin-bottom:0;}
+  .lead{font-size:17px;line-height:1.6;color:var(--text-bright);margin:0;}
+
+  /* ---- OPENING: portrait beside the lead ---- */
+  .opening{padding-top:44px;}
+  /* taped to the wall the way bars pin up photos of regulars, and curling at
+     the corners the tape does not hold. The wrapper carries the curl because
+     .portrait's own two pseudo-elements are spent on the tape. */
+  .photo{position:relative;flex:0 0 auto;width:154px;margin:0 0 30px;}
+  .photo::before,.photo::after{
+    content:"";position:absolute;z-index:0;
+    bottom:15px;width:46%;height:26px;
+    box-shadow:0 20px 15px rgba(0,0,0,.62);
+  }
+  .photo::before{left:6px;transform:rotate(-5deg);}
+  .photo::after{right:6px;transform:rotate(5deg);}
+  html[data-theme="light"] .photo::before,
+  html[data-theme="light"] .photo::after{box-shadow:0 16px 12px rgba(74,18,32,.32);}
+
+  .portrait{
+    position:relative;z-index:1;width:100%;height:154px;
+    border:1px solid var(--hair-solid);
+    /* opaque, or the curl shadow shows straight through the print */
+    background:
+      linear-gradient(to bottom,
+        rgba(255,255,255,.07), transparent 14%,
+        transparent 86%, rgba(255,255,255,.06)),
+      var(--photo-bg);
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--muted);padding:10px;
+    transform:rotate(-1.6deg);
+  }
+  .portrait img{width:100%;height:100%;object-fit:cover;display:block;}
+  .portrait::before,.portrait::after{
+    content:"";position:absolute;width:62px;height:19px;
+    background:var(--tape);border:1px solid rgba(255,255,255,.06);
+  }
+  .portrait::before{top:-11px;left:-19px;transform:rotate(-38deg);}
+  .portrait::after{bottom:-11px;right:-19px;transform:rotate(-38deg);}
+  @media (min-width:600px){
+    .opening{display:flex;gap:28px;align-items:center;}
+    .portrait{margin:0;}
+  }
+
+  /* ---- THE SHORT VERSION, PRINTED AS A BAR TAB ---- */
+  /* A narrow thermal strip, not a panel: everything monospace, dashed rules,
+     values flush right, torn along the bottom.
+
+     No rotation — a fractional transform rasterises the text off the pixel
+     grid and the whole ticket goes soft. The tear is an irregular clip-path
+     rather than a repeating mask, which produced an even sawtooth with the
+     page showing through the gaps. drop-shadow, not box-shadow, because it
+     follows the clipped silhouette instead of the original box. */
+  /* the tape lives on a wrapper: clip-path cuts an element's own
+     pseudo-elements too, so a strip on .tab would be trimmed at the paper */
+  .ticket{position:relative;max-width:288px;margin:26px 0 0;}
+  .ticket::before{
+    content:"";position:absolute;z-index:2;
+    top:-13px;left:50%;margin-left:-44px;
+    width:88px;height:26px;
+    background:var(--tape);border:1px solid rgba(255,255,255,.06);
+    transform:rotate(-2.5deg);
+  }
+
+  .tab{
+    max-width:288px;
+    background:#F4ECDA;color:#2A211C;
+    font-size:11px;line-height:1.6;
+    padding:22px 18px 26px;margin:0;
+    filter:drop-shadow(0 14px 26px rgba(0,0,0,.5));
+    clip-path:polygon(
+      0 0, 100% 0,
+      100% calc(100% - 8px),
+      95% 100%,      90% calc(100% - 6px), 85% calc(100% - 1px),
+      79% calc(100% - 9px), 74% calc(100% - 3px), 68% 100%,
+      62% calc(100% - 7px), 57% calc(100% - 1px), 51% calc(100% - 8px),
+      45% calc(100% - 3px), 39% 100%,      34% calc(100% - 6px),
+      28% calc(100% - 1px), 22% calc(100% - 9px), 17% calc(100% - 4px),
+      11% 100%,      6% calc(100% - 5px),  0 calc(100% - 2px)
+    );
+  }
+  html[data-theme="light"] .tab{filter:drop-shadow(0 10px 18px rgba(74,18,32,.26));}
+
+  .tab-logo{
+    font-family:'Yellowtail',cursive;font-size:31px;line-height:1;
+    text-align:center;margin-bottom:5px;
+  }
+  .tab-org{
+    text-align:center;font-size:10px;line-height:1.6;
+    color:#4A3D34;margin-bottom:14px;
+  }
+  /* the dashes are drawn rather than bordered, so they read as printed */
+  .tab-rule{
+    height:1px;margin:13px 0;
+    background:repeating-linear-gradient(to right,
+      rgba(42,33,28,.55) 0 6px, transparent 6px 12px);
+  }
+  .tab-meta{
+    display:flex;justify-content:space-between;gap:12px;
+    font-size:10px;color:#4A3D34;
+  }
+  .tab-total,.tab-tip{display:flex;justify-content:space-between;gap:12px;}
+  .tab-total{font-weight:500;}
+  .tab-tip{font-size:10px;color:#4A3D34;}
+  .tab-thanks{
+    text-align:center;font-size:10px;color:#4A3D34;margin-top:13px;
+  }
+  .tab-thanks strong{
+    display:block;font-weight:400;font-size:17px;color:#2A211C;margin-top:7px;
+  }
+
+  /* items: quantity, description, value flush right — no dot leaders, real
+     receipts do not have them */
+  .facts{border:0;background:none;padding:0;margin:0;}
+  .facts .row{display:flex;justify-content:space-between;gap:12px;align-items:baseline;}
+  .facts dt{margin:0;flex:0 0 auto;}
+  .facts dt::before{content:"1  ";color:#6B5B4E;}
+  /* narrow strip, so long values wrap to a second right-aligned line the way
+     a real ticket does rather than being forced onto one */
+  .facts dd{margin:0;text-align:right;color:#4A3D34;min-width:0;}
+
+  /* ---- NEON SIGN ---- */
+  /* the script face is what makes this read as bar signage rather than as
+     body copy that happens to glow */
+  .pull{
+    margin:36px 0 4px;padding:30px 26px;max-width:none;text-align:center;
+    border:1px solid var(--hair-solid);background:var(--surface);
+    font-family:'Yellowtail',cursive;font-weight:400;
+    font-size:26px;line-height:1.45;
+    color:var(--neon-ink);text-shadow:var(--neon-glow);
+  }
+  @media (max-width:520px){
+    .pull{font-size:21px;padding:24px 18px;}
+  }
+
+  /* ---- COASTER ---- */
+  .coaster{
+    position:relative;width:132px;height:132px;border-radius:50%;
+    border:2px solid var(--hair-solid);background:var(--surface);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:16px;margin:0 auto 26px;
+    transform:rotate(-6deg);
+  }
+  .coaster::before{
+    content:"";position:absolute;inset:8px;
+    border:1px dotted var(--hair);border-radius:50%;
+  }
+  .coaster .c-name{
+    font-family:'Yellowtail',cursive;font-size:26px;line-height:1;
+    color:var(--script);
+  }
+  .coaster .c-sub{
+    font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:.24em;
+    text-indent:.24em;text-transform:uppercase;color:var(--muted);
+    margin-top:8px;line-height:1.7;
+  }
+
+  @media (max-width:430px){
+    .display{font-size:15px;letter-spacing:.28em;text-indent:.28em;}
+    .closer .q{font-size:34px;}
+  }
+
+  /* ============ DESKTOP ============
+     A magazine rail: the section label sits in a left gutter and the prose
+     runs beside it, so the extra width buys structure instead of longer
+     lines. The facts panel and the pull quote break the rhythm on purpose. */
+  @media (min-width:900px){
+    .shell{max-width:1180px;}
+    section{padding:56px 0 6px;}
+
+    .opening,.bio{
+      display:grid;grid-template-columns:190px 1fr;gap:0 40px;align-items:start;
+    }
+    /* the opening section carries a third column for the ticket */
+    .who{grid-template-columns:190px 1fr 288px;}
+
+    /* label parks in the gutter and holds while its section scrolls past */
+    .bio .eyebrow{
+      grid-column:1;grid-row:1;margin:0;position:sticky;top:26px;
+    }
+    /* the grid column already sets the measure, so relax the 62ch cap the
+       narrow single-column layout needs or the text ends up double-clamped */
+    .bio p:not(.eyebrow):not(.pull){grid-column:2;max-width:76ch;}
+    .who-copy{grid-column:2;max-width:76ch;}
+    /* lifted out of DOM order into the third column, level with the prose */
+    .who .ticket{grid-column:3;grid-row:1;align-self:start;margin:8px 0 0;}
+    /* parks in the rail under its label, filling the gap a one-paragraph
+       section would otherwise leave beside the gutter */
+    .coaster{grid-column:1;margin:22px 0 0;}
+
+    /* break one: the sign spans both columns but is capped and centred, so it
+       reads as an object mounted on the wall rather than a full-width band */
+    .bio p.pull{
+      grid-column:1 / -1;justify-self:center;
+      width:100%;max-width:720px;
+      margin:42px 0 10px;padding:40px 34px;font-size:36px;
+    }
+
+    /* the photo sets the gutter width, which is what starts the rail */
+    .opening{align-items:center;padding-top:56px;}
+    .photo{width:190px;margin:0;}
+    .portrait{height:228px;}
+    .lead{font-size:19px;}
+  }
+</style>
+</head>
+<body>
+
+<h1 class="visually-hidden">About Noah Vandervelden — Vandy's Software Solutions</h1>
+
+<button class="switch" id="switch">Lights on</button>
+
+<header>
+  <a class="back" href="index.html">&larr; Back to the bar</a>
+  <p class="display">Behind the Bar</p>
+  <p class="sub">Who you'd be working with, and how I got here.</p>
+</header>
+
+<main class="shell">
+
+  <div class="opening">
+    <!-- Swap the text inside .portrait for <img src="noah.jpg" alt="Noah Vandervelden"> -->
+    <div class="photo"><div class="portrait">Photo goes here</div></div>
+    <p class="lead">The best software doesn't start with code. It starts with connection.</p>
+  </div>
+
+  <section class="bio who">
+    <p class="eyebrow">Who's pouring</p>
+
+    <!-- one grid item, so the paragraphs keep their own spacing instead of
+         each becoming a grid row stretched to the height of the ticket -->
+    <div class="who-copy">
+      <p>Every project begins with a person, an idea, and a reason that idea matters. I'm Noah Vandervelden, and I believe the strongest software solutions come from understanding the people behind them: their goals, their challenges, and the vision they're trying to bring to life. My role is to take that vision, understand the ask, and craft something thoughtful, intuitive, and built to last.</p>
+
+      <p>I'm a full-stack software engineer in Kansas City. I studied software development in college and have been writing software professionally since 2019, currently as a senior engineer at Cox Automotive.</p>
+
+      <p>But coding has never just been a career for me. It's been a hobby, a creative outlet, and a constant source of curiosity. I'm happiest where clean engineering meets thoughtful design, creating applications that feel effortless to use and enjoyable to interact with.</p>
+    </div>
+
+    <!-- last in the DOM so it falls below the prose on mobile; the desktop
+         grid lifts it up into a third column beside the text -->
+    <div class="ticket">
+    <div class="tab">
+      <div class="tab-logo">Vandy's</div>
+      <div class="tab-org">
+        Software Solutions<br>
+        Kansas City, MO
+      </div>
+
+      <div class="tab-meta"><span>Served by: Noah</span><span>Ticket: 001</span></div>
+      <div class="tab-meta"><span>Small shop, one seat</span></div>
+      <div class="tab-meta"><span>Est. 2019</span></div>
+
+      <div class="tab-rule"></div>
+
+      <dl class="facts">
+      <div class="row">
+        <dt>Based in</dt><dd>Kansas City, MO</dd>
+      </div>
+      <div class="row">
+        <dt>Writing software since</dt><dd>2019</dd>
+      </div>
+      <div class="row">
+        <dt>Day job</dt><dd>Senior engineer, Cox Automotive</dd>
+      </div>
+      <div class="row">
+        <dt>Studied</dt><dd>Software development, bachelor's</dd>
+      </div>
+      <div class="row">
+        <dt>Focus</dt><dd>Full-stack, web design</dd>
+      </div>
+      <div class="row">
+        <dt>Insured</dt><dd>Errors &amp; omissions</dd>
+      </div>
+      </dl>
+
+      <div class="tab-rule"></div>
+
+      <div class="tab-total"><span>Total</span><span>One developer</span></div>
+      <div class="tab-tip"><span>Warranty included</span><span>See house rules</span></div>
+
+      <div class="tab-rule"></div>
+
+      <div class="tab-thanks">
+        Thanks for stopping in!
+        <strong>Start a tab</strong>
+      </div>
+    </div>
+    </div>
+  </section>
+
+
+  <section class="bio">
+    <p class="eyebrow">Who I work with</p>
+    <p>I love working directly with clients because every project starts with the same thing: someone has an idea they're excited about. So far that's meant work in financial planning, fitness, and professional photography. Different industries, same underlying problem: what they could buy off a shelf doesn't fit how they actually work.</p>
+
+    <p>I especially enjoy working with startups and younger businesses, where the budget is real and the job is finding something affordable that genuinely solves the problem rather than the most expensive thing that might. I want the process to feel collaborative and personal, not like handing a set of requirements to someone and hoping for the best.</p>
+  </section>
+
+  <section class="bio">
+    <p class="eyebrow">The long way around</p>
+    <p>Most of my career has been spent at a large company, working on systems at a scale that teaches you things nothing else can. It also puts a lot of layers between you and the person who actually uses what you built. I missed that part. Sitting down with a business owner, hearing about the thing that's been slowing them down for two years, and handing back something that fixes it is the part of this work I've never gotten tired of.</p>
+
+    <p>Working at scale also changes what you think is worth doing. On a big team there's a specialist for every concern: one for reliability, one for security, one for the thing that pages someone at three in the morning. A smaller business has none of that, so the decisions have to be simpler and sturdier from the start.</p>
+
+    <p class="pull">Most of what I bring to a smaller project isn't the fancy version of anything. It's knowing which corners cost you later and which ones genuinely don't matter.</p>
+  </section>
+
+  <section class="bio">
+    <p class="eyebrow">Passing it on</p>
+    <p>One of my favorite parts of this industry is sharing what I've learned. I enjoy teaching others how to code, talking through problems, and being open about the mistakes that shaped how I build today. Great software comes from curious people who never stop learning, and I try to bring that mindset into every project.</p>
+  </section>
+
+  <section class="bio">
+    <p class="eyebrow">Off the clock</p>
+    <div class="coaster" aria-hidden="true">
+      <span class="c-name">Vandy's</span>
+      <span class="c-sub">Software<br>on tap</span>
+    </div>
+    <p>When I'm away from the keyboard, you'll usually find me running, cycling, swimming, playing sports, or finding ways to connect with and contribute to my community.</p>
+
+    <p>If you're looking for someone who values thoughtful communication, well-crafted software, and a collaborative process from the first conversation to the final launch, I'd love to hear what you're building. If you'd rather see how I run a project before we talk, <a href="house-rules.html">the house rules</a> are all written down.</p>
+  </section>
+
+</main>
+
+<section class="closer">
+  <div class="q">What'll it be?</div>
+  <p class="sub">Tell me what you're trying to build. No charge for the conversation.</p>
+  <a class="btn" href="mailto:hello@example.com">Start a tab</a>
+</section>
+
+<footer>
+  Vandy's Software Solutions &middot; <span class="kc">Kansas City, MO</span>
+</footer>
+
+<script>
+  (function(){
+    var root = document.documentElement;
+    var btn  = document.getElementById('switch');
+    var prefersLight = window.matchMedia &&
+                       window.matchMedia('(prefers-color-scheme: light)').matches;
+    setTheme(prefersLight ? 'light' : 'dark');
+    function setTheme(mode){
+      root.setAttribute('data-theme', mode);
+      btn.textContent = mode === 'dark' ? 'Lights on' : 'Lights out';
+      btn.setAttribute('aria-label',
+        mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    }
+    btn.addEventListener('click', function(){
+      setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+  })();
+</script>
+
+</body>
+</html>
