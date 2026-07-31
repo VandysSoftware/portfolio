@@ -76,21 +76,28 @@
   html[data-theme="light"] .photo::before,
   html[data-theme="light"] .photo::after{box-shadow:0 16px 12px rgba(74,18,32,.32);}
 
+  /* Polaroid: thin border on three sides, deep margin at the foot with the
+     caption written into it. The frame is opaque paper, which is also what
+     keeps the curl shadow from showing through. */
   .portrait{
-    position:relative;z-index:1;width:100%;height:154px;
-    border:1px solid var(--hair-solid);
-    /* opaque, or the curl shadow shows straight through the print */
-    background:
-      linear-gradient(to bottom,
-        rgba(255,255,255,.07), transparent 14%,
-        transparent 86%, rgba(255,255,255,.06)),
-      var(--photo-bg);
+    position:relative;z-index:1;width:100%;
+    background:#F3EFE6;
+    padding:12px 12px 44px;
+    transform:rotate(-1.8deg);
+  }
+  /* square window, the way an SX-70 print is */
+  .shot{
+    aspect-ratio:1/1;background:var(--photo-bg);
     display:flex;align-items:center;justify-content:center;text-align:center;
     font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.2em;
-    text-transform:uppercase;color:var(--muted);padding:10px;
-    transform:rotate(-1.6deg);
+    text-transform:uppercase;color:rgba(232,220,192,.5);padding:10px;
   }
-  .portrait img{width:100%;height:100%;object-fit:cover;display:block;}
+  .shot img{width:100%;height:100%;object-fit:cover;display:block;}
+  .caption{
+    position:absolute;left:0;right:0;bottom:9px;
+    text-align:center;font-family:'Yellowtail',cursive;
+    font-size:20px;line-height:1;color:#3B2F28;
+  }
   .portrait::before,.portrait::after{
     content:"";position:absolute;width:62px;height:19px;
     background:var(--tape);border:1px solid rgba(255,255,255,.06);
@@ -172,9 +179,11 @@
   /* items: quantity, description, value flush right — no dot leaders, real
      receipts do not have them */
   .facts{border:0;background:none;padding:0;margin:0;}
-  .facts .row{display:flex;justify-content:space-between;gap:12px;align-items:baseline;}
+  .facts .row{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom: 10px;}
   .facts dt{margin:0;flex:0 0 auto;}
-  .facts dt::before{content:"1  ";color:#6B5B4E;}
+  /* quantity is plain markup so each row is editable by hand; the fixed
+     width keeps labels aligned if a number ever goes to two digits */
+  .facts .qty{display:inline-block;width:15px;color:#6B5B4E;}
   /* narrow strip, so long values wrap to a second right-aligned line the way
      a real ticket does rather than being forced onto one */
   .facts dd{margin:0;text-align:right;color:#4A3D34;min-width:0;}
@@ -258,8 +267,9 @@
 
     /* the photo sets the gutter width, which is what starts the rail */
     .opening{align-items:center;padding-top:56px;}
-    .photo{width:190px;margin:0;}
-    .portrait{height:228px;}
+    /* height comes from the square window plus the paper margins now, so the
+       frame must not be pinned to a fixed height */
+    .photo{width:198px;margin:0;}
     .lead{font-size:19px;}
   }
 </style>
@@ -279,8 +289,13 @@
 <main class="shell">
 
   <div class="opening">
-    <!-- Swap the text inside .portrait for <img src="noah.jpg" alt="Noah Vandervelden"> -->
-    <div class="photo"><div class="portrait">Photo goes here</div></div>
+    <div class="photo">
+      <div class="portrait">
+        <!-- Swap the text inside .shot for <img src="noah.jpg" alt="Noah Vandervelden"> -->
+        <div class="shot">Photo goes here</div>
+        <span class="caption">Noah</span>
+      </div>
+    </div>
     <p class="lead">The best software doesn't start with code. It starts with connection.</p>
   </div>
 
@@ -290,7 +305,7 @@
     <!-- one grid item, so the paragraphs keep their own spacing instead of
          each becoming a grid row stretched to the height of the ticket -->
     <div class="who-copy">
-      <p>Every project begins with a person, an idea, and a reason that idea matters. I'm Noah Vandervelden, and I believe the strongest software solutions come from understanding the people behind them: their goals, their challenges, and the vision they're trying to bring to life. My role is to take that vision, understand the ask, and craft something thoughtful, intuitive, and built to last.</p>
+      <p>Every project begins with a person, an idea, and a reason that idea matters. I'm Noah Vandervelden, and I believe the strongest software solutions come from understanding the people behind them: their goals, their challenges, and the vision they're trying to bring to life. I want to take that vision, understand the ask, and craft something thoughtful, intuitive, and built to last.</p>
 
       <p>I'm a full-stack software engineer in Kansas City. I studied software development in college and have been writing software professionally since 2019, currently as a senior engineer at Cox Automotive.</p>
 
@@ -304,34 +319,30 @@
       <div class="tab-logo">Vandy's</div>
       <div class="tab-org">
         Software Solutions<br>
-        Kansas City, MO
+        Kansas City, MO<br>
+        Est. 2019
       </div>
 
-      <div class="tab-meta"><span>Served by: Noah</span><span>Ticket: 001</span></div>
+      <div class="tab-meta"><span>Served by: Noah</span><span>Ticket: 067</span></div>
       <div class="tab-meta"><span>Small shop, one seat</span></div>
-      <div class="tab-meta"><span>Est. 2019</span></div>
-
       <div class="tab-rule"></div>
 
       <dl class="facts">
-      <div class="row">
-        <dt>Based in</dt><dd>Kansas City, MO</dd>
-      </div>
-      <div class="row">
-        <dt>Writing software since</dt><dd>2019</dd>
-      </div>
-      <div class="row">
-        <dt>Day job</dt><dd>Senior engineer, Cox Automotive</dd>
-      </div>
-      <div class="row">
-        <dt>Studied</dt><dd>Software development, bachelor's</dd>
-      </div>
-      <div class="row">
-        <dt>Focus</dt><dd>Full-stack, web design</dd>
-      </div>
-      <div class="row">
-        <dt>Insured</dt><dd>Errors &amp; omissions</dd>
-      </div>
+        <div class="row">
+          <dt><span class="qty">1</span>Day job</dt><dd>Senior engineer, Cox Automotive</dd>
+        </div>
+        <div class="row">
+          <dt><span class="qty">1</span>Years Coding</dt><dd>7+</dd>
+        </div>
+        <div class="row">
+          <dt><span class="qty">2</span>Focus</dt><dd>Full-stack<br>Web design</dd>
+        </div>
+        <div class="row">
+          <dt><span class="qty">2</span>Philosophy</dt><dd>Understand the Ask<br>Keep It Simple</dd>
+        </div>
+        <div class="row">
+          <dt><span class="qty">1</span>Daily Special</dt><dd>Custom Solutions</dd>
+        </div>
       </dl>
 
       <div class="tab-rule"></div>
@@ -386,7 +397,7 @@
 
 <section class="closer">
   <div class="q">What'll it be?</div>
-  <p class="sub">Tell me what you're trying to build. No charge for the conversation.</p>
+  <p class="sub">Ready for a conversation? No charge ;)</p>
   <a class="btn" href="mailto:hello@example.com">Start a tab</a>
 </section>
 

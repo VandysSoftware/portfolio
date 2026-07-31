@@ -13,3 +13,7 @@ node_modules/
 dist/
 .env
 .env.*
+
+# Design-session mockups. Currently also holds the personal-use-only build of
+# Divebar Vintage — that file must not be committed or deployed.
+.superpowers/
