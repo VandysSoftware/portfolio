@@ -31,9 +31,12 @@ Open either file in a browser. There is nothing to install and nothing to build.
 menu") theme, driven entirely by CSS custom properties. Every page opens dark
 regardless of `prefers-color-scheme` — the lit sign is the first impression, and
 a light-mode visitor would otherwise land on the painted version and never know
-there was neon. The toggle sits fixed in the top-right. To retheme, change the
-two `[data-theme]` blocks at the top of `styles.css` — never hardcode a color
-further down.
+there was neon. The toggle sits fixed in the top-right, and a click is
+remembered in `localStorage` under `vandys-theme` so the choice survives
+navigation. Reading it back happens in an inline `<script>` in each page's
+`<head>`, before first paint — move it and the other theme flashes on every
+page load. To retheme, change the two `[data-theme]` blocks at the top of
+`styles.css` — never hardcode a color further down.
 
 **The hanging sign.** The hero is a fixed-position rig that swings on scroll with
 spring physics and tilts toward the cursor. Its moving parts are CSS custom

@@ -7,6 +7,22 @@
      by setTheme() rather than by a media attribute, since the theme no longer
      follows prefers-color-scheme. -->
 <meta name="theme-color" content="#0B0A0A">
+<script>
+/* Applies a remembered theme before first paint, so someone who chose the
+   light theme and clicked through to another page does not watch it flash
+   dark first. That timing is the whole reason this is inline in the head and
+   duplicated per page rather than living with the toggle at the foot.
+   No stored choice means the dark default in the markup stands. */
+(function(){
+  try{
+    var saved = localStorage.getItem('vandys-theme');
+    if(saved !== 'light' && saved !== 'dark') return;
+    document.documentElement.setAttribute('data-theme', saved);
+    document.querySelector('meta[name="theme-color"]')
+      .setAttribute('content', saved === 'dark' ? '#0B0A0A' : '#E8DCC0');
+  }catch(e){}  /* private mode or storage disabled — the default stands */
+})();
+</script>
 <title>Vandy's Software Solutions — Software on tap</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -332,8 +348,44 @@
     .band{height:34px;background-size:84px 34px;}
   }
 
+  /* ============ SCROLL CUE ============
+     The sign fills the first screen well enough that it can read as the
+     whole page. This is the nudge that there is more under it. */
+  .scroll-cue{
+    position:fixed;left:0;right:0;bottom:5vh;z-index:35;
+    display:flex;justify-content:center;pointer-events:none;
+    /* tied to the dock, so it is gone by the time the sign is a header —
+       and comes back if you return to the top */
+    opacity:calc(1 - var(--dock));
+  }
+  /* held back a couple of seconds: it should read as a prompt to someone who
+     has stopped to look, not as one more thing arriving with the sign */
+  .cue-in{animation:cue-in .7s ease-out 2.2s backwards;}
+  @keyframes cue-in{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+
+  .mouse{
+    display:block;width:23px;height:37px;border-radius:12px;
+    border:2px solid var(--accent2);box-shadow:var(--glow-tag);
+  }
+  /* the wheel, falling and fading the way a scroll gesture would */
+  .mouse::after{
+    content:"";position:absolute;left:50%;top:7px;margin-left:-1.5px;
+    width:3px;height:7px;border-radius:2px;
+    background:var(--accent2);box-shadow:var(--glow-tag);
+    animation:wheel 1.9s ease-in-out infinite;
+  }
+  .mouse{position:relative;}
+  @keyframes wheel{
+    0%,10%{opacity:0;transform:translateY(0)}
+    30%{opacity:1}
+    72%,100%{opacity:0;transform:translateY(12px)}
+  }
+
   @media (prefers-reduced-motion:reduce){
-    .word .front,.plate::before{animation:none;}
+    .word .front,.plate::before,.mouse::after{animation:none;}
+    /* still arrives late, but only by fading — nothing travels */
+    .cue-in{animation:cue-fade .5s ease-out 2.2s backwards;}
+    @keyframes cue-fade{from{opacity:0}to{opacity:1}}
   }
 </style>
 </head>
@@ -374,6 +426,10 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="scroll-cue" aria-hidden="true">
+  <div class="cue-in"><span class="mouse"></span></div>
 </div>
 
 <div class="hero-space"></div>
@@ -522,10 +578,13 @@
   /* the two page background colours from styles.css. The browser chrome has
      to be told separately — it does not read the body's background. */
   var BAR = {dark:'#0B0A0A', light:'#E8DCC0'};
-  /* always opens dark, whatever the OS asks for: the lit sign is the whole
-     first impression, and a light-mode visitor would land on the painted
-     version and never know there was neon */
-  setTheme('dark');
+  /* the head script has already settled the theme — a remembered choice if
+     there is one, otherwise the dark default. Adopt it and label the button
+     to match, rather than deciding a second time and risking disagreement.
+     Never seeds from prefers-color-scheme: the lit sign is the whole first
+     impression, and a light-mode visitor would land on the painted version
+     and never know there was neon. */
+  setTheme(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
   function setTheme(mode){
     root.setAttribute('data-theme', mode);
     if(meta) meta.setAttribute('content', BAR[mode]);
@@ -534,7 +593,11 @@
       mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
   }
   btn.addEventListener('click', function(){
-    setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    /* written here and not in setTheme, so storage only ever holds a choice
+       the visitor actually made, never the default a page load applied */
+    try{ localStorage.setItem('vandys-theme', next); }catch(e){}
   });
 })();
 

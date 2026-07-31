@@ -4,6 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0B0A0A">
+<script>
+/* see index.html — applies a remembered theme before first paint */
+(function(){
+  try{
+    var saved = localStorage.getItem('vandys-theme');
+    if(saved !== 'light' && saved !== 'dark') return;
+    document.documentElement.setAttribute('data-theme', saved);
+    document.querySelector('meta[name="theme-color"]')
+      .setAttribute('content', saved === 'dark' ? '#0B0A0A' : '#E8DCC0');
+  }catch(e){}
+})();
+</script>
 <title>About Noah Vandervelden — Vandy's Software Solutions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -412,8 +424,8 @@
     var btn  = document.getElementById('switch');
     var meta = document.querySelector('meta[name="theme-color"]');
     var BAR  = {dark:'#0B0A0A', light:'#E8DCC0'};
-    /* dark regardless of the OS setting, to match the home page */
-    setTheme('dark');
+    /* adopt whatever the head script settled on — see index.html */
+    setTheme(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
     function setTheme(mode){
       root.setAttribute('data-theme', mode);
       if(meta) meta.setAttribute('content', BAR[mode]);
@@ -422,7 +434,9 @@
         mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
     }
     btn.addEventListener('click', function(){
-      setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      setTheme(next);
+      try{ localStorage.setItem('vandys-theme', next); }catch(e){}
     });
   })();
 </script>
