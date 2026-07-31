@@ -16,36 +16,57 @@
   [data-theme="dark"]{
     --tagline:#DFFCFD;
 
+    --glow-name:0 0 4px #fff, 0 0 12px #FF3D7F, 0 0 30px #FF3D7F, 0 0 62px rgba(255,61,127,.55);
     --glow-rule:0 0 8px #35E0E8, 0 0 22px rgba(53,224,232,.7);
     --glow-tag:0 0 6px #35E0E8, 0 0 18px rgba(53,224,232,.7);
 
     --plate-bg:linear-gradient(160deg,#1A1416,#0D0B0C 60%);
     --plate-glow:radial-gradient(ellipse 70% 60% at 50% 42%, rgba(255,61,127,.22), transparent 70%);
-    --plate-border:rgba(232,220,192,.14);
+    /* the panel edge is tubing, not a hairline: a near-white glass core with
+       the cyan bloom thrown outward onto the wall and inward across the
+       plate. Same recipe as --glow-name, in accent2. */
+    --tube:#EAFDFF;
+    --tube-w:max(2px, .22vw);
+    --glow-plate:0 0 4px #fff, 0 0 11px #35E0E8, 0 0 26px #35E0E8, 0 0 54px rgba(53,224,232,.5),
+                 inset 0 0 9px rgba(53,224,232,.85), inset 0 0 24px rgba(53,224,232,.4);
+    /* 11s against the word's 7s so the two tubes drift instead of blinking
+       in lockstep, which reads mechanical */
+    --buzz-plate:buzz 11s infinite;
     --chain:linear-gradient(to bottom, rgba(232,220,192,.10), rgba(232,220,192,.42));
     --bracket:rgba(232,220,192,.34);
     --wall:radial-gradient(ellipse 60% 40% at 50% 26%, rgba(255,61,127,.20), transparent 62%),
            radial-gradient(ellipse 50% 34% at 50% 24%, rgba(53,224,232,.09), transparent 60%);
     --bar-bg:linear-gradient(to bottom, rgba(11,10,10,.96), rgba(11,10,10,.72) 60%, transparent);
+    --buzz:buzz 7s infinite;
   }
   [data-theme="light"]{
     --tagline:#1E1613;
 
-    --glow-rule:none;--glow-tag:none;
+    --glow-name:none;--glow-rule:none;--glow-tag:none;
 
     --plate-bg:linear-gradient(160deg,#F1E7D0,#DCCCA8 60%);
     --plate-glow:none;
-    --plate-border:rgba(74,18,32,.3);
+    --tube:rgba(74,18,32,.3);
+    --tube-w:1px;
+    --glow-plate:none;
+    --buzz-plate:none;
     --chain:linear-gradient(to bottom, rgba(74,18,32,.25), rgba(74,18,32,.6));
     --bracket:rgba(74,18,32,.5);
     --wall:none;
     --bar-bg:linear-gradient(to bottom, rgba(232,220,192,.97), rgba(232,220,192,.75) 60%, transparent);
+    --buzz:none;
   }
 
   :root{
     /* driven from JS. --drop is the chain length, so the sign hangs from the
        ceiling rather than being pushed down the page. */
     --dock:0; --drop:22vh; --s:1; --swing:0deg; --tiltX:0deg; --tiltY:0deg;
+    /* screen px the docked sign slides left out of centre. JS owns it. */
+    --slide:0px;
+
+    /* the tube's bend radius. Themeless — the corner is the same shape lit
+       or painted, only its colour changes. */
+    --tube-r:clamp(10px, 1vw, 22px);
   }
 
   /* the sign swings wider than the viewport on narrow screens */
@@ -67,9 +88,11 @@
     display:flex;justify-content:center;perspective:900px;pointer-events:none;
   }
   /* scaling from 50% 0 keeps the chain tops welded to the ceiling at every
-     scale, so the sign shrinks toward the bar instead of sliding up to it */
+     scale, so the sign shrinks toward the bar instead of sliding up to it.
+     translateX comes first so it is not multiplied by the scale — --slide is
+     already in screen px, measured against the viewport edge. */
   .hanger{
-    transform:scale(var(--s));
+    transform:translateX(var(--slide)) scale(var(--s));
     transform-origin:50% 0;will-change:transform;
   }
   .rig{
@@ -89,22 +112,29 @@
     transform:rotateX(var(--tiltX)) rotateY(var(--tiltY));
     transform-style:preserve-3d;will-change:transform;
   }
+  /* glass tube bends in a radius — it cannot miter a 90° corner — so the
+     panel is rounded to the same figure the tubing traces around it */
   .plate{
     position:absolute;inset:0;transform:translateZ(-16px);
-    background:var(--plate-bg);border:1px solid var(--plate-border);
+    background:var(--plate-bg);border-radius:var(--tube-r);
     box-shadow:0 22px 50px rgba(0,0,0,.75);
   }
   html[data-theme="light"] .plate{box-shadow:0 18px 38px rgba(74,18,32,.28);}
-  .plate::after{content:"";position:absolute;inset:0;background-image:var(--plate-glow);}
+  /* the tube rides its own pseudo so the flicker dims the glass and not the
+     panel behind it — a backing sign does not blink, the neon on it does */
+  .plate::before{
+    content:"";position:absolute;inset:0;z-index:1;
+    border:var(--tube-w) solid var(--tube);border-radius:var(--tube-r);
+    box-shadow:var(--glow-plate);animation:var(--buzz-plate);
+  }
+  .plate::after{
+    content:"";position:absolute;inset:0;
+    background-image:var(--plate-glow);border-radius:var(--tube-r);
+  }
 
-  /* Alfa Slab One sets wider per em than the Yellowtail script it replaced,
-     so every size below is about three quarters of its old value to land the
-     word at a similar rendered width. text-indent offsets the trailing
-     letter-space so the word stays optically centred on the plate. */
   .word{
     position:relative;display:block;text-align:center;
-    font-family:'Alfa Slab One',serif;font-size:66px;line-height:1.05;
-    letter-spacing:.04em;text-indent:.04em;
+    font-family:'Yellowtail',cursive;font-size:88px;line-height:1;
     transform-style:preserve-3d;
   }
   .word .layer{
@@ -115,12 +145,11 @@
   html[data-theme="light"] .word .layer{
     color:#8A6142;opacity:calc(1 - var(--i) / 13);
   }
-  /* painted, not lit — no glow and no flicker. --text-bright is white on the
-     dark plate and near-black on the light theme's cream one; a literal white
-     would vanish there. The extrusion layers still give the word depth. */
   .word .front{
-    position:relative;color:var(--text-bright);transform:translateZ(1px);
+    position:relative;color:var(--script);transform:translateZ(1px);
+    text-shadow:var(--glow-name);animation:var(--buzz);
   }
+  @keyframes buzz{0%,93%,100%{opacity:1}94%{opacity:.55}95%{opacity:1}96%{opacity:.66}}
 
   .sign-rule{
     height:2px;width:210px;margin:18px auto 14px;
@@ -241,7 +270,7 @@
   details p{margin:12px 0 2px;font-size:13px;color:var(--muted);line-height:1.65;}
 
   @media (max-width:520px){
-    .word{font-size:42px;}
+    .word{font-size:54px;}
     .panel{padding:20px 24px 18px;}
     .sign-rule{width:150px;}
     .sign-tag{font-size:11px;letter-spacing:.26em;text-indent:.26em;}
@@ -266,7 +295,7 @@
     .panel{width:100%;padding:2.6vw 3vw 2.2vw;}
     /* vw grows it with the screen, vh stops a laptop getting a sign
        taller than its own viewport, the cap spares ultrawides */
-    .word{font-size:clamp(66px, min(19vw, 24vh), 250px);}
+    .word{font-size:clamp(88px, min(26vw, 34vh), 340px);}
     /* percentages keep the chains on the plate's shoulders as it grows */
     .chain.l{left:18%;}
     .chain.r{left:82%;}
@@ -299,6 +328,9 @@
     .band{height:34px;background-size:84px 34px;}
   }
 
+  @media (prefers-reduced-motion:reduce){
+    .word .front,.plate::before{animation:none;}
+  }
 </style>
 </head>
 <body>
@@ -321,16 +353,16 @@
       <div class="panel">
         <div class="plate"></div>
         <div class="word">
-          <span class="layer" style="--i:9;--c:#14080C">Closed</span>
-          <span class="layer" style="--i:8;--c:#1B0A11">Closed</span>
-          <span class="layer" style="--i:7;--c:#240D16">Closed</span>
-          <span class="layer" style="--i:6;--c:#2E101C">Closed</span>
-          <span class="layer" style="--i:5;--c:#3A1323">Closed</span>
-          <span class="layer" style="--i:4;--c:#48172B">Closed</span>
-          <span class="layer" style="--i:3;--c:#5A1C35">Closed</span>
-          <span class="layer" style="--i:2;--c:#702240">Closed</span>
-          <span class="layer" style="--i:1;--c:#8C2A4F">Closed</span>
-          <span class="front">Closed</span>
+          <span class="layer" style="--i:9;--c:#14080C">Vandy's</span>
+          <span class="layer" style="--i:8;--c:#1B0A11">Vandy's</span>
+          <span class="layer" style="--i:7;--c:#240D16">Vandy's</span>
+          <span class="layer" style="--i:6;--c:#2E101C">Vandy's</span>
+          <span class="layer" style="--i:5;--c:#3A1323">Vandy's</span>
+          <span class="layer" style="--i:4;--c:#48172B">Vandy's</span>
+          <span class="layer" style="--i:3;--c:#5A1C35">Vandy's</span>
+          <span class="layer" style="--i:2;--c:#702240">Vandy's</span>
+          <span class="layer" style="--i:1;--c:#8C2A4F">Vandy's</span>
+          <span class="front">Vandy's</span>
         </div>
         <div class="sign-rule"></div>
         <div class="sign-tag">SOFTWARE ON TAP</div>
@@ -348,7 +380,7 @@
     <p class="eyebrow">Behind the Bar</p>
     <p class="lead">The best software doesn't start with code. It starts with connection.</p>
     <p>I'm Noah, a full-stack software engineer in Kansas City. I build web applications for businesses that need something specific and can't buy it off a shelf. Small shop, so you talk to the person writing the code.</p>
-    <p>I love working directly with clients because every project starts with the same thing: someone has an idea they're excited about. I take a few projects at a time so each one gets real attention, and I stay reachable after launch instead of vanishing at handoff.</p>
+    <p>I love working directly with clients because someone has an idea they're excited about, and I want to bring that to life. I take a few projects at a time so each one gets real attention.</p>
     <p class="intro-cta"><a class="btn-ghost" href="about.html">More about me</a></p>
   </section>
 
@@ -383,7 +415,7 @@
   </section>
 
   <section class="intro">
-    <p class="eyebrow">Nothing you didn't order</p>
+    <p class="eyebrow">Just the Right Pour</p>
     <p class="lead">The most expensive software is the software nobody needed.</p>
     <p>It's tempting to build for the company you hope to be in five years. I'd rather build for the one you are now, with room to grow into the rest. That usually means fewer features built properly, and a plan for what comes next instead of a bill for all of it up front.</p>
   </section>
@@ -469,7 +501,7 @@
 
 <section class="closer">
   <div class="q">What'll it be?</div>
-  <p class="sub">Tell me what you're trying to build. No charge for the conversation.</p>
+  <p class="sub">Ready for a conversation? No charge ;)</p>
   <a class="btn" href="mailto:hello@example.com">Start a tab</a>
 </section>
 
@@ -506,6 +538,7 @@
   var DOCK_DROP_PX   = 20;   /* visible chain left once docked, in screen px */
   var HERO_SCALE     = 1;
   var DOCK_PANEL_PX  = 56;   /* how tall the panel should read once docked */
+  var DOCK_PAD_PX    = 22;   /* gap from the viewport's left edge once docked */
   var STIFFNESS      = 0.055;
   var DAMPING        = 0.88;
   var IMPULSE        = 0.055;
@@ -516,11 +549,17 @@
   /* a viewport-sized sign has no single correct dock scale or runway length —
      both get measured off the rendered panel instead of guessed in vh */
   var panel     = document.querySelector('.panel');
+  var hanger    = document.querySelector('.hanger');
   var heroSpace = document.querySelector('.hero-space');
   var dockScale = 0.34;
   var dockDistance = 460;
 
+  var hangerW = 0;
+
   function measure(){
+    /* cached so frame() never touches offsetWidth and forces a reflow */
+    hangerW = hanger ? hanger.offsetWidth : 0;
+
     var h = panel ? panel.offsetHeight : 0;
     if(!h) return;
     dockScale = clamp(DOCK_PANEL_PX / h, 0.06, 0.5);
@@ -594,6 +633,19 @@
     }
     pendingDelta = 0;
 
+    /* .stage flex-centres the hanger and the scale pins that centre, so the
+       shrunk sign's left edge sits at (vw - W*s)/2. Slide by whatever is
+       left over to put it at DOCK_PAD_PX instead, scaled by dock so it
+       leaves centre only as it rises. Recomputed against the live s, so the
+       edge lands exactly whatever easing curve got it there.
+       clientWidth, not innerWidth: .stage is fixed, so it centres inside the
+       client box and innerWidth would offset it by half a scrollbar. */
+    var slide = 0;
+    if(hangerW){
+      slide = (DOCK_PAD_PX - (root.clientWidth - hangerW * s) / 2) * dock;
+    }
+
+    root.style.setProperty('--slide', slide.toFixed(2) + 'px');
     root.style.setProperty('--dock',  dock.toFixed(4));
     root.style.setProperty('--drop',  drop.toFixed(2) + 'px');
     root.style.setProperty('--s',     s.toFixed(4));
