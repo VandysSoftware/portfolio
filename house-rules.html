@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0B0A0A">
 <title>House Rules — Vandy's Software Solutions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -233,11 +234,13 @@
   (function(){
     var root = document.documentElement;
     var btn  = document.getElementById('switch');
-    var prefersLight = window.matchMedia &&
-                       window.matchMedia('(prefers-color-scheme: light)').matches;
-    setTheme(prefersLight ? 'light' : 'dark');
+    var meta = document.querySelector('meta[name="theme-color"]');
+    var BAR  = {dark:'#0B0A0A', light:'#E8DCC0'};
+    /* dark regardless of the OS setting, to match the home page */
+    setTheme('dark');
     function setTheme(mode){
       root.setAttribute('data-theme', mode);
+      if(meta) meta.setAttribute('content', BAR[mode]);
       btn.textContent = mode === 'dark' ? 'Lights on' : 'Lights out';
       btn.setAttribute('aria-label',
         mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');

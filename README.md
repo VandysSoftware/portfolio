@@ -27,10 +27,12 @@ Open either file in a browser. There is nothing to install and nothing to build.
 
 ## How it's put together
 
-**Theming.** Both pages support a dark ("bar at night") and light ("printed
-menu") theme, driven entirely by CSS custom properties. The toggle sits fixed in
-the top-right and seeds itself from `prefers-color-scheme`. To retheme, change
-the two `[data-theme]` blocks at the top of `styles.css` — never hardcode a color
+**Theming.** All three pages support a dark ("bar at night") and light ("printed
+menu") theme, driven entirely by CSS custom properties. Every page opens dark
+regardless of `prefers-color-scheme` — the lit sign is the first impression, and
+a light-mode visitor would otherwise land on the painted version and never know
+there was neon. The toggle sits fixed in the top-right. To retheme, change the
+two `[data-theme]` blocks at the top of `styles.css` — never hardcode a color
 further down.
 
 **The hanging sign.** The hero is a fixed-position rig that swings on scroll with

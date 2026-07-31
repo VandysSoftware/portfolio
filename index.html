@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- paints the phone's status and address bar to match the page. Kept in sync
+     by setTheme() rather than by a media attribute, since the theme no longer
+     follows prefers-color-scheme. -->
+<meta name="theme-color" content="#0B0A0A">
 <title>Vandy's Software Solutions — Software on tap</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -514,11 +518,17 @@
 (function(){
   var root = document.documentElement;
   var btn  = document.getElementById('switch');
-  var prefersLight = window.matchMedia &&
-                     window.matchMedia('(prefers-color-scheme: light)').matches;
-  setTheme(prefersLight ? 'light' : 'dark');
+  var meta = document.querySelector('meta[name="theme-color"]');
+  /* the two page background colours from styles.css. The browser chrome has
+     to be told separately — it does not read the body's background. */
+  var BAR = {dark:'#0B0A0A', light:'#E8DCC0'};
+  /* always opens dark, whatever the OS asks for: the lit sign is the whole
+     first impression, and a light-mode visitor would land on the painted
+     version and never know there was neon */
+  setTheme('dark');
   function setTheme(mode){
     root.setAttribute('data-theme', mode);
+    if(meta) meta.setAttribute('content', BAR[mode]);
     btn.textContent = mode === 'dark' ? 'Lights on' : 'Lights out';
     btn.setAttribute('aria-label',
       mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
