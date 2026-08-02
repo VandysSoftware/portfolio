@@ -1,7 +1,7 @@
 # Vandy's Software Solutions — site
 
 The marketing site for Vandy's Software Solutions, a one-person software
-consultancy in Kansas City. Two static pages, no build step, no dependencies.
+consultancy in Kansas City. Three static pages, no build step, no dependencies.
 
 Everything runs on a bar metaphor: the hero is a neon sign hanging on chains,
 services are "what's on tap," testimonials are "the regulars," work is "on the
@@ -13,13 +13,15 @@ Copy changes should keep that voice.
 | File | What it is |
 |---|---|
 | `index.html` | Home page. Hero sign, services, testimonials, work, FAQ. |
+| `about.html` | Bio page. "Who's pouring," who I work with, the long way around, passing it on, off the clock. |
 | `house-rules.html` | How an engagement runs — process, terms, plain-english glossary. |
 | `styles.css` | Shared foundation: theme palette, base reset, page chrome, closer/footer. |
 
 Page-specific CSS stays inline in the page that uses it — the hanging sign and
-cross-stitch sampler on the home page, the steps and rules lists on house rules.
+cross-stitch sampler on the home page, the bio sections on about, the steps and
+rules lists on house rules.
 Only genuinely shared rules belong in `styles.css`, so a change there is a change
-to both pages.
+to all three pages.
 
 ## Running it
 
@@ -72,7 +74,5 @@ the neon stops buzzing). The decorative sign rig is `aria-hidden`, with a real
 ## Before this goes live
 
 - [ ] Replace `mailto:hello@example.com` — it appears on the primary CTA of
-      **both** pages
+      **all three** pages
 - [ ] Replace the two placeholder testimonials in "The regulars"
-- [ ] `Alfa Slab One` is requested from Google Fonts in `index.html` but never
-      used in any rule — drop it from the font URL or start using it
