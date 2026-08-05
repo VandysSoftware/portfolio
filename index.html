@@ -26,7 +26,7 @@
 <title>Vandy's Software Solutions — Software on tap</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Alfa+Slab+One&family=Oswald:wght@400;600&family=Pixelify+Sans:wght@600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Alfa+Slab+One&family=Caveat:wght@400;500&family=Oswald:wght@400;600&family=Pixelify+Sans:wght@600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
   /* Palette, base and page chrome live in styles.css.
@@ -300,6 +300,136 @@
     .job h3{font-size:27px;}
   }
 
+  /* ============ START A TAB ============
+     The closer's form. Prefixed tab- throughout: .panel is the sign's face
+     and .sub is the closer's own line, both already spoken for in this file. */
+  .tab-form{max-width:640px;margin:8px auto 0;text-align:left;}
+  .tab-grid{display:grid;gap:26px;}
+
+  .tab-field{margin-bottom:16px;}
+  .tab-field label{
+    display:block;font-family:'Oswald',sans-serif;font-size:10px;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--text-bright);
+    margin-bottom:7px;
+  }
+  .tab-field input{
+    width:100%;background:transparent;color:var(--text);
+    border:1px solid var(--hair-solid);border-radius:0;
+    font-family:'DM Mono',monospace;font-size:13px;line-height:1.6;padding:11px 12px;
+  }
+  .tab-field input:focus{outline:none;border-color:var(--accent);}
+  /* a field only a bot fills in. Off-screen rather than display:none, which
+     some bots now check for. */
+  .tab-pot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+
+  /* ---- THE NAPKIN ----
+     A white linen cocktail napkin: hemstitch border, embroidered mark bottom
+     right. A physical object on the bar, so it does not theme — same linen and
+     same ink lit or painted, exactly like the cross-stitch sampler above it.
+     One that went dark at night would break the illusion. */
+  .napkin{
+    /* the drawn-thread holes read as shadow, not as a drawn line */
+    --stitch:rgba(122,126,134,.32);
+    /* everything insets off this, so the border scales with the napkin */
+    --hem:11%;
+    position:relative;aspect-ratio:1;display:flex;
+    padding:calc(var(--hem) + 20px);
+    /* the mark needs the bottom corner to itself */
+    padding-bottom:calc(var(--hem) + 52px);
+    transform:rotate(-1.2deg);
+    background-color:#FBFAF7;
+    background-image:
+      /* The ring a wet glass left. Two circles rather than one, slightly
+         offset and different radii, because a single clean gradient reads as
+         a printed target — the overlap is what makes the edge look wicked
+         into the cloth. The rim is darker than the middle: that is where the
+         liquid dried last. */
+      radial-gradient(circle at 20% 80%,
+        transparent 0 21.5%,
+        rgba(122,102,70,.13) 21.5% 23.5%,
+        rgba(122,102,70,.07) 23.5% 25.5%,
+        transparent 25.5%),
+      radial-gradient(circle at 25% 77.5%,
+        rgba(122,102,70,.045) 0 21%,
+        rgba(122,102,70,.19) 22% 24.5%,
+        rgba(122,102,70,.06) 24.5% 26.5%,
+        transparent 26.5%),
+      /* light falling across the cloth */
+      radial-gradient(ellipse 74% 62% at 26% 14%, rgba(255,255,255,.85), transparent 60%),
+      /* linen weave — the sampler's trick, finer and neutral */
+      repeating-linear-gradient(0deg,  rgba(140,140,146,.055) 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(90deg, rgba(140,140,146,.055) 0 1px, transparent 1px 3px);
+    box-shadow:0 16px 38px rgba(0,0,0,.45), inset 0 0 44px rgba(150,150,158,.10);
+  }
+  /* The field kills its own outline, because a browser focus rectangle landing
+     on a piece of cloth looks like a bug. This puts the indicator on the
+     napkin instead — and doubles as the test for whether the click is even
+     reaching the textarea: no ring means no focus, which means no caret. */
+  .napkin:focus-within{
+    box-shadow:0 16px 38px rgba(0,0,0,.45),
+               inset 0 0 44px rgba(150,150,158,.10),
+               0 0 0 2px var(--accent);
+  }
+
+  /* The hemstitch: a ladder of drawn-thread openwork set in from the hem.
+     Four repeating gradients rather than a dashed border, because a border
+     cannot control dash length or keep the corners from colliding. */
+  .napkin::before{
+    content:"";position:absolute;inset:var(--hem);pointer-events:none;
+    background-image:
+      repeating-linear-gradient(90deg, var(--stitch) 0 2px, transparent 2px 7px),
+      repeating-linear-gradient(90deg, var(--stitch) 0 2px, transparent 2px 7px),
+      repeating-linear-gradient(0deg,  var(--stitch) 0 2px, transparent 2px 7px),
+      repeating-linear-gradient(0deg,  var(--stitch) 0 2px, transparent 2px 7px);
+    background-size:100% 4px, 100% 4px, 4px 100%, 4px 100%;
+    background-position:left top, left bottom, left top, right top;
+    background-repeat:no-repeat;
+  }
+  /* the folded hem just outside the openwork — barely there, but it is what
+     stops the border reading as a printed rectangle */
+  .napkin::after{
+    content:"";position:absolute;inset:calc(var(--hem) - 7px);pointer-events:none;
+    border:1px solid rgba(150,150,158,.16);
+  }
+  .napkin textarea{
+    position:relative;z-index:1;flex:1;width:100%;
+    background:transparent;border:0;outline:none;resize:none;padding:0;
+    /* ballpoint, not the page's ink — it has to sit on the cloth */
+    font-family:'Caveat',cursive;font-size:21px;line-height:1.5;color:#26364B;
+    /* the blinking caret. Stated rather than inherited from color, so it
+       survives any later change to the ink. */
+    caret-color:#26364B;
+  }
+  .napkin textarea::placeholder{color:rgba(38,54,75,.4);}
+
+  /* the embroidered mark. Yellowtail because that is the logo's face on the
+     sign — the same name, stitched instead of lit. */
+  .napkin-mark{
+    position:absolute;z-index:1;pointer-events:none;
+    bottom:calc(var(--hem) + 10px);right:calc(var(--hem) + 14px);
+    display:flex;align-items:flex-end;gap:7px;
+    /* the raised edge thread has against cloth */
+    filter:drop-shadow(0 1px 0 rgba(255,255,255,.9));
+  }
+  .napkin-name{
+    font-family:'Yellowtail',cursive;font-size:21px;line-height:1;
+    color:#5D6B80;
+  }
+  .napkin-bottle{width:17px;height:26px;display:block;}
+
+  @media (max-width:520px){
+    .napkin textarea{font-size:19px;}
+    .napkin-name{font-size:18px;}
+    .napkin-bottle{width:15px;height:22px;}
+  }
+
+  .tab-send{text-align:center;margin-top:22px;}
+  .closer button.btn{border:0;cursor:pointer;font-weight:600;}
+  .closer button.btn:hover{filter:brightness(1.08);}
+  .tab-alt{margin:16px 0 0;font-size:11px;color:var(--muted);}
+  .tab-alt a{text-decoration:none;border-bottom:1px solid var(--hair-solid);}
+  .tab-alt a:hover{color:var(--text-bright);}
+
   /* ============ DESKTOP ============
      Nothing below runs under 900px, so the phone layout is untouched. */
   @media (min-width:900px){
@@ -346,6 +476,11 @@
     .sampler{padding:34px 22px 32px;}
     .stitched{font-size:66px;}
     .band{height:34px;background-size:84px 34px;}
+
+    /* fields left, napkin right. align-items:start because the napkin's
+       height comes from its own width via aspect-ratio — let the grid
+       stretch it and it stops being square. */
+    .tab-grid{grid-template-columns:1fr 1fr;gap:30px;align-items:start;}
   }
 
   /* ============ SCROLL CUE ============
@@ -562,7 +697,70 @@
 <section class="closer">
   <div class="q">What'll it be?</div>
   <p class="sub">Ready for a conversation? No charge ;)</p>
-  <a class="btn" href="mailto:hello@example.com">Start a tab</a>
+
+  <!-- TODO — NOT WIRED UP YET.
+       GitHub Pages has no backend, so this needs a third-party form endpoint
+       (Formspree, Basin, Getform). Replace YOUR_FORM_ID below with the real
+       one; until then a submit goes nowhere and the message is lost. Field
+       names are what Formspree expects: `email` sets the reply-to, `_gotcha`
+       is the honeypot. Same placeholder as contact.html — wiring one means
+       wiring both. -->
+  <form class="tab-form" action="https://formspree.io/f/YOUR_FORM_ID" method="post">
+
+    <div class="tab-grid">
+
+      <div>
+        <div class="tab-field">
+          <label for="first">First name</label>
+          <input id="first" name="first" type="text" autocomplete="given-name" required>
+        </div>
+
+        <div class="tab-field">
+          <label for="last">Last name</label>
+          <input id="last" name="last" type="text" autocomplete="family-name" required>
+        </div>
+
+        <div class="tab-field">
+          <label for="tab-email">Email</label>
+          <input id="tab-email" name="email" type="email" autocomplete="email" required>
+        </div>
+      </div>
+
+      <!-- the napkin. The label is real but hidden — the object is the point,
+           and a floating "Your idea" caption above it would give the game away -->
+      <div class="napkin">
+        <label class="visually-hidden" for="idea">What are you building?</label>
+        <textarea id="idea" name="idea" required
+          placeholder="so the other day I had this idea..."></textarea>
+
+        <!-- embroidered corner mark: the logo, plus the house bottle -->
+        <div class="napkin-mark" aria-hidden="true">
+          <span class="napkin-name">Vandy's</span>
+          <svg class="napkin-bottle" viewBox="0 0 24 30" fill="none"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7.5 15.5 C7.5 12.5 10 11.8 10 9.5 V4 h4 v5.5 c0 2.3 2.5 3 2.5 6 V25.4
+                     c0 1-.8 1.8-1.8 1.8 H9.3 c-1 0-1.8-.8-1.8-1.8 Z"
+                  stroke="#7C8798" stroke-width="1.4"/>
+            <path d="M9.8 3.1 h4.4" stroke="#7C8798" stroke-width="1.9"/>
+            <rect x="7.5" y="17.6" width="9" height="5.2"
+                  fill="#C1873F" fill-opacity=".5" stroke="#9A6B2F" stroke-width=".8"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="tab-pot" aria-hidden="true">
+      <label for="tab-gotcha">Leave this empty</label>
+      <input id="tab-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
+    <div class="tab-send">
+      <button class="btn" type="submit">Send it over</button>
+      <p class="tab-alt">or <a href="contact.html">pick a time instead &rarr;</a></p>
+    </div>
+
+  </form>
 </section>
 
 <footer>

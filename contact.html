@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0B0A0A">
+<script>
+/* see index.html — applies a remembered theme before first paint */
+(function(){
+  try{
+    var saved = localStorage.getItem('vandys-theme');
+    if(saved !== 'light' && saved !== 'dark') return;
+    document.documentElement.setAttribute('data-theme', saved);
+    document.querySelector('meta[name="theme-color"]')
+      .setAttribute('content', saved === 'dark' ? '#0B0A0A' : '#E8DCC0');
+  }catch(e){}
+})();
+</script>
+<title>Start a Tab — Vandy's Software Solutions</title>
+<meta name="description" content="Book a free intro call with Vandy's Software Solutions, or leave a note about what you're building.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Palette, base and page chrome live in styles.css.
+     Below: the components unique to this page. */
+
+  /* the same tighter rhythm the other secondary pages use */
+  section{padding:44px 0 6px;}
+
+  /* ---- PAGE HEAD ---- */
+  header{
+    text-align:center;padding:62px 20px 46px;border-bottom:1px solid var(--hair);
+  }
+  .back{
+    display:inline-block;font-family:'Oswald',sans-serif;font-size:10px;
+    letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+    text-decoration:none;margin-bottom:24px;
+  }
+  .back:hover{color:var(--text-bright);}
+  h1.title{
+    font-family:'Oswald',sans-serif;font-weight:600;font-size:19px;
+    letter-spacing:.36em;text-indent:.36em;text-transform:uppercase;
+    margin:0 0 12px;color:var(--heading);
+  }
+  header p{margin:0 auto;max-width:46ch;font-size:13px;color:var(--muted);}
+
+  /* ---- THE TWO WAYS IN ----
+     Stacked on phones, side by side from 900px up. Both panels are the same
+     object — a bordered slab with a label — so neither reads as the fallback. */
+  .ways{display:grid;gap:40px;}
+  .panel{
+    border:1px solid var(--hair-solid);background:var(--surface);
+    padding:26px 22px 24px;display:flex;flex-direction:column;
+  }
+  .panel h2{
+    font-family:'Oswald',sans-serif;font-weight:600;font-size:13px;
+    letter-spacing:.28em;text-indent:.28em;text-transform:uppercase;
+    margin:0 0 6px;color:var(--heading);
+  }
+  .panel .sub{font-size:12px;color:var(--muted);margin:0 0 22px;max-width:62ch;}
+
+  /* ---- THE FORM ---- */
+  .field{margin-bottom:18px;}
+  .field label{
+    display:block;font-family:'Oswald',sans-serif;font-size:10px;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--text-bright);
+    margin-bottom:7px;
+  }
+  .field label .opt{color:var(--muted);letter-spacing:.12em;}
+  .field input,.field textarea,.field select{
+    width:100%;background:transparent;color:var(--text);
+    border:1px solid var(--hair-solid);border-radius:0;
+    font-family:'DM Mono',monospace;font-size:13px;line-height:1.6;
+    padding:11px 12px;
+  }
+  .field textarea{resize:vertical;min-height:118px;}
+  .field input::placeholder,.field textarea::placeholder{color:var(--muted);opacity:.65;}
+  .field input:focus,.field textarea:focus,.field select:focus{
+    outline:none;border-color:var(--accent);
+  }
+  /* the honeypot — a field only a bot fills in. Off-screen rather than
+     display:none, which some bots now check for. */
+  .pot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+
+  /* centred inline rather than full-width — a stretched .btn loses the
+     letterspaced proportions it has everywhere else on the site. margin-top
+     auto pins it to the bottom so the form panel ends level with the
+     scheduler beside it. */
+  .send{margin-top:auto;padding-top:8px;text-align:center;}
+  button.btn{border:0;cursor:pointer;}
+  button.btn:hover{filter:brightness(1.08);}
+  .send .note{font-size:11px;color:var(--muted);margin:14px 0 0;text-align:center;}
+
+  /* ---- THE SCHEDULER ----
+     Google's widget renders its own light UI and does not read our theme, so
+     it stays a bright rectangle in the dark bar. The inset border and padding
+     are there to frame that as deliberate rather than as a hole in the page. */
+  .sched{
+    border:1px solid var(--hair);background:#fff;padding:0;
+    flex:1;display:flex;min-height:600px;
+  }
+  .sched iframe{border:0;width:100%;height:600px;flex:1;display:block;}
+
+  /* ---- DESKTOP ----
+     Nothing below runs under 900px, so the phone layout is untouched. */
+  @media (min-width:900px){
+    /* Sized backwards from the scheduler: 900 for the widget + 44 gap + 356
+       for the form + 40 padding. Well past the 1040px the home page uses, but
+       the home page is not carrying a 900px third-party widget. */
+    .shell{max-width:1340px;}
+    section{padding:60px 0 10px;}
+    header{padding:74px 20px 52px;}
+    .panel{padding:32px 30px 30px;}
+    .field textarea{min-height:150px;}
+
+    /* Scheduler left, form right. The scheduler track caps at 900px and the
+       form takes whatever is left. Under ~1340px there is not 900 to give, so
+       minmax lets the scheduler give ground first — the form holds its 340px
+       floor and the widget shrinks, rather than the form being crushed. */
+    .ways{
+      grid-template-columns:minmax(0,900px) minmax(340px,1fr);
+      gap:44px;align-items:stretch;
+    }
+  }
+
+  @media (max-width:430px){
+    h1.title{font-size:15px;letter-spacing:.28em;text-indent:.28em;}
+    .panel{padding:22px 18px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<button class="switch" id="switch">Lights on</button>
+
+<header>
+  <a class="back" href="index.html">&larr; Back to the bar</a>
+  <h1 class="title">Start a Tab</h1>
+  <p>Pick a time and we'll talk it through, or leave a note and I'll come back to you. Either way the first conversation is free.</p>
+</header>
+
+<main class="shell">
+
+  <section>
+    <div class="ways">
+
+      <!-- ---------- pick a time ---------- -->
+      <div class="panel">
+        <h2>Pull up a stool</h2>
+        <p class="sub">Grab a slot that works for you. Thirty minutes, no charge, no pitch — bring the idea and we'll see if it's a fit.</p>
+
+        <!-- Google Calendar Appointment Scheduling begin -->
+        <div class="sched">
+          <iframe
+            title="Book an intro call with Vandy's Software Solutions"
+            src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2e833NYThrb2mdEEw9gv4DAQ1IgNcFIepKsXLLRE4D-_Zn4vJNC7hIuzslhG48hj9a5O47OJL0?gv=true"
+            loading="lazy"></iframe>
+        </div>
+        <!-- end Google Calendar Appointment Scheduling -->
+      </div>
+
+      <!-- ---------- leave a note ---------- -->
+      <div class="panel">
+        <h2>Leave a note</h2>
+        <p class="sub">Rather write it out? Tell me what you're building and I'll reply within a business day.</p>
+
+        <!-- TODO — NOT WIRED UP YET.
+             GitHub Pages has no backend, so this needs a third-party form
+             endpoint (Formspree, Basin, Getform). Replace YOUR_FORM_ID below
+             with the real one; until then a submit goes nowhere and the
+             message is lost. The field names are already what Formspree
+             expects: `email` sets the reply-to, `_gotcha` is the honeypot. -->
+        <form action="https://formspree.io/f/YOUR_FORM_ID" method="post">
+
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required>
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required>
+          </div>
+
+          <div class="field">
+            <label for="company">Company <span class="opt">— optional</span></label>
+            <input id="company" name="company" type="text" autocomplete="organization">
+          </div>
+
+          <div class="field">
+            <label for="timeline">Where are you at?</label>
+            <select id="timeline" name="timeline">
+              <option value="exploring">Just exploring the idea</option>
+              <option value="soon">Looking to start in the next month or two</option>
+              <option value="deadline">Already have a date to hit</option>
+              <option value="other">Something else</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="project">What are you building?</label>
+            <textarea id="project" name="project" required
+              placeholder="A couple of sentences is plenty — what it does, who it's for, and what's in the way."></textarea>
+          </div>
+
+          <div class="pot" aria-hidden="true">
+            <label for="_gotcha">Leave this empty</label>
+            <input id="_gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="send">
+            <button class="btn" type="submit">Send it over</button>
+            <p class="note">No mailing list, no follow-up sequence. Just a reply.</p>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Vandy's Software Solutions &middot; <span class="kc">Kansas City, MO</span>
+</footer>
+
+<script>
+  (function(){
+    var root = document.documentElement;
+    var btn  = document.getElementById('switch');
+    var meta = document.querySelector('meta[name="theme-color"]');
+    var BAR  = {dark:'#0B0A0A', light:'#E8DCC0'};
+    /* adopt whatever the head script settled on — see index.html */
+    setTheme(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+    function setTheme(mode){
+      root.setAttribute('data-theme', mode);
+      if(meta) meta.setAttribute('content', BAR[mode]);
+      btn.textContent = mode === 'dark' ? 'Lights on' : 'Lights out';
+      btn.setAttribute('aria-label',
+        mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    }
+    btn.addEventListener('click', function(){
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      setTheme(next);
+      try{ localStorage.setItem('vandys-theme', next); }catch(e){}
+    });
+  })();
+</script>
+
+</body>
+</html>
