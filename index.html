@@ -24,6 +24,28 @@
 })();
 </script>
 <title>Vandy's Software Solutions — Software on tap</title>
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="manifest" href="site.webmanifest">
+<!-- Open Graph / Twitter — the link-preview card in iMessage, Slack, LinkedIn, etc.
+     Load-bearing: property= for og:, name= for twitter:; og:image MUST be an absolute
+     URL (the scraper is a different machine) pointing at an opaque 1200x630 card. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vandy's Software Solutions">
+<meta property="og:title" content="Vandy's Software Solutions — Software on tap">
+<meta property="og:description" content="A one-person software studio in Kansas City — custom apps, marketing sites, and fixing software someone else built.">
+<meta property="og:url" content="https://vandyssoftware.com/">
+<meta property="og:image" content="https://vandyssoftware.com/assets/og-card.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Vandy's — Software on tap">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vandy's Software Solutions — Software on tap">
+<meta name="twitter:description" content="A one-person software studio in Kansas City — custom apps, marketing sites, and fixing software someone else built.">
+<meta name="twitter:image" content="https://vandyssoftware.com/assets/og-card.png">
+<meta name="twitter:image:alt" content="Vandy's — Software on tap">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Alfa+Slab+One&family=Caveat:wght@400;500&family=Oswald:wght@400;600&family=Pixelify+Sans:wght@600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -436,6 +458,15 @@
   }
   .tab-alt a:hover{color:var(--accent);}
 
+  /* Form states. The status line sits under the button and speaks while a
+     message is in flight or after it fails; the done panel replaces the whole
+     form once a message is away. */
+  .tab-status{margin:14px 0 0;font-size:12.5px;color:var(--muted);min-height:1em;}
+  .tab-status.is-error{color:var(--accent);}
+  .btn[disabled]{opacity:.6;cursor:default;filter:none;}
+  .tab-done{max-width:640px;margin:8px auto 0;text-align:center;padding:30px 0 6px;}
+  .tab-done p{margin:12px auto 0;max-width:44ch;font-size:13.5px;color:var(--muted);}
+
   /* ============ DESKTOP ============
      Nothing below runs under 900px, so the phone layout is untouched. */
   @media (min-width:900px){
@@ -563,7 +594,7 @@
         </div>
         <div class="sign-rule"></div>
         <div class="sign-tag">SOFTWARE ON TAP</div>
-        <div class="sign-legal">Vandy's Software Solutions &middot; Kansas City</div>
+        <div class="sign-legal">Vandy's Software Solutions LLC &middot; Kansas City</div>
       </div>
     </div>
   </div>
@@ -704,14 +735,13 @@
   <div class="q">What'll it be?</div>
   <p class="sub"></p>
 
-  <!-- TODO — NOT WIRED UP YET.
-       GitHub Pages has no backend, so this needs a third-party form endpoint
-       (Formspree, Basin, Getform). Replace YOUR_FORM_ID below with the real
-       one; until then a submit goes nowhere and the message is lost. Field
-       names are what Formspree expects: `email` sets the reply-to, `_gotcha`
-       is the honeypot. Same placeholder as contact.html — wiring one means
-       wiring both. -->
-  <form class="tab-form" action="https://formspree.io/f/YOUR_FORM_ID" method="post">
+  <!-- Submitted with fetch() by the script at the bottom of this page, which
+       POSTs JSON to the Lambda Function URL in `data-endpoint`. Replace
+       FORM_ENDPOINT_PLACEHOLDER with the `FunctionUrl` output from
+       `cd infra && npx cdk deploy`. The backend (SES-only, no form service)
+       lives in infra/ — see infra/README.md. `_gotcha` is the honeypot the
+       handler checks; the submitter's `email` becomes the reply-to. -->
+  <form class="tab-form" id="tab-form" data-endpoint="FORM_ENDPOINT_PLACEHOLDER">
 
     <div class="tab-grid">
 
@@ -763,14 +793,22 @@
 
     <div class="tab-send">
       <button class="btn" type="submit">Send it over</button>
+      <p class="tab-status" role="status" aria-live="polite" hidden></p>
       <p class="tab-alt">Rather talk it through? <a href="contact.html">Pull up a stool.</a></p>
     </div>
 
   </form>
+
+  <!-- revealed by the submit script once a message is away; the form, the
+       heading and the sub above it are hidden at the same time -->
+  <div class="tab-done" hidden>
+    <div class="q">Order's in.</div>
+    <p>Thanks — your note landed. I read everything that comes through here myself, and I'll be in touch shortly.</p>
+  </div>
 </section>
 
 <footer>
-  Vandy's Software Solutions &middot; <span class="kc">Kansas City, MO</span>
+  &copy; 2026 Vandy's Software Solutions LLC &middot; <span class="kc">Kansas City, MO</span>
 </footer>
 
 <script>
@@ -832,10 +870,28 @@
   var dockDistance = 460;
 
   var hangerW = 0;
+  var clientW = root.clientWidth;
+
+  /* Writes a custom property only when its value actually changed. Every
+     setProperty on :root invalidates style for everything reading it — and
+     --dock is read by .wall, .bar, .sign-tag, .sign-legal and .scroll-cue —
+     so writing unchanged values 60x a second keeps the neon stack recalculating
+     while nothing is moving. With this the loop goes quiet once the sign
+     settles, which is most of the time the page is open. */
+  var prev = {};
+  function write(name, value){
+    if(prev[name] === value) return;
+    prev[name] = value;
+    root.style.setProperty(name, value);
+  }
 
   function measure(){
     /* cached so frame() never touches offsetWidth and forces a reflow */
     hangerW = hanger ? hanger.offsetWidth : 0;
+    /* clientWidth belongs in here for the same reason. Read inside frame() it
+       forces a synchronous style flush, because the frame before it just
+       dirtied :root with the custom properties. It only changes on resize. */
+    clientW = root.clientWidth;
 
     var h = panel ? panel.offsetHeight : 0;
     if(!h) return;
@@ -919,20 +975,93 @@
        client box and innerWidth would offset it by half a scrollbar. */
     var slide = 0;
     if(hangerW){
-      slide = (DOCK_PAD_PX - (root.clientWidth - hangerW * s) / 2) * dock;
+      slide = (DOCK_PAD_PX - (clientW - hangerW * s) / 2) * dock;
     }
 
-    root.style.setProperty('--slide', slide.toFixed(2) + 'px');
-    root.style.setProperty('--dock',  dock.toFixed(4));
-    root.style.setProperty('--drop',  drop.toFixed(2) + 'px');
-    root.style.setProperty('--s',     s.toFixed(4));
-    root.style.setProperty('--swing', angle.toFixed(3) + 'deg');
-    root.style.setProperty('--tiltX', tiltX.toFixed(3) + 'deg');
-    root.style.setProperty('--tiltY', tiltY.toFixed(3) + 'deg');
+    write('--slide', slide.toFixed(2) + 'px');
+    write('--dock',  dock.toFixed(4));
+    write('--drop',  drop.toFixed(2) + 'px');
+    write('--s',     s.toFixed(4));
+    write('--swing', angle.toFixed(3) + 'deg');
+    write('--tiltX', tiltX.toFixed(3) + 'deg');
+    write('--tiltY', tiltY.toFixed(3) + 'deg');
 
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+})();
+</script>
+
+<script>
+/* ---------- contact form ----------
+   Enhances the napkin form: intercept submit, POST the fields as JSON to the
+   Lambda Function URL in data-endpoint, and swap the form for a confirmation
+   without leaving the page. No JS → the form does nothing, which is why the
+   "Pull up a stool" link and the emailable address on contact.html exist. */
+(function(){
+  var form = document.getElementById('tab-form');
+  if(!form) return;
+
+  var endpoint = form.getAttribute('data-endpoint');
+  var btn      = form.querySelector('button[type="submit"]');
+  var status   = form.querySelector('.tab-status');
+  var section  = document.getElementById('tab');
+  var done     = section.querySelector('.tab-done');
+  var intro    = section.querySelector('.q');
+  var sub      = section.querySelector('.sub');
+
+  function say(msg, isError){
+    status.hidden = false;
+    status.textContent = msg;
+    status.classList.toggle('is-error', !!isError);
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    /* Not deployed yet — say so rather than silently failing. */
+    if(!endpoint || endpoint === 'FORM_ENDPOINT_PLACEHOLDER'){
+      say('This form isn’t live yet — reach me at noah@vandyssoftware.com for now.', true);
+      return;
+    }
+
+    var payload = {
+      first:   form.first.value,
+      last:    form.last.value,
+      email:   form.email.value,
+      idea:    form.idea.value,
+      _gotcha: form._gotcha ? form._gotcha.value : ''
+    };
+
+    var label = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    say('', false);
+
+    fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function(res){
+      return res.json().catch(function(){ return {}; }).then(function(body){
+        if(res.ok && body.ok){
+          if(intro) intro.style.display = 'none';
+          if(sub)   sub.style.display = 'none';
+          form.hidden = true;
+          done.hidden = false;
+          done.scrollIntoView({ behavior:'smooth', block:'center' });
+        } else {
+          say(body.error || 'Something went wrong. Try again, or email me directly.', true);
+          btn.disabled = false;
+          btn.textContent = label;
+        }
+      });
+    }).catch(function(){
+      say('Could not reach the bar just now. Try again, or email noah@vandyssoftware.com.', true);
+      btn.disabled = false;
+      btn.textContent = label;
+    });
+  });
 })();
 </script>
 

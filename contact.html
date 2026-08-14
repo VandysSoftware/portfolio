@@ -18,6 +18,28 @@
 </script>
 <title>Pull Up a Stool — Vandy's Software Solutions</title>
 <meta name="description" content="Book a free thirty-minute intro call with Vandy's Software Solutions.">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="manifest" href="site.webmanifest">
+<!-- Open Graph / Twitter — the link-preview card in iMessage, Slack, LinkedIn, etc.
+     Load-bearing: property= for og:, name= for twitter:; og:image MUST be an absolute
+     URL (the scraper is a different machine) pointing at an opaque 1200x630 card. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vandy's Software Solutions">
+<meta property="og:title" content="Pull Up a Stool — Vandy's Software Solutions">
+<meta property="og:description" content="Book a free thirty-minute intro call with Vandy's Software Solutions.">
+<meta property="og:url" content="https://vandyssoftware.com/contact.html">
+<meta property="og:image" content="https://vandyssoftware.com/assets/og-card.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Vandy's — Software on tap">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pull Up a Stool — Vandy's Software Solutions">
+<meta name="twitter:description" content="Book a free thirty-minute intro call with Vandy's Software Solutions.">
+<meta name="twitter:image" content="https://vandyssoftware.com/assets/og-card.png">
+<meta name="twitter:image:alt" content="Vandy's — Software on tap">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -77,6 +99,15 @@
     text-decoration:none;font-weight:600;
   }
   .instead a:hover{background:var(--accent);color:var(--btn-text);}
+  /* the third way in, for anyone who would rather just send a note. Set in
+     mono so the address reads as an address, and kept quiet under the button
+     so it does not compete with the two primary paths. */
+  .instead .or-email{
+    margin:18px 0 0;font-family:'DM Mono',monospace;font-size:12px;
+    letter-spacing:.02em;color:var(--muted);
+  }
+  .instead .or-email a{color:var(--accent);text-decoration:none;}
+  .instead .or-email a:hover{text-decoration:underline;}
 
   /* ---- DESKTOP ----
      Nothing below runs under 900px, so the phone layout is untouched. */
@@ -119,13 +150,14 @@
     <div class="instead">
       <p>Already know what you want?</p>
       <a href="index.html#tab">Tell me about it instead</a>
+      <p class="or-email">Rather write? <a href="mailto:noah@vandyssoftware.com">noah@vandyssoftware.com</a></p>
     </div>
   </section>
 
 </main>
 
 <footer>
-  Vandy's Software Solutions &middot; <span class="kc">Kansas City, MO</span>
+  &copy; 2026 Vandy's Software Solutions LLC &middot; <span class="kc">Kansas City, MO</span>
 </footer>
 
 <script>
