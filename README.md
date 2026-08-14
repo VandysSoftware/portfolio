@@ -1,7 +1,9 @@
 # Vandy's Software Solutions — site
 
 The marketing site for Vandy's Software Solutions, a one-person software
-consultancy in Kansas City. Three static pages, no build step, no dependencies.
+consultancy in Kansas City. Four static pages at the repo root, no build step,
+no dependencies. The one exception is `infra/` — the CDK backend for the
+contact form — which carries its own toolchain and never ships to GitHub Pages.
 
 Everything runs on a bar metaphor: the hero is a neon sign hanging on chains,
 services are "what's on tap," testimonials are "the regulars," work is "on the
@@ -15,7 +17,9 @@ Copy changes should keep that voice.
 | `index.html` | Home page. Hero sign, services, testimonials, work, FAQ. |
 | `about.html` | Bio page. "Who's pouring," who I work with, the long way around, passing it on, off the clock. |
 | `house-rules.html` | How an engagement runs — process, terms, plain-english glossary. |
+| `contact.html` | Book-a-call page. Google Calendar scheduler, with a direct-email option under it. |
 | `styles.css` | Shared foundation: theme palette, base reset, page chrome, closer/footer. |
+| `infra/` | CDK backend for the contact form — Lambda Function URL + SES. Self-contained; see `infra/README.md`. |
 
 Page-specific CSS stays inline in the page that uses it — the hanging sign and
 cross-stitch sampler on the home page, the bio sections on about, the steps and
@@ -71,8 +75,16 @@ line length is too long to read comfortably.
 the neon stops buzzing). The decorative sign rig is `aria-hidden`, with a real
 `<h1>` provided visually-hidden.
 
+**The contact form.** The "start a tab" form on `index.html` and the emailable
+address on `contact.html` both reach `noah@vandyssoftware.com`. The form POSTs
+(via `fetch`) to a Lambda Function URL that sends the message through SES —
+there is no third-party form service. That backend lives entirely in `infra/`
+(CDK); its endpoint gets pasted into `index.html`'s `data-endpoint`. Until it is
+deployed, the form shows a "not live yet" note and points at the email. See
+`infra/README.md`.
+
 ## Before this goes live
 
-- [ ] Replace `mailto:hello@example.com` — it appears on the primary CTA of
-      **all three** pages
+- [ ] Deploy `infra/` and paste the `FunctionUrl` output into `index.html` in
+      place of `FORM_ENDPOINT_PLACEHOLDER` — then publish the DKIM records
 - [ ] Replace the two placeholder testimonials in "The regulars"
