@@ -10,12 +10,14 @@
 
 /* ============ THEMES ============ */
 [data-theme="dark"]{
-  --text:#E8DCC0;--text-bright:#ffffff;--muted:rgba(232,220,192,.62);
+  --text:#CDBFA4;--text-bright:#ffffff;--muted:rgba(205,191,164,.62);
   --hair:rgba(232,220,192,.16);--hair-solid:rgba(232,220,192,.28);
   --surface:rgba(0,0,0,.35);
   --script:#FFEAF2;--accent:#FF3D7F;--accent2:#35E0E8;
-  --eyebrow:#F2A33C;--heading:#F2A33C;
-  --btn-bg:#F2A33C;--btn-text:#0B0A0A;
+  --eyebrow:#E8DCC0;--heading:#E8DCC0;
+  --btn-bg:#E8DCC0;--btn-text:#0B0A0A;
+  /* darkness of the veil over the bar photo — raise toward 1 to darken more */
+  --bg-veil:.92;
 
   --glow-name-sm:0 0 4px #fff, 0 0 14px #FF3D7F, 0 0 38px rgba(255,61,127,.5);
   --wash3:radial-gradient(ellipse at 50% 60%, rgba(255,61,127,.14), transparent 62%);
@@ -37,19 +39,29 @@
 html{scroll-behavior:smooth;background-color:#0B0A0A;color-scheme:dark;}
 html[data-theme="light"]{color-scheme:light;}
 body{
-  margin:0;min-height:100vh;background-color:#0B0A0A;color:var(--text);
-  font-family:'DM Mono',monospace;font-size:14px;line-height:1.7;
+  margin:0;min-height:100vh;background-color:transparent;color:var(--text);
+  font-family:'Lora',serif;font-size:15px;line-height:1.7;
   transition:background-color .35s ease,color .35s ease;position:relative;
 }
-html[data-theme="dark"],html[data-theme="dark"] body{background-color:#0B0A0A;}
-html[data-theme="light"],html[data-theme="light"] body{background-color:#E8DCC0;}
+/* base colour lives on <html> (the canvas) so the fixed body::before photo,
+   which sits behind the body, is not painted over by the body's own background */
+html[data-theme="dark"]{background-color:#0B0A0A;}
+html[data-theme="light"]{background-color:#E8DCC0;}
 body::before{
   content:"";position:fixed;top:0;left:0;right:0;bottom:0;z-index:-1;
   pointer-events:none;background-color:#0B0A0A;
+  /* the dive-bar photo, sunk under a near-black veil so parchment text stays
+     readable, with the neon washes tinting the light on top. --bg-veil is the
+     one knob for how dark it goes. Dark theme only — light mode blanks it below. */
   background-image:
     radial-gradient(ellipse 80% 50% at 12% 4%,  rgba(255,61,127,.13), transparent 62%),
     radial-gradient(ellipse 70% 45% at 92% 38%, rgba(53,224,232,.09),  transparent 62%),
-    radial-gradient(ellipse 90% 45% at 48% 98%, rgba(242,163,60,.07),  transparent 62%);
+    radial-gradient(ellipse 90% 45% at 48% 98%, rgba(232,220,192,.07),  transparent 62%),
+    linear-gradient(rgba(11,10,10,var(--bg-veil)), rgba(11,10,10,var(--bg-veil))),
+    url("assets/bar-bg.jpg");
+  background-repeat:no-repeat;
+  background-position:center center;
+  background-size:auto,auto,auto,auto,cover;
 }
 html[data-theme="light"] body::before{background-color:#E8DCC0;background-image:none;}
 
@@ -67,6 +79,15 @@ a{color:inherit;}
 .eyebrow{
   font-family:'Oswald',sans-serif;letter-spacing:.3em;text-transform:uppercase;
   font-size:10px;color:var(--eyebrow);margin:0 0 16px;
+}
+/* Section headers share the hero headline's voice — big, tight, uppercase
+   Oswald — a notch under the H1 so it stays primary, and in signage amber so
+   each section reads like a lit menu heading rather than the one bright
+   statement up top. The small .eyebrow stays for kickers (e.g. above the H1). */
+.section-title{
+  font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;
+  font-size:clamp(26px,5.5vw,40px);line-height:1.05;letter-spacing:.02em;
+  color:var(--heading);margin:0 0 20px;
 }
 section{padding:52px 0 10px;}
 

@@ -1,7 +1,7 @@
 # Vandy's Software Solutions — site
 
 The marketing site for Vandy's Software Solutions, a one-person software
-consultancy in Kansas City. Four static pages at the repo root, no build step,
+consultancy in Kansas City. Three static pages at the repo root, no build step,
 no dependencies. The one exception is `infra/` — the CDK backend for the
 contact form — which carries its own toolchain and never ships to GitHub Pages.
 
@@ -17,7 +17,6 @@ Copy changes should keep that voice.
 | `index.html` | Home page. Hero sign, services, testimonials, work, FAQ. |
 | `about.html` | Bio page. "Who's pouring," who I work with, the long way around, passing it on, off the clock. |
 | `house-rules.html` | How an engagement runs — process, terms, plain-english glossary. |
-| `contact.html` | Book-a-call page. Google Calendar scheduler, with a direct-email option under it. |
 | `styles.css` | Shared foundation: theme palette, base reset, page chrome, closer/footer. |
 | `infra/` | CDK backend for the contact form — Lambda Function URL + SES. Self-contained; see `infra/README.md`. |
 
@@ -75,13 +74,19 @@ line length is too long to read comfortably.
 the neon stops buzzing). The decorative sign rig is `aria-hidden`, with a real
 `<h1>` provided visually-hidden.
 
-**The contact form.** The "start a tab" form on `index.html` and the emailable
-address on `contact.html` both reach `noah@vandyssoftware.com`. The form POSTs
-(via `fetch`) to a Lambda Function URL that sends the message through SES —
-there is no third-party form service. That backend lives entirely in `infra/`
-(CDK); its endpoint gets pasted into `index.html`'s `data-endpoint`. Until it is
-deployed, the form shows a "not live yet" note and points at the email. See
-`infra/README.md`.
+**Reaching out.** Every `Pull up a stool` CTA — the home-page intro button and
+the `about` / `house-rules` closers — anchors to the "start a tab" napkin form at
+the foot of `index.html` (`#tab`). Live scheduling (a Google Calendar embed) is
+**tabled**; the old scheduler URL is parked in a comment beside the intro button
+for a one-line restore if that changes.
+
+**The contact form.** The "start a tab" form on `index.html` reaches
+`noah@vandyssoftware.com`. It POSTs (via `fetch`) to a Lambda Function URL that
+sends the message through SES — there is no third-party form service. That
+backend lives entirely in `infra/` (CDK); its endpoint gets pasted into
+`index.html`'s `data-endpoint`. Until it is deployed, the form shows a "not live
+yet" note that names the email, and the "rather write" mailto under the form is
+the static fallback for anyone without JS. See `infra/README.md`.
 
 ## Before this goes live
 

@@ -17,6 +17,8 @@
 })();
 </script>
 <title>About Noah Vandervelden — Vandy's Software Solutions</title>
+<meta name="description" content="Noah Vandervelden is the full-stack software engineer behind Vandy's Software Solutions, a one-person studio in Kansas City building custom web applications for local businesses.">
+<link rel="canonical" href="https://vandyssoftware.com/about.html">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -43,7 +45,7 @@
 <meta name="twitter:image:alt" content="Vandy's — Software on tap">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Oswald:wght@400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Oswald:wght@400;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
   /* Palette, base and page chrome live in styles.css.
@@ -206,12 +208,20 @@
   .tab-total,.tab-tip{display:flex;justify-content:space-between;gap:12px;}
   .tab-total{font-weight:500;}
   .tab-tip{font-size:10px;color:#4A3D34;}
+  .tab-tip a{
+    text-decoration:underline;text-decoration-thickness:1px;
+    text-underline-offset:2px;text-decoration-color:rgba(74,61,52,.4);
+  }
+  .tab-tip a:hover,.tab-tip a:focus-visible{text-decoration-color:#4A3D34;}
   .tab-thanks{
     text-align:center;font-size:10px;color:#4A3D34;margin-top:13px;
   }
-  .tab-thanks strong{
+  .tab-thanks a{
     display:block;font-weight:400;font-size:17px;color:#2A211C;margin-top:7px;
+    text-decoration:underline;text-decoration-thickness:1px;
+    text-underline-offset:3px;text-decoration-color:rgba(42,33,28,.4);
   }
+  .tab-thanks a:hover,.tab-thanks a:focus-visible{text-decoration-color:#2A211C;}
 
   /* items: quantity, description, value flush right — no dot leaders, real
      receipts do not have them */
@@ -385,13 +395,13 @@
       <div class="tab-rule"></div>
 
       <div class="tab-total"><span>Total</span><span>One developer</span></div>
-      <div class="tab-tip"><span>Warranty included</span><span>See house rules</span></div>
+      <div class="tab-tip"><span>Warranty included</span><a href="house-rules.html">See house rules</a></div>
 
       <div class="tab-rule"></div>
 
       <div class="tab-thanks">
         Thanks for stopping in!
-        <strong>Start a tab</strong>
+        <a href="index.html#tab">Start a tab</a>
       </div>
     </div>
     </div>
@@ -435,7 +445,7 @@
 <section class="closer">
   <div class="q">What'll it be?</div>
   <p class="sub">Ready for a conversation? No charge ;)</p>
-  <a class="btn" href="contact.html">Start a tab</a>
+  <a class="btn" href="index.html#tab">Pull up a stool</a>
 </section>
 
 <footer>

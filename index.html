@@ -24,6 +24,8 @@
 })();
 </script>
 <title>Vandy's Software Solutions — Software on tap</title>
+<meta name="description" content="Custom web applications for Kansas City businesses — built by Noah, the full-stack developer who also writes the code. Custom apps, marketing sites, dashboards, and fixing software someone else built.">
+<link rel="canonical" href="https://vandyssoftware.com/">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -48,8 +50,54 @@
 <meta name="twitter:image:alt" content="Vandy's — Software on tap">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Alfa+Slab+One&family=Caveat:wght@400;500&family=Oswald:wght@400;600&family=Pixelify+Sans:wght@600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Caveat:wght@400;500&family=Oswald:wght@400;600&family=Pixelify+Sans:wght@600;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<!-- Structured data: only marks up content actually visible on this page (the
+     business, the person, and the real FAQ below). TODO before launch: add
+     "sameAs" arrays (LinkedIn, GitHub, directory profiles) to both entities —
+     that consistency is what earns an entity/knowledge panel. Validate with
+     Google's Rich Results Test. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://vandyssoftware.com/#business",
+      "name": "Vandy's Software Solutions",
+      "description": "A one-person software studio in Kansas City — custom web applications, marketing sites, dashboards, and fixing software someone else built.",
+      "url": "https://vandyssoftware.com/",
+      "email": "noah@vandyssoftware.com",
+      "image": "https://vandyssoftware.com/assets/og-card.png",
+      "logo": "https://vandyssoftware.com/android-chrome-512x512.png",
+      "areaServed": { "@type": "City", "name": "Kansas City" },
+      "address": { "@type": "PostalAddress", "addressLocality": "Kansas City", "addressCountry": "US" },
+      "founder": { "@id": "https://vandyssoftware.com/#noah" },
+      "knowsAbout": ["Custom web application development", "Marketing websites", "Dashboards and internal tools", "Software maintenance and modernization"]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://vandyssoftware.com/#noah",
+      "name": "Noah Vandervelden",
+      "jobTitle": "Full-stack software engineer",
+      "worksFor": { "@id": "https://vandyssoftware.com/#business" },
+      "url": "https://vandyssoftware.com/about.html"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://vandyssoftware.com/#faq",
+      "mainEntity": [
+        { "@type": "Question", "name": "What does a project cost?", "acceptedAnswer": { "@type": "Answer", "text": "It depends on scope, which is exactly why the SOW exists. After a short conversation I'll put a fixed price and timeline in writing before anyone commits to anything." } },
+        { "@type": "Question", "name": "How long does a build take?", "acceptedAnswer": { "@type": "Answer", "text": "A marketing site runs a few weeks. A full custom application runs a few months. I'd rather give you an honest range up front than a fast number I have to walk back." } },
+        { "@type": "Question", "name": "Will you work on software someone else built?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — that's a good share of the work. I'll start with a short review of what's there and tell you plainly whether it's worth repairing or replacing." } },
+        { "@type": "Question", "name": "What happens after launch?", "acceptedAnswer": { "@type": "Answer", "text": "Defects are covered during the warranty window named in your SOW. Past that, you can bring me back for changes as needed or set up a monthly retainer if you'd rather have standing time on the calendar." } },
+        { "@type": "Question", "name": "Do you sign NDAs?", "acceptedAnswer": { "@type": "Answer", "text": "Happily, on request, before we get into specifics. Confidentiality is also built into the MSA." } },
+        { "@type": "Question", "name": "Are you local?", "acceptedAnswer": { "@type": "Answer", "text": "Based in Kansas City and glad to meet in person. Most work happens remotely, so location isn't a requirement on your end." } }
+      ]
+    }
+  ]
+}
+</script>
 <style>
   /* Palette, base and page chrome live in styles.css.
      Below: the theme tokens and components unique to this page. */
@@ -103,6 +151,9 @@
     /* driven from JS. --drop is the chain length, so the sign hangs from the
        ceiling rather than being pushed down the page. */
     --dock:0; --drop:22vh; --s:1; --swing:0deg; --tiltX:0deg; --tiltY:0deg;
+    /* stage-A progress (centre -> parked right). Drives the scroll cue so it
+       leaves the moment the descent begins, not when the header forms. */
+    --enter:0;
     /* screen px the docked sign slides left out of centre. JS owns it. */
     --slide:0px;
 
@@ -214,8 +265,16 @@
 
   /* ============ PAGE CONTENT ============ */
   .intro p{margin:0 0 16px;max-width:52ch;}
+  /* the headline is the top line of the menu board: big, tight, bright Oswald,
+     set against the small wide-tracked amber eyebrow above it. Kept to a short
+     measure so it stacks into a punchy block and clears the parked sign. */
+  .hero-title{
+    font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;
+    font-size:clamp(30px,7vw,50px);line-height:1.03;letter-spacing:.01em;
+    max-width:16ch;margin:0 0 20px;color:var(--text-bright);
+  }
   .intro p.lead{font-size:17px;line-height:1.6;color:var(--text-bright);}
-  .intro-cta{margin:24px 0 2px;}
+  .intro-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin:24px 0 2px;}
 
   .board{border:1px solid var(--hair-solid);background:var(--surface);padding:26px 22px 10px;}
   .item{
@@ -243,6 +302,75 @@
     text-transform:uppercase;padding:11px 22px;text-decoration:none;font-weight:600;
   }
   .btn-ghost:hover{background:var(--accent);color:var(--btn-text);}
+  /* In the intro the solid and ghost buttons sit as a pair, so they must match.
+     Bring the ghost up to the standard .btn geometry, and give .btn a
+     transparent 1px border so the ghost's real border doesn't leave it 2px
+     taller. Scoped to .intro-cta — the standalone ghost buttons are untouched. */
+  .intro-cta .btn{border:1px solid transparent;}
+  .intro-cta .btn-ghost{
+    font-size:12px;letter-spacing:.26em;text-indent:.26em;padding:14px 30px;
+  }
+
+  /* ---- THE FIRST DOLLAR ----
+     A dive-bar keepsake hung on the wall beside "Just the Right Pour": the first
+     dollar the shop ever made, framed and — like every real bar's — never quite
+     straight. Unassuming by design; you catch it on the way past, and it levels
+     itself when you do. It's a physical object, so the bill keeps its own money
+     colors (the napkin bottle SVG does the same) while the frame and caption sit
+     in the house's warm tones. Two-up beside the copy on desktop; tucked in
+     small under it on phones. */
+  .pour-copy{min-width:0;}
+  .first-dollar{
+    margin:34px auto 0;width:164px;                 /* phone: tucked in, centered */
+    transform:rotate(-3.5deg);transform-origin:50% 7%;   /* hangs from the nail */
+    transition:transform .55s cubic-bezier(.2,.8,.2,1);
+  }
+  .first-dollar:hover{transform:rotate(0);}
+  /* the frame: a bronze moulding around a matted, glazed opening */
+  .fd-frame{
+    position:relative;padding:8px;border-radius:2px;
+    background:linear-gradient(150deg,#7a5a2a,#3a2a15 58%,#5a4220);
+    box-shadow:0 12px 26px -12px rgba(0,0,0,.7),
+               inset 0 0 0 1px rgba(0,0,0,.55),
+               inset 0 0 0 2px rgba(255,255,255,.05);
+  }
+  /* the mat: the dark card the bill and its caption sit on, recessed under the
+     glass, so the inner shadow reads as depth behind glazing */
+  .fd-mat{
+    background:#17130f;padding:12px 13px 16px;border-radius:1px;
+    box-shadow:inset 0 2px 12px rgba(0,0,0,.7);
+  }
+  .fd-bill{display:block;width:100%;height:auto;border-radius:1px;
+    box-shadow:0 1px 3px rgba(0,0,0,.5);}
+  /* a little brass plaque low on the mat — dark text incised into the gold.
+     margin-top opens space off the bill; the mat's bottom padding is the gap
+     to the frame. */
+  .fd-cap{
+    width:fit-content;margin:16px auto 0;white-space:nowrap;
+    padding:4px 9px;border-radius:1px;
+    background:linear-gradient(#c8a35c,#94702f);color:#20160a;
+    font-family:'Oswald',sans-serif;font-size:7.5px;font-weight:600;
+    letter-spacing:.06em;text-indent:.06em;text-transform:uppercase;
+    text-shadow:0 1px 0 rgba(255,255,255,.35);
+    box-shadow:0 1px 4px -1px rgba(0,0,0,.6),
+               inset 0 1px 0 rgba(255,255,255,.45),
+               inset 0 -1px 0 rgba(0,0,0,.28);
+  }
+  /* the glass: one sheet over the whole opening — a diagonal reflection and a
+     hairline edge, so bill and caption both sit behind glazing */
+  .fd-glass{
+    position:absolute;inset:8px;pointer-events:none;border-radius:1px;
+    background:linear-gradient(125deg,
+              rgba(255,255,255,.24) 0 9%,
+              rgba(255,255,255,.05) 24% 30%,
+              transparent 46% 62%,
+              rgba(255,255,255,.03) 82%,
+              rgba(255,255,255,.12) 100%);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
+  }
+  @media (prefers-reduced-motion:reduce){
+    .first-dollar{transition:none;}   /* still levels on hover, just no glide */
+  }
 
   /* ============ CROSS-STITCH SAMPLER ============ */
   .frame{
@@ -337,7 +465,7 @@
   .tab-field input{
     width:100%;background:transparent;color:var(--text);
     border:1px solid var(--hair-solid);border-radius:0;
-    font-family:'DM Mono',monospace;font-size:13px;line-height:1.6;padding:11px 12px;
+    font-family:'Lora',serif;font-size:15px;line-height:1.6;padding:11px 12px;
   }
   .tab-field input:focus{outline:none;border-color:var(--accent);}
   /* a field only a bot fills in. Off-screen rather than display:none, which
@@ -496,6 +624,14 @@
     .shell{max-width:1040px;padding:0 32px;}
     section{padding:76px 0 10px;}
 
+    /* "Just the Right Pour" hangs the framed dollar in the empty space to the
+       right of its prose. The copy keeps its ~52ch measure; the dollar centers
+       in the leftover column. */
+    .pour{display:grid;grid-template-columns:minmax(0,52ch) 1fr;
+          align-items:center;column-gap:40px;}
+    .pour .first-dollar{margin:0;width:188px;justify-self:center;}
+    .pour .fd-cap{font-size:9px;letter-spacing:.08em;text-indent:.08em;margin-top:20px;}
+
     .board{
       display:grid;grid-template-columns:1fr 1fr;
       column-gap:46px;padding:30px 26px 12px;
@@ -526,9 +662,9 @@
   .scroll-cue{
     position:fixed;left:0;right:0;bottom:5vh;z-index:35;
     display:flex;justify-content:center;pointer-events:none;
-    /* tied to the dock, so it is gone by the time the sign is a header —
+    /* tied to --enter, so it is gone as soon as the sign starts its descent —
        and comes back if you return to the top */
-    opacity:calc(1 - var(--dock));
+    opacity:calc(1 - var(--enter));
   }
   /* held back a couple of seconds: it should read as a prompt to someone who
      has stopped to look, not as one more thing arriving with the sign */
@@ -562,8 +698,6 @@
 </style>
 </head>
 <body>
-
-<h1 class="visually-hidden">Vandy's Software Solutions — Software on tap</h1>
 
 <button class="switch" id="switch">Lights on</button>
 
@@ -609,15 +743,21 @@
 <main class="shell">
 
   <section class="intro">
-    <p class="eyebrow">Behind the Bar</p>
-    <p class="lead">The best software doesn't start with code. It starts with connection.</p>
-    <p>I'm Noah, a full-stack software engineer in Kansas City. I build web applications for businesses that need something specific and can't buy it off the shelf. Small shop, so you talk to the person writing the code.</p>
-    <p>I love working directly with clients because someone has an idea they're excited about, and I want to bring that to life. I take a few projects at a time so each one gets real attention.</p>
-    <p class="intro-cta"><a class="btn-ghost" href="about.html">More about me</a></p>
+    <h1 class="hero-title">Custom web apps for Kansas City businesses.</h1>
+    <p class="lead">Built by the person who actually writes the code. I'm Noah — a full-stack software engineer who takes on a few projects at a time, so yours gets real attention start to finish.</p>
+    <p>I build software for businesses that need something specific and can't buy it off the shelf — custom apps, marketing sites, dashboards, and repairs to software that works but hurts. The best of it doesn't start with code; it starts with understanding what you're actually trying to do.</p>
+    <!-- "Pull up a stool" scrolls to the napkin form at the foot of the page.
+         Live scheduling (a Google Calendar embed) is tabled for now; the old
+         scheduler URL is parked here so it's a one-line restore if that changes:
+         https://calendar.google.com/calendar/appointments/schedules/AcZssZ2e833NYThrb2mdEEw9gv4DAQ1IgNcFIepKsXLLRE4D-_Zn4vJNC7hIuzslhG48hj9a5O47OJL0?gv=true -->
+    <p class="intro-cta">
+      <a class="btn" href="#tab">Pull up a stool</a>
+      <a class="btn-ghost" href="about.html">More about me</a>
+    </p>
   </section>
 
   <section>
-    <p class="eyebrow">What's on tap</p>
+    <h2 class="section-title">What's on tap</h2>
     <div class="board">
       <div class="item">
         <h3>Custom Apps</h3><div class="dots"></div>
@@ -646,14 +786,30 @@
     </div>
   </section>
 
-  <section class="intro">
-    <p class="eyebrow">Just the Right Pour</p>
-    <p class="lead">The most expensive software is the software nobody needed.</p>
-    <p>It's tempting to build for the company you hope to be in five years. I'd rather build for the one you are now, with room to grow into the rest. That usually means fewer features built properly, and a plan for what comes next instead of a bill for all of it up front.</p>
+  <section class="intro pour">
+    <div class="pour-copy">
+      <h2 class="section-title">Just the Right Pour</h2>
+      <p class="lead">The most expensive software is the software nobody needed.</p>
+      <p>It's tempting to build for the company you hope to be in five years. I'd rather build for the one you are now, with room to grow into the rest. That usually means fewer features built properly, and a plan for what comes next instead of a bill for all of it up front.</p>
+    </div>
+
+    <!-- the first dollar the shop made, matted and framed on the wall. The bill
+         is decorative (empty alt); the caption text carries the meaning, printed
+         on the mat and sitting behind the same glass. -->
+    <div class="first-dollar">
+      <div class="fd-frame">
+        <div class="fd-mat">
+          <img class="fd-bill" src="assets/first-dollar.jpg" alt=""
+               width="600" height="252" loading="lazy" decoding="async">
+          <p class="fd-cap">First dollar, August 2026</p>
+        </div>
+        <span class="fd-glass" aria-hidden="true"></span>
+      </div>
+    </div>
   </section>
 
   <section>
-    <p class="eyebrow">House rules</p>
+    <h2 class="section-title">House rules</h2>
     <div class="frame">
       <div class="sampler">
         <div class="band"></div>
@@ -666,7 +822,7 @@
   </section>
 
   <section>
-    <p class="eyebrow">The regulars</p>
+    <h2 class="section-title">The regulars</h2>
     <div class="regulars">
       <div class="quote">
         <p>[Client quote goes here — one or two sentences about what you built and what changed for their business.]</p>
@@ -680,7 +836,7 @@
   </section>
 
   <section>
-    <p class="eyebrow">On the shelf</p>
+    <h2 class="section-title">On the shelf</h2>
     <div class="shelf">
       <div class="job">
         <div class="status">Own product</div>
@@ -700,7 +856,7 @@
   </section>
 
   <section>
-    <p class="eyebrow">Ask the bartender</p>
+    <h2 class="section-title">Ask the bartender</h2>
     <div class="faq">
       <details>
         <summary>What does a project cost?</summary>
@@ -794,7 +950,7 @@
     <div class="tab-send">
       <button class="btn" type="submit">Send it over</button>
       <p class="tab-status" role="status" aria-live="polite" hidden></p>
-      <p class="tab-alt">Rather talk it through? <a href="contact.html">Pull up a stool.</a></p>
+      <p class="tab-alt">Rather write? <a href="mailto:noah@vandyssoftware.com">noah@vandyssoftware.com</a></p>
     </div>
 
   </form>
@@ -861,6 +1017,20 @@
      further than it did when the chains started a quarter-screen down */
   var MAX_SWING      = 3.5;
 
+  /* --- the parked-right waypoint (desktop only) ---
+     Stage A lowers the sign onto its chains and floats it into the empty
+     column to the right of the intro copy; Stage B takes it from there to
+     the top-left header. These three knobs place the parked sign — tune by
+     eye against the "Behind the Bar" section. */
+  var PARK_SCALE   = 0.5;    /* sign size while parked, relative to full */
+  var PARK_X_FRAC  = 0.72;   /* horizontal centre of the parked sign, as a fraction of viewport width */
+  var PARK_TOP_VH  = 0.28;   /* panel top the moment it parks, in viewport heights */
+  /* once parked the sign is anchored to the page and rides up with the scroll,
+     staying beside the section, until its top reaches TOP_TRIGGER_VH — "about to
+     hit the top" — where it peels off into the corner. Small = it climbs nearly
+     out of view with the section before docking; raise it to peel off earlier. */
+  var TOP_TRIGGER_VH = 0.05;
+
   /* a viewport-sized sign has no single correct dock scale or runway length —
      both get measured off the rendered panel instead of guessed in vh */
   var panel     = document.querySelector('.panel');
@@ -868,6 +1038,12 @@
   var heroSpace = document.querySelector('.hero-space');
   var dockScale = 0.34;
   var dockDistance = 460;
+  /* desktop three-stage runway: park completes at parkDistance, the top-left
+     dock at dockDistance2. Set in measure(); unused on phones. */
+  var isWide = false;
+  var parkDistance = 460;
+  var holdDistance = 600;   /* scroll the sign stays pinned beside the intro */
+  var dockDistance2 = 920;
 
   var hangerW = 0;
   var clientW = root.clientWidth;
@@ -897,12 +1073,14 @@
     if(!h) return;
     dockScale = clamp(DOCK_PANEL_PX / h, 0.06, 0.5);
 
-    /* phones keep the runway they have always had */
+    /* phones keep the runway they have always had — one-stage dock, no park */
     if(window.innerWidth < 900){
+      isWide = false;
       if(heroSpace) heroSpace.style.height = '';
       dockDistance = 460;
       return;
     }
+    isWide = true;
 
     /* the runway only has to clear the sign at rest — any taller and the
        sign docks while the intro is still a screen away, which reads as
@@ -912,9 +1090,14 @@
     var runway = clamp(signBottom + vh * 0.06, vh * 0.55, vh * 0.94);
     if(heroSpace) heroSpace.style.height = Math.round(runway) + 'px';
 
-    /* finish docking well before the runway ends so the intro arrives into
-       an already-settled header rather than a bare screen */
-    dockDistance = Math.max(240, runway * 0.55);
+    /* Stage A finishes a little past the runway so the sign parks just as the
+       intro settles into view. It is then anchored to the page and rides up
+       with the scroll for holdDistance — the 1:1 climb from the parked height
+       to the top trigger — before Stage B peels it into the top-left header. */
+    parkDistance  = Math.max(240, runway * 0.62);
+    holdDistance  = Math.max(0, (PARK_TOP_VH - TOP_TRIGGER_VH) * vh);
+    dockDistance2 = parkDistance + holdDistance + Math.max(vh * 0.35, runway * 0.5);
+    dockDistance  = parkDistance; /* kept in sync for any legacy reader */
   }
   window.addEventListener('resize', measure, {passive:true});
   window.addEventListener('load', measure);
@@ -929,6 +1112,9 @@
   function lerp(a,b,t){ return a + (b-a)*t; }
   function clamp(v,lo,hi){ return v < lo ? lo : (v > hi ? hi : v); }
   function easeOutCubic(t){ return 1 - Math.pow(1-t, 3); }
+  /* eased both ends — Stage B glides out of the park and into the dock without
+     a hard start or stop */
+  function smooth(t){ return t * t * (3 - 2 * t); }
 
   window.addEventListener('scroll', function(){
     var y = window.scrollY || 0;
@@ -946,41 +1132,97 @@
   measure();
 
   function frame(){
-    var dock = easeOutCubic(clamp((window.scrollY || 0) / dockDistance, 0, 1));
-    var s = lerp(HERO_SCALE, dockScale, dock);
-    /* --drop sits inside the scaled hanger, so divide it back out and the
-       value becomes on-screen pixels — without this the docked chain is
-       multiplied by the dock scale and all but disappears */
-    var drop = lerp(window.innerHeight * HERO_DROP_VH, DOCK_DROP_PX, dock) / s;
+    var y  = window.scrollY || 0;
+    var vh = window.innerHeight;
+
+    /* dock  = header progress: 0 until the sign leaves the park, 1 top-left.
+                Everything reading --dock (the bar, the wall, the tag/legal
+                fades, the swing damping) keys off this, so the sign stays a
+                floating sign while parked and only becomes a header in Stage B.
+       enter = descent progress: 0 at rest, 1 once parked. Drives the cue.
+       dropPx = the on-screen chain length; slide = horizontal offset from the
+                flex-centre, in screen px.
+       swingGain = whether the scroll feeds the pendulum. 1 on the hero descent
+                and once docked; 0 through the parked climb so it doesn't jitter
+                while stuck to the section. */
+    var dock, enter, s, dropPx, slide, swingGain = 1;
+
+    /* .stage flex-centres the hanger and the scale pins that centre, so the
+       shrunk sign's left edge sits at (vw - W*s)/2. The docked slide puts that
+       edge at DOCK_PAD_PX instead. clientWidth, not innerWidth: .stage is
+       fixed, so it centres inside the client box and innerWidth would offset it
+       by half a scrollbar. */
+    if(isWide){
+      /* three phases:
+         A  centre -> parked right (the snap)
+         -  anchored climb: fixed to the page, rising 1:1 with the scroll so it
+            stays beside the section until its top nears the ceiling
+         B  peel off into the top-left header
+         pB only starts counting once the climb is over. */
+      var parkTopPx    = PARK_TOP_VH * vh;
+      var topTriggerPx = TOP_TRIGGER_VH * vh;
+      var holdEnd      = parkDistance + holdDistance;
+      var pA = clamp(y / parkDistance, 0, 1);
+      var pB = clamp((y - holdEnd) / (dockDistance2 - holdEnd), 0, 1);
+      enter = easeOutCubic(pA);
+      dock  = smooth(pB);
+      var parkSlide = clientW * (PARK_X_FRAC - 0.5);
+
+      if(pA < 1){
+        /* A: descend from centre into the parked point */
+        s      = lerp(HERO_SCALE, PARK_SCALE, enter);
+        dropPx = lerp(vh * HERO_DROP_VH, parkTopPx, enter);
+        slide  = lerp(0, parkSlide, enter);
+      } else if(pB <= 0){
+        /* anchored climb: hold the parked scale and column, but let the chain
+           shorten exactly as fast as the page scrolls, so the panel keeps a
+           fixed spot in the document (top = parkDistance + parkTopPx) and rides
+           up with the section instead of floating in the viewport */
+        s      = PARK_SCALE;
+        slide  = parkSlide;
+        dropPx = clamp(parkTopPx - (y - parkDistance), topTriggerPx, parkTopPx);
+        swingGain = 0; /* stay still while stuck to the section */
+      } else {
+        /* B: from the top trigger, shrink and slide left into the corner.
+           Recompute the docked edge against the live s so it lands exactly at
+           DOCK_PAD_PX however the easing got there. */
+        s      = lerp(PARK_SCALE, dockScale, dock);
+        dropPx = lerp(topTriggerPx, DOCK_DROP_PX, dock);
+        var target = hangerW ? (DOCK_PAD_PX - (clientW - hangerW * s) / 2) : 0;
+        slide  = lerp(parkSlide, target, dock);
+      }
+    } else {
+      /* phones: the original one-stage dock, unchanged */
+      dock  = easeOutCubic(clamp(y / dockDistance, 0, 1));
+      enter = dock;
+      s      = lerp(HERO_SCALE, dockScale, dock);
+      dropPx = lerp(vh * HERO_DROP_VH, DOCK_DROP_PX, dock);
+      slide  = hangerW ? (DOCK_PAD_PX - (clientW - hangerW * s) / 2) * dock : 0;
+    }
 
     if(!reduce){
-      vel += pendingDelta * IMPULSE;
+      vel += pendingDelta * IMPULSE * swingGain;
       vel += -angle * STIFFNESS;
       vel *= DAMPING;
       angle += vel;
       angle = clamp(angle, -MAX_SWING, MAX_SWING);
       angle *= (1 - dock * 0.75);
+      /* through the parked climb, actively settle any residual swing to zero
+         and ignore new scroll impulse, so the stuck sign reads as rock-steady */
+      if(swingGain === 0){ angle *= 0.8; vel *= 0.8; }
 
       tiltX = lerp(tiltX, targetTiltX * (1 - dock), 0.08);
       tiltY = lerp(tiltY, targetTiltY * (1 - dock), 0.08);
     }
     pendingDelta = 0;
 
-    /* .stage flex-centres the hanger and the scale pins that centre, so the
-       shrunk sign's left edge sits at (vw - W*s)/2. Slide by whatever is
-       left over to put it at DOCK_PAD_PX instead, scaled by dock so it
-       leaves centre only as it rises. Recomputed against the live s, so the
-       edge lands exactly whatever easing curve got it there.
-       clientWidth, not innerWidth: .stage is fixed, so it centres inside the
-       client box and innerWidth would offset it by half a scrollbar. */
-    var slide = 0;
-    if(hangerW){
-      slide = (DOCK_PAD_PX - (clientW - hangerW * s) / 2) * dock;
-    }
-
+    /* --drop sits inside the scaled hanger, so divide it back out and the
+       value becomes on-screen pixels — without this the chain is multiplied by
+       the scale and all but disappears */
     write('--slide', slide.toFixed(2) + 'px');
     write('--dock',  dock.toFixed(4));
-    write('--drop',  drop.toFixed(2) + 'px');
+    write('--enter', enter.toFixed(4));
+    write('--drop',  (dropPx / s).toFixed(2) + 'px');
     write('--s',     s.toFixed(4));
     write('--swing', angle.toFixed(3) + 'deg');
     write('--tiltX', tiltX.toFixed(3) + 'deg');
@@ -997,7 +1239,7 @@
    Enhances the napkin form: intercept submit, POST the fields as JSON to the
    Lambda Function URL in data-endpoint, and swap the form for a confirmation
    without leaving the page. No JS → the form does nothing, which is why the
-   "Pull up a stool" link and the emailable address on contact.html exist. */
+   "rather write" email link below the button is the static fallback. */
 (function(){
   var form = document.getElementById('tab-form');
   if(!form) return;
