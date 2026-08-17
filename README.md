@@ -17,7 +17,9 @@ Copy changes should keep that voice.
 | `index.html` | Home page. Hero sign, services, testimonials, work, FAQ. |
 | `about.html` | Bio page. "Who's pouring," who I work with, the long way around, passing it on, off the clock. |
 | `house-rules.html` | How an engagement runs — process, terms, plain-english glossary. |
+| `faq.html` | The FAQ — "Ask the bartender," a single-column accordion list (native `<details>`, so answers stay in the HTML while collapsed) with a "still need help" contact prompt up top. Carries the site's `FAQPage` schema; `index.html` teases and links here rather than repeating it. |
 | `styles.css` | Shared foundation: theme palette, base reset, page chrome, closer/footer. |
+| `snackbar.html` | Living style guide (unlisted, `noindex`): the theme tokens + components rendered off the real `styles.css`. Open it to see the whole system at a glance and flip the toggle for both palettes. |
 | `infra/` | CDK backend for the contact form — Lambda Function URL + SES. Self-contained; see `infra/README.md`. |
 
 Page-specific CSS stays inline in the page that uses it — the hanging sign and
@@ -42,6 +44,50 @@ navigation. Reading it back happens in an inline `<script>` in each page's
 `<head>`, before first paint — move it and the other theme flashes on every
 page load. To retheme, change the two `[data-theme]` blocks at the top of
 `styles.css` — never hardcode a color further down.
+
+**The design system — see `snackbar.html`.** `snackbar.html` is a living style
+guide: an unlisted (`noindex`) page that renders the real tokens and every
+component off the actual `styles.css`. It's the reference — open it to see the
+whole theme at a glance, flip the toggle for both palettes, and keep it current
+when the system changes.
+
+The palette is organized as **roles**, so re-tinting the site is a couple of
+values per theme, not a find-and-replace:
+
+- **Brand:** `--primary` (CTAs and important highlights) and `--secondary`
+  (small accents — rules, tags, status). Change these two per `[data-theme]`
+  block; `--accent`/`--accent2` alias them and the components follow.
+- **Text:** `--heading` (titles), `--text` (body), `--muted` (kickers/eyebrows,
+  captions).
+- **Display:** `--script` — the Yellowtail neon, for the sign and closers only.
+
+Rules that are deliberate, not accidents — don't quietly undo them:
+
+- **No amber.** The old amber accent was removed on purpose; the palette is
+  cream + red + cyan over the dark bar photo.
+- **Body text stays `--text`** — never an accent color. A statement line
+  (`.lead`) may take `--secondary` (cyan in dark) for a pop, but running copy
+  stays readable ink.
+- **`--primary` is for CTAs and highlights only.** That discipline is what makes
+  the red draw the eye to the thing worth clicking.
+- **Light is red-forward:** in light, `--heading` uses `--primary` (red menu
+  headers); dark keeps headings neutral cream. Intentional asymmetry.
+- **Fonts:** Oswald (all signage — headers, eyebrows, buttons, labels, tags),
+  Lora (body and form fields), Yellowtail (the neon script), Caveat (the napkin
+  note), Pixelify Sans (sparingly). Loaded per page via the Google Fonts `<link>`.
+- **Component and type CSS lives inline in `index.html`**, not `styles.css`, so
+  `snackbar.html` *mirrors* those rules with a "source of truth is index.html"
+  note. Restyle a component there and update the mirror too — or lift the shared
+  CSS into `styles.css` so the guide renders it for free.
+
+**The background & the button glow.** The dark theme sits on a darkened
+stickerbomb wall (`assets/stickerbomb-bg.jpg`) painted on a fixed `body::before`, dimmed by
+`--bg-veil` (dark theme only). The base color lives on `<html>` and the `body`
+is transparent so the photo shows behind the content — **don't put an opaque
+background back on `body`** or it covers the photo. On hover/focus the solid
+`.btn` "switches on" like the sign: the fill drops out and a neon outline + glow
+(`--glow-btn` / `--glow-btn-text`) lights up; those glow vars are `none` in the
+light theme, where it degrades to a filled → outline color change.
 
 **The hanging sign.** The hero is a fixed-position rig that swings on scroll with
 spring physics and tilts toward the cursor. Its moving parts are CSS custom
@@ -71,8 +117,9 @@ it. Below 900px the page is one 680px column; above it the column widens to
 line length is too long to read comfortably.
 
 **Accessibility.** Honors `prefers-reduced-motion` (the sign stops swinging and
-the neon stops buzzing). The decorative sign rig is `aria-hidden`, with a real
-`<h1>` provided visually-hidden.
+the neon stops buzzing). The decorative sign rig is `aria-hidden`; the real
+`<h1>` on `index.html` is now the visible hero headline (`.hero-title`) in the
+intro, not a hidden one (`about.html` still uses a visually-hidden `<h1>`).
 
 **Reaching out.** Every `Pull up a stool` CTA — the home-page intro button and
 the `about` / `house-rules` closers — anchors to the "start a tab" napkin form at

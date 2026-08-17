@@ -82,18 +82,6 @@
       "jobTitle": "Full-stack software engineer",
       "worksFor": { "@id": "https://vandyssoftware.com/#business" },
       "url": "https://vandyssoftware.com/about.html"
-    },
-    {
-      "@type": "FAQPage",
-      "@id": "https://vandyssoftware.com/#faq",
-      "mainEntity": [
-        { "@type": "Question", "name": "What does a project cost?", "acceptedAnswer": { "@type": "Answer", "text": "It depends on scope, which is exactly why the SOW exists. After a short conversation I'll put a fixed price and timeline in writing before anyone commits to anything." } },
-        { "@type": "Question", "name": "How long does a build take?", "acceptedAnswer": { "@type": "Answer", "text": "A marketing site runs a few weeks. A full custom application runs a few months. I'd rather give you an honest range up front than a fast number I have to walk back." } },
-        { "@type": "Question", "name": "Will you work on software someone else built?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — that's a good share of the work. I'll start with a short review of what's there and tell you plainly whether it's worth repairing or replacing." } },
-        { "@type": "Question", "name": "What happens after launch?", "acceptedAnswer": { "@type": "Answer", "text": "Defects are covered during the warranty window named in your SOW. Past that, you can bring me back for changes as needed or set up a monthly retainer if you'd rather have standing time on the calendar." } },
-        { "@type": "Question", "name": "Do you sign NDAs?", "acceptedAnswer": { "@type": "Answer", "text": "Happily, on request, before we get into specifics. Confidentiality is also built into the MSA." } },
-        { "@type": "Question", "name": "Are you local?", "acceptedAnswer": { "@type": "Answer", "text": "Based in Kansas City and glad to meet in person. Most work happens remotely, so location isn't a requirement on your end." } }
-      ]
     }
   ]
 }
@@ -273,7 +261,7 @@
     font-size:clamp(30px,7vw,50px);line-height:1.03;letter-spacing:.01em;
     max-width:16ch;margin:0 0 20px;color:var(--text-bright);
   }
-  .intro p.lead{font-size:17px;line-height:1.6;color:var(--text-bright);}
+  .intro p.lead{font-size:17px;line-height:1.6;color:var(--secondary);}
   .intro-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin:24px 0 2px;}
 
   .board{border:1px solid var(--hair-solid);background:var(--surface);padding:26px 22px 10px;}
@@ -428,16 +416,8 @@
     text-transform:uppercase;border:1px solid var(--hair-solid);padding:3px 9px;color:var(--muted);
   }
 
-  details{border-bottom:1px solid var(--hair);padding:14px 0;}
-  details summary{
-    cursor:pointer;list-style:none;font-family:'Oswald',sans-serif;font-weight:600;
-    font-size:13px;letter-spacing:.06em;color:var(--text-bright);
-    display:flex;justify-content:space-between;gap:14px;align-items:center;
-  }
-  details summary::-webkit-details-marker{display:none;}
-  details summary::after{content:"+";color:var(--accent);font-size:16px;line-height:1;}
-  details[open] summary::after{content:"–";}
-  details p{margin:12px 0 2px;font-size:13px;color:var(--muted);line-height:1.65;}
+  /* The FAQ moved to its own page — see faq.html (open bar-menu list + the
+     FAQPage schema). Index just teases it and links out. */
 
   @media (max-width:520px){
     .word{font-size:54px;}
@@ -639,10 +619,7 @@
     /* last row of two loses the divider, not just the final item */
     .item:nth-last-child(-n+2){border-bottom:0;padding-bottom:0;margin-bottom:18px;}
 
-    .regulars,.shelf,.faq{display:grid;grid-template-columns:1fr 1fr;column-gap:46px;}
-    .faq details{align-self:start;}
-    .faq summary{font-size:15px;}
-    .faq details p{font-size:14.5px;line-height:1.7;}
+    .regulars,.shelf{display:grid;grid-template-columns:1fr 1fr;column-gap:46px;}
 
     /* the sampler was sized against a 680px column and reads small in 1040 */
     .frame{max-width:620px;border-width:12px;}
@@ -809,19 +786,6 @@
   </section>
 
   <section>
-    <h2 class="section-title">House rules</h2>
-    <div class="frame">
-      <div class="sampler">
-        <div class="band"></div>
-        <div class="stitched">HOUSE<br>RULES</div>
-        <div class="band flip"></div>
-      </div>
-    </div>
-    <p class="blurb">One master agreement signed once, a statement of work for each project, and an NDA any time you want one. Scope, price, and ownership all go in writing before I start — so nothing about the paperwork is a surprise later.</p>
-    <p class="blurb-cta"><a class="btn-ghost" href="house-rules.html">Read the house rules</a></p>
-  </section>
-
-  <section>
     <h2 class="section-title">The regulars</h2>
     <div class="regulars">
       <div class="quote">
@@ -833,6 +797,19 @@
         <div class="by">— Name, Title, Company</div>
       </div>
     </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">House rules</h2>
+    <div class="frame">
+      <div class="sampler">
+        <div class="band"></div>
+        <div class="stitched">HOUSE<br>RULES</div>
+        <div class="band flip"></div>
+      </div>
+    </div>
+    <p class="blurb">One master agreement signed once, a statement of work for each project, and an NDA any time you want one. Scope, price, and ownership all go in writing before I start — so nothing about the paperwork is a surprise later.</p>
+    <p class="blurb-cta"><a class="btn-ghost" href="house-rules.html">Read the house rules</a></p>
   </section>
 
   <section>
@@ -857,32 +834,8 @@
 
   <section>
     <h2 class="section-title">Ask the bartender</h2>
-    <div class="faq">
-      <details>
-        <summary>What does a project cost?</summary>
-        <p>It depends on scope, which is exactly why the SOW exists. After a short conversation I'll put a fixed price and timeline in writing before anyone commits to anything.</p>
-      </details>
-      <details>
-        <summary>How long does a build take?</summary>
-        <p>A marketing site runs a few weeks. A full custom application runs a few months. I'd rather give you an honest range up front than a fast number I have to walk back.</p>
-      </details>
-      <details>
-        <summary>Will you work on software someone else built?</summary>
-        <p>Yes — that's a good share of the work. I'll start with a short review of what's there and tell you plainly whether it's worth repairing or replacing.</p>
-      </details>
-      <details>
-        <summary>What happens after launch?</summary>
-        <p>Defects are covered during the warranty window named in your SOW. Past that, you can bring me back for changes as needed or set up a monthly retainer if you'd rather have standing time on the calendar.</p>
-      </details>
-      <details>
-        <summary>Do you sign NDAs?</summary>
-        <p>Happily, on request, before we get into specifics. Confidentiality is also built into the MSA.</p>
-      </details>
-      <details>
-        <summary>Are you local?</summary>
-        <p>Based in Kansas City and glad to meet in person. Most work happens remotely, so location isn't a requirement on your end.</p>
-      </details>
-    </div>
+    <p class="blurb">Cost, timelines, what I build with, working with your team, what happens after launch — the questions people actually ask, answered straight.</p>
+    <p class="blurb-cta"><a class="btn-ghost" href="faq.html">Read the FAQ</a></p>
   </section>
 
 </main>

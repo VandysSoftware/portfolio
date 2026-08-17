@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0B0A0A">
+<script>
+/* see index.html — applies a remembered theme before first paint */
+(function(){
+  try{
+    var saved = localStorage.getItem('vandys-theme');
+    if(saved !== 'light' && saved !== 'dark') return;
+    document.documentElement.setAttribute('data-theme', saved);
+    document.querySelector('meta[name="theme-color"]')
+      .setAttribute('content', saved === 'dark' ? '#0B0A0A' : '#E8DCC0');
+  }catch(e){}
+})();
+</script>
+<title>FAQ — Vandy's Software Solutions</title>
+<meta name="description" content="Straight answers to what people actually ask a Kansas City software developer — project cost, timelines, the tech stack, working with your team, NDAs, and what happens after launch.">
+<link rel="canonical" href="https://vandyssoftware.com/faq.html">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="manifest" href="site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vandy's Software Solutions">
+<meta property="og:title" content="FAQ — Vandy's Software Solutions">
+<meta property="og:description" content="Cost, timelines, the tech stack, and what happens after launch — the questions people actually ask, answered straight.">
+<meta property="og:url" content="https://vandyssoftware.com/faq.html">
+<meta property="og:image" content="https://vandyssoftware.com/assets/og-card.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Vandy's — Software on tap">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FAQ — Vandy's Software Solutions">
+<meta name="twitter:description" content="Cost, timelines, the tech stack, and what happens after launch — answered straight.">
+<meta name="twitter:image" content="https://vandyssoftware.com/assets/og-card.png">
+<meta name="twitter:image:alt" content="Vandy's — Software on tap">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Oswald:wght@400;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<!-- FAQ structured data — matches the visible Q&A on this page exactly. This is
+     the ONE page carrying the FAQPage schema; index links here rather than
+     repeating it, so there's no duplicate FAQ markup across URLs. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://vandyssoftware.com/faq.html#faq",
+  "url": "https://vandyssoftware.com/faq.html",
+  "mainEntity": [
+    { "@type": "Question", "name": "What does a project cost?", "acceptedAnswer": { "@type": "Answer", "text": "A fixed price, quoted up front — never an open meter. After a short scoping call I put the price and timeline in writing before anyone commits, so the paperwork is never a surprise. The number scales with scope: a marketing site and a full application aren't the same order. The house rules lay out how it's set." } },
+    { "@type": "Question", "name": "How long does a build take?", "acceptedAnswer": { "@type": "Answer", "text": "A marketing site runs a few weeks; a full custom application runs a few months. After the scoping call you get an honest range in writing up front — not a fast number I have to walk back later." } },
+    { "@type": "Question", "name": "What do you build with?", "acceptedAnswer": { "@type": "Answer", "text": "Mostly TypeScript on Next.js and React, with Postgres for data and AWS for hosting — the same stack behind my own product, Afterword. I lean on tools that are boring in the best way: well-supported, easy to hand off, and still here in five years. If you already have a stack, I'll work in it." } },
+    { "@type": "Question", "name": "Will you work on software someone else built?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — it's a good share of the work. I start with a short review of what's there and tell you plainly whether it's worth repairing or replacing, before you spend anything on either. No band-aids on something that should be rebuilt, and no rewrite you don't actually need." } },
+    { "@type": "Question", "name": "Can you work with my in-house team?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. I can lead a build on my own or plug into an existing team — reviewing code, filling a gap, or pairing with your developers. Small shop means you work directly with the person writing the code either way, never a junior you're handed off to." } },
+    { "@type": "Question", "name": "What happens after launch?", "acceptedAnswer": { "@type": "Answer", "text": "Defects are covered during the warranty window named in your statement of work. After that, bring me back for changes as they come up, or set up a monthly retainer if you'd rather have standing time on the calendar. Either way, the code is yours." } },
+    { "@type": "Question", "name": "Do you sign NDAs?", "acceptedAnswer": { "@type": "Answer", "text": "Happily — on request, before we get into specifics. Confidentiality is also built into the master agreement, so it's covered whether or not we sign a separate NDA. Your idea stays your idea." } },
+    { "@type": "Question", "name": "Do you work with Kansas City businesses?", "acceptedAnswer": { "@type": "Answer", "text": "Yes — I'm based in Kansas City and glad to meet in person over coffee or a beer. Most of the work happens remotely, though, so being local isn't a requirement on your end. I work with clients wherever they are." } },
+    { "@type": "Question", "name": "How do we get started?", "acceptedAnswer": { "@type": "Answer", "text": "Pull up a stool — start a tab with a short note about what you're building. We'll set up a quick call to talk through scope, and if it's a fit, I'll send a fixed price and timeline in writing. No pressure, and no obligation to book." } }
+  ]
+}
+</script>
+<style>
+  /* Palette, base and page chrome live in styles.css.
+     Below: the components unique to this page. */
+
+  /* page head — matches house-rules.html */
+  header{
+    text-align:center;padding:62px 20px 46px;border-bottom:1px solid var(--hair);
+  }
+  .back{
+    display:inline-block;font-family:'Oswald',sans-serif;font-size:10px;
+    letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+    text-decoration:none;margin-bottom:24px;
+  }
+  .back:hover{color:var(--text-bright);}
+  h1.title{
+    font-family:'Oswald',sans-serif;font-weight:600;font-size:19px;
+    letter-spacing:.36em;text-indent:.36em;text-transform:uppercase;
+    margin:0 0 12px;color:var(--heading);
+  }
+  header p{margin:0 auto;max-width:48ch;font-size:13px;color:var(--muted);}
+
+  /* ---- STILL NEED HELP (a prompt up top, the way Buy Me a Coffee does it) ---- */
+  .help{
+    max-width:640px;margin:0 auto 10px;border:1px solid var(--hair-solid);
+    background:var(--surface);padding:20px 22px;
+  }
+  .help-q{
+    font-family:'Oswald',sans-serif;font-weight:600;font-size:12px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--heading);margin:0 0 6px;
+  }
+  .help-a{margin:0;font-size:14px;line-height:1.6;color:var(--muted);}
+  .help-a a{color:var(--primary);text-decoration:underline;text-underline-offset:2px;}
+
+  /* ---- THE MENU ----
+     A stack of accordions — click a question to pour the answer. Native
+     <details>, so every answer is still in the HTML for crawlers and LLMs even
+     while collapsed. The +/- marker sits in --primary. */
+  .ask{max-width:640px;margin:0 auto;}
+  .qa{border-bottom:1px dashed var(--hair);}
+  .qa:last-child{border-bottom:0;}
+  .qa .q{
+    cursor:pointer;list-style:none;display:flex;justify-content:space-between;
+    gap:18px;align-items:center;padding:20px 0;
+    font-family:'Oswald',sans-serif;font-weight:600;font-size:17px;letter-spacing:.01em;
+    line-height:1.3;color:var(--heading);transition:color .15s ease;
+  }
+  .qa .q::-webkit-details-marker{display:none;}
+  .qa .q:hover{color:var(--text-bright);}
+  .qa .q::after{
+    content:"+";flex:0 0 auto;color:var(--primary);
+    font-family:'Oswald',sans-serif;font-weight:400;font-size:22px;line-height:1;
+  }
+  .qa[open] .q::after{content:"–";}
+  .qa .a{margin:0;padding:0 0 22px;font-size:15px;line-height:1.7;color:var(--text);max-width:60ch;}
+  .qa .a a{
+    color:var(--primary);text-decoration:underline;
+    text-underline-offset:2px;text-decoration-thickness:1px;
+  }
+
+  /* closer sized like the other inner pages */
+  .closer{margin-top:54px;padding:60px 20px 70px;}
+  .closer .q{font-size:46px;}
+
+  @media (max-width:430px){
+    h1.title{font-size:15px;letter-spacing:.28em;text-indent:.28em;}
+    .qa .q{font-size:17px;}
+    .closer .q{font-size:34px;}
+  }
+</style>
+</head>
+<body>
+
+<button class="switch" id="switch">Lights on</button>
+
+<header>
+  <a class="back" href="index.html">&larr; Back to the bar</a>
+  <h1 class="title">Ask the Bartender</h1>
+  <p>The questions that come up before we work together — cost, timelines, what
+     I build with, and what happens after launch. Straight answers, no runaround.</p>
+</header>
+
+<main class="shell">
+
+  <div class="help">
+    <p class="help-q">Didn't find your question?</p>
+    <p class="help-a">Flag the bartender — <a href="index.html#tab">pull up a stool</a> and ask, or write to <a href="mailto:noah@vandyssoftware.com">noah@vandyssoftware.com</a> and I'll answer it myself.</p>
+  </div>
+
+  <section>
+    <div class="ask">
+
+      <details class="qa">
+        <summary class="q">What does a project cost?</summary>
+        <p class="a">A fixed price, quoted up front — never an open meter. After a short scoping call I put the price and timeline in writing before anyone commits, so the paperwork is never a surprise. The number scales with scope: a marketing site and a full application aren't the same order. The <a href="house-rules.html">house rules</a> lay out how it's set.</p>
+      </details>
+
+      <details class="qa">
+        <summary class="q">How long does a build take?</summary>
+        <p class="a">A marketing site runs a few weeks; a full custom application runs a few months. After the scoping call you get an honest range in writing up front — not a fast number I have to walk back later.</p>
+      </details>
+
+      <details class="qa">
+        <summary class="q">What do you build with?</summary>
+        <p class="a">Mostly TypeScript on Next.js and React, with Postgres for data and AWS for hosting — the same stack behind my own product, Afterword. I lean on tools that are boring in the best way: well-supported, easy to hand off, and still here in five years. If you already have a stack, I'll work in it.</p>
+      </details>
+
+      <details class="qa">
+        <summary class="q">Will you work on software someone else built?</summary>
+        <p class="a">Yes — it's a good share of the work. I start with a short review of what's there and tell you plainly whether it's worth repairing or replacing, before you spend anything on either. No band-aids on something that should be rebuilt, and no rewrite you don't actually need.</p>
+      </details>
+
+      <details class="qa">
+        <summary class="q">Can you work with my in-house team?</summary>
+        <p class="a">Yes. I can lead a build on my own or plug into an existing team — reviewing code, filling a gap, or pairing with your developers. Small shop means you work directly with the person writing the code either way, never a junior you're handed off to.</p>
+      </details>
+
+      <details class="qa">
+        <summary class="q">What happens after launch?</summary>
+        <p class="a">Defects are covered during the warranty window named in your <a href="house-rules.html">statement of work</a>. After that, bring me back for changes as they come up, or set up a monthly retainer if you'd rather have standing time on the calendar. Either way, the code is yours.</p>
+      </details>
+
+      <details class="qa">
+        <summary class="q">Do you sign NDAs?</summary>
+        <p class="a">Happily — on request, before we get into specifics. Confidentiality is also built into the master agreement, so it's covered whether or not we sign a separate NDA. Your idea stays your idea.</p>
+      </details>
+
+      <details class="qa">
+        <summary class="q">Do you work with Kansas City businesses?</summary>
+        <p class="a">Yes — I'm based in Kansas City and glad to meet in person over coffee or a beer. Most of the work happens remotely, though, so being local isn't a requirement on your end. I work with clients wherever they are.</p>
+      </details>
+
+      <details class="qa">
+        <summary class="q">How do we get started?</summary>
+        <p class="a">Pull up a stool — <a href="index.html#tab">start a tab</a> with a short note about what you're building. We'll set up a quick call to talk through scope, and if it's a fit, I'll send a fixed price and timeline in writing. No pressure, and no obligation to book.</p>
+      </details>
+
+    </div>
+  </section>
+</main>
+
+<section class="closer">
+  <div class="q">Still thirsty?</div>
+  <p class="sub">Ask me anything the menu didn't cover.</p>
+  <a class="btn" href="index.html#tab">Pull up a stool</a>
+</section>
+
+<footer>
+  &copy; 2026 Vandy's Software Solutions LLC &middot; <span class="kc">Kansas City, MO</span>
+</footer>
+
+<script>
+  (function(){
+    var root = document.documentElement;
+    var btn  = document.getElementById('switch');
+    var meta = document.querySelector('meta[name="theme-color"]');
+    var BAR  = {dark:'#0B0A0A', light:'#E8DCC0'};
+    /* adopt whatever the head script settled on — see index.html */
+    setTheme(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+    function setTheme(mode){
+      root.setAttribute('data-theme', mode);
+      if(meta) meta.setAttribute('content', BAR[mode]);
+      btn.textContent = mode === 'dark' ? 'Lights on' : 'Lights out';
+      btn.setAttribute('aria-label',
+        mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    }
+    btn.addEventListener('click', function(){
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      setTheme(next);
+      try{ localStorage.setItem('vandys-theme', next); }catch(e){}
+    });
+  })();
+</script>
+
+</body>
+</html>

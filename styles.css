@@ -13,24 +13,35 @@
   --text:#CDBFA4;--text-bright:#ffffff;--muted:rgba(205,191,164,.62);
   --hair:rgba(232,220,192,.16);--hair-solid:rgba(232,220,192,.28);
   --surface:rgba(0,0,0,.35);
-  --script:#FFEAF2;--accent:#FF3D7F;--accent2:#35E0E8;
-  --eyebrow:#E8DCC0;--heading:#E8DCC0;
-  --btn-bg:#E8DCC0;--btn-text:#0B0A0A;
-  /* darkness of the veil over the bar photo — raise toward 1 to darken more */
-  --bg-veil:.92;
+  /* brand roles — primary = CTAs & highlights, secondary = small accents,
+     script = the neon display face. Change these; the accents follow. */
+  --primary:#FF3B3B;--secondary:#35E0E8;
+  --script:#FFEAF2;--accent:var(--primary);--accent2:var(--secondary);
+  /* text roles: --heading (titles), --text (body), --muted (kickers/captions) */
+  --heading:#E8DCC0;
+  --btn-bg:var(--primary);--btn-text:#0B0A0A;
+  /* darkness of the veil over the stickerbomb wall — raise toward 1 to darken more */
+  --bg-veil:.89;
 
   --glow-name-sm:0 0 4px #fff, 0 0 14px #FF3D7F, 0 0 38px rgba(255,61,127,.5);
+  /* the CTA lights up like the sign on hover */
+  --glow-btn:0 0 5px var(--primary), 0 0 16px var(--primary), 0 0 44px rgba(255,59,59,.5);
+  --glow-btn-text:0 0 5px rgba(255,59,59,.9), 0 0 15px rgba(255,59,59,.55);
   --wash3:radial-gradient(ellipse at 50% 60%, rgba(255,61,127,.14), transparent 62%);
 }
 [data-theme="light"]{
   --text:#1E1613;--text-bright:#0F0B09;--muted:rgba(30,22,19,.68);
   --hair:rgba(74,18,32,.22);--hair-solid:rgba(74,18,32,.4);
   --surface:rgba(74,18,32,.045);
-  --script:#4A1220;--accent:#B01243;--accent2:#4A1220;
-  --eyebrow:#96560F;--heading:#96560F;
-  --btn-bg:#4A1220;--btn-text:#E8DCC0;
+  /* brand roles — deep red leads, neon red is the secondary pop */
+  --primary:#C7261E;--secondary:#FF3B3B;
+  --script:var(--primary);--accent:var(--primary);--accent2:var(--secondary);
+  /* light leans red-forward: headings take the primary too */
+  --heading:var(--primary);
+  --btn-bg:var(--primary);--btn-text:#E8DCC0;
 
   --glow-name-sm:none;
+  --glow-btn:none;--glow-btn-text:none;
   --wash3:none;
 }
 
@@ -50,7 +61,7 @@ html[data-theme="light"]{background-color:#E8DCC0;}
 body::before{
   content:"";position:fixed;top:0;left:0;right:0;bottom:0;z-index:-1;
   pointer-events:none;background-color:#0B0A0A;
-  /* the dive-bar photo, sunk under a near-black veil so parchment text stays
+  /* the stickerbomb wall, sunk under a near-black veil so parchment text stays
      readable, with the neon washes tinting the light on top. --bg-veil is the
      one knob for how dark it goes. Dark theme only — light mode blanks it below. */
   background-image:
@@ -58,7 +69,7 @@ body::before{
     radial-gradient(ellipse 70% 45% at 92% 38%, rgba(53,224,232,.09),  transparent 62%),
     radial-gradient(ellipse 90% 45% at 48% 98%, rgba(232,220,192,.07),  transparent 62%),
     linear-gradient(rgba(11,10,10,var(--bg-veil)), rgba(11,10,10,var(--bg-veil))),
-    url("assets/bar-bg.jpg");
+    url("assets/stickerbomb-bg.jpg");
   background-repeat:no-repeat;
   background-position:center center;
   background-size:auto,auto,auto,auto,cover;
@@ -78,7 +89,7 @@ a{color:inherit;}
 }
 .eyebrow{
   font-family:'Oswald',sans-serif;letter-spacing:.3em;text-transform:uppercase;
-  font-size:10px;color:var(--eyebrow);margin:0 0 16px;
+  font-size:10px;color:var(--muted);margin:0 0 16px;
 }
 /* Section headers share the hero headline's voice — big, tight, uppercase
    Oswald — a notch under the H1 so it stays primary, and in signage amber so
@@ -112,14 +123,24 @@ section{padding:52px 0 10px;}
 .closer .sub{margin:16px auto 26px;max-width:40ch;font-size:13px;color:var(--muted);}
 .btn{
   display:inline-block;background:var(--btn-bg);color:var(--btn-text);
+  border:1px solid transparent;
   font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:.26em;text-indent:.26em;
   text-transform:uppercase;padding:14px 30px;text-decoration:none;font-weight:600;
+  transition:background-color .25s ease,color .25s ease,border-color .25s ease,
+             box-shadow .25s ease,text-shadow .25s ease;
+}
+/* hover/keyboard-focus switches the sign on: the fill drops to reveal the room
+   behind it, and a neon outline + glow lights up. In the light theme the glow
+   vars are none, so it's a clean filled -> outline colour change instead. */
+.btn:hover,.btn:focus-visible{
+  background:transparent;color:var(--primary);border-color:var(--primary);
+  box-shadow:var(--glow-btn);text-shadow:var(--glow-btn-text);
 }
 footer{
   position:relative;z-index:10;text-align:center;padding:26px 20px 40px;
   font-size:11px;color:var(--muted);opacity:.8;
 }
-footer .kc{color:var(--eyebrow);}
+footer .kc{color:var(--primary);}
 
 @media (max-width:520px){
   .closer .q{font-size:38px;}

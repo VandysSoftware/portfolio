@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0B0A0A">
+<script>
+/* apply remembered theme before first paint — shares the site's key, so a flip
+   here also flips the main site (same origin) */
+(function(){
+  try{
+    var s = localStorage.getItem('vandys-theme');
+    if(s !== 'light' && s !== 'dark') return;
+    document.documentElement.setAttribute('data-theme', s);
+    document.querySelector('meta[name="theme-color"]')
+      .setAttribute('content', s === 'dark' ? '#0B0A0A' : '#E8DCC0');
+  }catch(e){}
+})();
+</script>
+<title>The Snackbar — Vandy's style guide</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Caveat:wght@400;500&family=Oswald:wght@400;600&family=Pixelify+Sans:wght@600;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* ============================================================
+     THE SNACKBAR — a living style guide for the site.
+
+     - The palette below reads the REAL token values from styles.css
+       at runtime (flip the theme, top-right, to see both sets).
+     - Shared type/buttons come straight from styles.css.
+     - The component rules further down are MIRRORED from index.html's
+       inline <style>, which is their source of truth. If you restyle a
+       component there, update it here too — or, better, lift the shared
+       component CSS into styles.css so this page renders it for free.
+     ============================================================ */
+
+  body{padding-bottom:80px;}
+  .sg-wrap{max-width:1000px;margin:0 auto;padding:0 22px;}
+
+  .sg-head{padding:64px 0 20px;border-bottom:1px solid var(--hair);}
+  .sg-head h1{
+    font-family:'Yellowtail',cursive;font-weight:400;font-size:clamp(46px,9vw,84px);
+    line-height:1;margin:0;color:var(--script);text-shadow:var(--glow-name-sm);
+  }
+  .sg-head p{max-width:60ch;margin:16px 0 0;}
+  .sg-head code{font-family:ui-monospace,Menlo,monospace;font-size:.85em;color:var(--text-bright);}
+
+  .sg-section{padding:48px 0 8px;border-bottom:1px solid var(--hair);}
+  .sg-section > p.sg-lead-note{max-width:64ch;margin:2px 0 26px;color:var(--muted);}
+
+  /* -- palette -- */
+  .sg-group-label{
+    font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--muted);margin:22px 0 12px;
+  }
+  .sg-swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;}
+  .sg-swatch{border:1px solid var(--hair);background:var(--surface);}
+  .sg-chip{height:74px;width:100%;border-bottom:1px solid var(--hair);
+    background-image:
+      linear-gradient(45deg,rgba(128,128,128,.25) 25%,transparent 25%,transparent 75%,rgba(128,128,128,.25) 75%),
+      linear-gradient(45deg,rgba(128,128,128,.25) 25%,transparent 25%,transparent 75%,rgba(128,128,128,.25) 75%);
+    background-size:16px 16px;background-position:0 0,8px 8px;}
+  .sg-chip > i{display:block;height:100%;width:100%;}   /* the actual token color, over the checker so alpha reads */
+  .sg-meta{padding:11px 13px 13px;}
+  .sg-token{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--text-bright);}
+  .sg-val{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-top:2px;}
+  .sg-use{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.5;}
+
+  /* -- type scale rows -- */
+  .sg-row{display:grid;grid-template-columns:1fr;gap:6px;padding:20px 0;border-bottom:1px dashed var(--hair);}
+  .sg-row:last-child{border-bottom:0;}
+  .sg-spec{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted);}
+  .sg-spec code{color:var(--accent2);}
+  @media(min-width:760px){
+    .sg-row{grid-template-columns:1fr 260px;align-items:center;gap:24px;}
+    .sg-spec{text-align:right;}
+  }
+
+  .sg-fonts{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;margin-bottom:8px;}
+  .sg-font{border:1px solid var(--hair);padding:18px 18px 16px;background:var(--surface);}
+  .sg-font .spec-name{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);}
+  .sg-font .spec-sample{margin:10px 0 8px;color:var(--text-bright);line-height:1.1;}
+  .sg-font .spec-role{font-size:11.5px;color:var(--muted);line-height:1.5;}
+
+  .sg-swatch-list{display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
+  .sg-note{border-left:3px solid var(--accent2);padding:4px 0 4px 16px;margin:22px 0 4px;color:var(--muted);max-width:70ch;}
+  .sg-note code{font-family:ui-monospace,Menlo,monospace;color:var(--text-bright);font-size:.9em;}
+
+  /* ============================================================
+     MIRRORED FROM index.html inline <style> — source of truth is
+     index.html. Keep in sync when you restyle these components.
+     ============================================================ */
+  .hero-title{
+    font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;
+    font-size:clamp(30px,7vw,50px);line-height:1.03;letter-spacing:.01em;
+    max-width:16ch;margin:0 0 6px;color:var(--text-bright);
+  }
+  .intro p{margin:0 0 16px;max-width:52ch;}
+  .intro p.lead{font-size:17px;line-height:1.6;color:var(--secondary);}
+  .blurb{text-align:center;font-size:13px;color:var(--muted);max-width:46ch;margin:0 auto;line-height:1.7;}
+
+  .btn-ghost{
+    display:inline-block;border:1px solid var(--accent);color:var(--text-bright);
+    font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.24em;text-indent:.24em;
+    text-transform:uppercase;padding:11px 22px;text-decoration:none;font-weight:600;
+  }
+  .btn-ghost:hover{background:var(--accent);color:var(--btn-text);}
+
+  .board{border:1px solid var(--hair-solid);background:var(--surface);padding:26px 22px 10px;}
+  .item{display:flex;gap:12px;align-items:baseline;padding-bottom:18px;margin-bottom:18px;border-bottom:1px dashed var(--hair);}
+  .item:last-child{border-bottom:0;}
+  .item h3{font-family:'Oswald',sans-serif;font-weight:600;font-size:14px;letter-spacing:.12em;text-transform:uppercase;margin:0;color:var(--heading);white-space:nowrap;}
+  .dots{flex:1;border-bottom:1px dotted var(--hair-solid);transform:translateY(-4px);}
+  .item p{margin:0;font-size:13px;color:var(--muted);flex:0 1 58%;line-height:1.6;}
+
+  .quote{border-left:3px solid var(--accent2);padding:2px 0 2px 18px;margin-bottom:26px;}
+  .quote p{margin:0 0 8px;font-size:14px;color:var(--text-bright);line-height:1.6;}
+  .quote .by{font-size:11px;color:var(--muted);}
+
+  .job{border-left:3px solid var(--accent);padding:4px 0 4px 18px;margin-bottom:8px;}
+  .job .status{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent2);}
+  .job h3{font-family:'Yellowtail',cursive;font-weight:400;font-size:32px;margin:4px 0 2px;color:var(--text-bright);line-height:1.1;}
+  .job .kind{font-size:12px;color:var(--muted);margin:0 0 12px;}
+  .job p{margin:0 0 14px;font-size:13.5px;}
+  .stack{display:flex;flex-wrap:wrap;gap:7px;}
+  .stack span{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--hair-solid);padding:3px 9px;color:var(--muted);}
+
+  /* mirrored from faq.html — accordion FAQ (source of truth is faq.html) */
+  .sg-faq{max-width:640px;}
+  .sg-faq .qa{border-bottom:1px dashed var(--hair);}
+  .sg-faq .qa:last-child{border-bottom:0;}
+  .sg-faq .qa .q{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:18px;align-items:center;padding:18px 0;font-family:'Oswald',sans-serif;font-weight:600;font-size:17px;letter-spacing:.01em;line-height:1.3;color:var(--heading);}
+  .sg-faq .qa .q::-webkit-details-marker{display:none;}
+  .sg-faq .qa .q::after{content:"+";flex:0 0 auto;color:var(--primary);font-family:'Oswald',sans-serif;font-size:22px;line-height:1;}
+  .sg-faq .qa[open] .q::after{content:"–";}
+  .sg-faq .qa .a{margin:0;padding:0 0 20px;font-size:15px;line-height:1.7;color:var(--text);}
+
+  .tab-field{margin-bottom:16px;max-width:420px;}
+  .tab-field label{display:block;font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-bright);margin-bottom:7px;}
+  .tab-field input{width:100%;background:transparent;color:var(--text);border:1px solid var(--hair-solid);border-radius:0;font-family:'Lora',serif;font-size:15px;line-height:1.6;padding:11px 12px;}
+  .tab-field input:focus{outline:none;border-color:var(--accent);}
+</style>
+</head>
+<body>
+
+<button class="switch" id="switch">Lights on</button>
+
+<div class="sg-wrap">
+
+  <header class="sg-head">
+    <p class="eyebrow" style="margin-bottom:14px;">The Snackbar</p>
+    <h1>Everything on the menu</h1>
+    <p>A live reference for the site's theme and building blocks. The palette
+      reads the actual token values from <code>styles.css</code>, so flip the
+      theme (top-right) to see both sets. <strong>Where to change what:</strong>
+      colors live in the <code>[data-theme]</code> blocks of
+      <code>styles.css</code>; shared type and buttons in <code>styles.css</code>;
+      page components in <code>index.html</code>'s inline <code>&lt;style&gt;</code>
+      (mirrored here).</p>
+  </header>
+
+  <!-- ============ PALETTE ============ -->
+  <section class="sg-section">
+    <h2 class="section-title">The palette</h2>
+    <p class="sg-lead-note">Each chip shows the live resolved value for the
+      current theme. Semi-transparent tokens sit over a checker so their alpha
+      reads.</p>
+
+    <div class="sg-note" style="border-left-color:var(--primary);">
+      <strong style="color:var(--text-bright);">How the theme is applied</strong> — one role per job:<br>
+      Headings → <code>--heading</code> · Body → <code>--text</code> ·
+      Kickers &amp; captions → <code>--muted</code> ·
+      CTAs &amp; highlights → <code>--primary</code> ·
+      Small accents → <code>--secondary</code> ·
+      Neon script (sign &amp; closers) → <code>--script</code>.
+    </div>
+
+    <p class="sg-group-label">Text</p>
+    <div class="sg-swatches">
+      <div class="sg-swatch" data-token="--text"><div class="sg-chip"><i style="background:var(--text)"></i></div><div class="sg-meta"><div class="sg-token">--text</div><div class="sg-val"></div><div class="sg-use">Body copy (Lora)</div></div></div>
+      <div class="sg-swatch" data-token="--text-bright"><div class="sg-chip"><i style="background:var(--text-bright)"></i></div><div class="sg-meta"><div class="sg-token">--text-bright</div><div class="sg-val"></div><div class="sg-use">H1, lead, quotes, summaries, labels</div></div></div>
+      <div class="sg-swatch" data-token="--muted"><div class="sg-chip"><i style="background:var(--muted)"></i></div><div class="sg-meta"><div class="sg-token">--muted</div><div class="sg-val"></div><div class="sg-use">Secondary text, captions, footnotes</div></div></div>
+    </div>
+
+    <p class="sg-group-label">Brand · primary / secondary — change these two, the accents follow</p>
+    <div class="sg-swatches">
+      <div class="sg-swatch" data-token="--primary"><div class="sg-chip"><i style="background:var(--primary)"></i></div><div class="sg-meta"><div class="sg-token">--primary</div><div class="sg-val"></div><div class="sg-use">Main brand color. Feeds --accent (ghost border, FAQ +/−, focus). In light it also drives headers, button &amp; sign.</div></div></div>
+      <div class="sg-swatch" data-token="--secondary"><div class="sg-chip"><i style="background:var(--secondary)"></i></div><div class="sg-meta"><div class="sg-token">--secondary</div><div class="sg-val"></div><div class="sg-use">Secondary pop. Feeds --accent2 (quote rule, project status, sign rule).</div></div></div>
+      <div class="sg-swatch" data-token="--script"><div class="sg-chip"><i style="background:var(--script)"></i></div><div class="sg-meta"><div class="sg-token">--script</div><div class="sg-val"></div><div class="sg-use">Neon script (Yellowtail) — closers &amp; the sign glow</div></div></div>
+    </div>
+    <div class="sg-note"><code>--accent</code> = <code>var(--primary)</code> and
+      <code>--accent2</code> = <code>var(--secondary)</code>, so the component CSS
+      keeps working while you tune just the two brand tokens.</div>
+
+    <p class="sg-group-label">Headings &amp; buttons</p>
+    <div class="sg-swatches">
+      <div class="sg-swatch" data-token="--heading"><div class="sg-chip"><i style="background:var(--heading)"></i></div><div class="sg-meta"><div class="sg-token">--heading</div><div class="sg-val"></div><div class="sg-use">Section headers (H2) and menu h3</div></div></div>
+      <div class="sg-swatch" data-token="--btn-bg"><div class="sg-chip"><i style="background:var(--btn-bg)"></i></div><div class="sg-meta"><div class="sg-token">--btn-bg</div><div class="sg-val"></div><div class="sg-use">Solid button fill</div></div></div>
+      <div class="sg-swatch" data-token="--btn-text"><div class="sg-chip"><i style="background:var(--btn-text)"></i></div><div class="sg-meta"><div class="sg-token">--btn-text</div><div class="sg-val"></div><div class="sg-use">Solid button text</div></div></div>
+    </div>
+
+    <p class="sg-group-label">Surfaces &amp; lines</p>
+    <div class="sg-swatches">
+      <div class="sg-swatch" data-token="canvas"><div class="sg-chip"><i></i></div><div class="sg-meta"><div class="sg-token">canvas (&lt;html&gt;)</div><div class="sg-val"></div><div class="sg-use">Page base behind the bar photo</div></div></div>
+      <div class="sg-swatch" data-token="--surface"><div class="sg-chip"><i style="background:var(--surface)"></i></div><div class="sg-meta"><div class="sg-token">--surface</div><div class="sg-val"></div><div class="sg-use">Card / board fill</div></div></div>
+      <div class="sg-swatch" data-token="--hair"><div class="sg-chip"><i style="background:var(--hair)"></i></div><div class="sg-meta"><div class="sg-token">--hair</div><div class="sg-val"></div><div class="sg-use">Dashed dividers, faint rules</div></div></div>
+      <div class="sg-swatch" data-token="--hair-solid"><div class="sg-chip"><i style="background:var(--hair-solid)"></i></div><div class="sg-meta"><div class="sg-token">--hair-solid</div><div class="sg-val"></div><div class="sg-use">Borders, dotted leaders, stack tags</div></div></div>
+    </div>
+
+    <div class="sg-note">The bar photo behind everything is darkened by
+      <code>--bg-veil</code> (currently <span id="veil-val">—</span>, 0 = photo,
+      1 = black). It's set in the dark <code>[data-theme]</code> block and only
+      applies in dark mode.</div>
+  </section>
+
+  <!-- ============ TYPE ============ -->
+  <section class="sg-section">
+    <h2 class="section-title">Type</h2>
+    <p class="sg-lead-note">Five faces do all the work. Oswald signs, Lora reads,
+      Yellowtail glows, Caveat scribbles, Pixelify blips.</p>
+
+    <div class="sg-fonts">
+      <div class="sg-font"><div class="spec-name">Oswald · 400 / 600</div><div class="spec-sample" style="font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;font-size:26px;letter-spacing:.02em;">Software On Tap</div><div class="spec-role">Headers, section titles, eyebrows, buttons, labels, tags — all signage.</div></div>
+      <div class="sg-font"><div class="spec-name">Lora · 400 / 500</div><div class="spec-sample" style="font-family:'Lora',serif;font-size:22px;">The quick brown fox</div><div class="spec-role">Body copy and form fields. The reading voice.</div></div>
+      <div class="sg-font"><div class="spec-name">Yellowtail</div><div class="spec-sample" style="font-family:'Yellowtail',cursive;font-size:34px;color:var(--script);text-shadow:var(--glow-name-sm);">Vandy's</div><div class="spec-role">The neon script — the sign, closers, project titles.</div></div>
+      <div class="sg-font"><div class="spec-name">Caveat · 400 / 500</div><div class="spec-sample" style="font-family:'Caveat',cursive;font-size:28px;">pull up a stool</div><div class="spec-role">Handwriting — the napkin note on the contact form.</div></div>
+      <div class="sg-font"><div class="spec-name">Pixelify Sans · 600 / 700</div><div class="spec-sample" style="font-family:'Pixelify Sans',monospace;font-weight:700;font-size:24px;">GAME ON</div><div class="spec-role">Pixel display — used sparingly for arcade / retro moments.</div></div>
+    </div>
+
+    <div style="margin-top:26px;">
+      <div class="sg-row">
+        <div><h1 class="hero-title">Custom web apps</h1></div>
+        <div class="sg-spec"><code>.hero-title</code><br>Oswald 600 · uppercase · clamp(30–50px) · --text-bright</div>
+      </div>
+      <div class="sg-row">
+        <div><h2 class="section-title" style="margin:0;">On the shelf</h2></div>
+        <div class="sg-spec"><code>.section-title</code> (H2)<br>Oswald 600 · uppercase · clamp(26–40px) · --heading</div>
+      </div>
+      <div class="sg-row">
+        <div><p class="eyebrow" style="margin:0;">Behind the bar</p></div>
+        <div class="sg-spec"><code>.eyebrow</code><br>Oswald · 10px · .3em tracking · uppercase · --muted</div>
+      </div>
+      <div class="sg-row">
+        <div class="intro"><p class="lead" style="margin:0;">Built by the person who actually writes the code.</p></div>
+        <div class="sg-spec"><code>.lead</code><br>Lora · 17px · --secondary</div>
+      </div>
+      <div class="sg-row">
+        <div><p style="margin:0;max-width:52ch;">Body copy runs in Lora at 15px on a 1.7 line height. It's the reading voice for everything that isn't a header or a label — paragraphs, answers, descriptions.</p></div>
+        <div class="sg-spec"><code>body p</code><br>Lora · 15px · 1.7 · --text</div>
+      </div>
+      <div class="sg-row">
+        <div><p class="blurb" style="margin:0;">A centered, muted line for section intros and captions.</p></div>
+        <div class="sg-spec"><code>.blurb</code><br>Lora · 13px · centered · --muted</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BUTTONS ============ -->
+  <section class="sg-section">
+    <h2 class="section-title">Buttons</h2>
+    <div class="sg-swatch-list" style="margin-top:8px;">
+      <a class="btn" href="#" onclick="return false;">Pull up a stool</a>
+      <a class="btn-ghost" href="#" onclick="return false;">More about me</a>
+    </div>
+    <div class="sg-note"><code>.btn</code> (solid <code>--primary</code>) is the primary
+      action — <strong style="color:var(--text-bright);">hover it</strong> to see it
+      light up like the sign: the fill drops out and a neon outline + glow switches
+      on (in light mode that becomes a clean filled&nbsp;→&nbsp;outline color change).
+      <code>.btn-ghost</code> (outline) is the secondary.</div>
+  </section>
+
+  <!-- ============ COMPONENTS ============ -->
+  <section class="sg-section">
+    <h2 class="section-title">Components</h2>
+    <p class="sg-lead-note">The page's building blocks. These live in
+      <code>index.html</code>'s inline <code>&lt;style&gt;</code> — mirrored here.</p>
+
+    <p class="sg-group-label">Menu board · <code style="color:var(--accent2)">.board / .item / .dots</code></p>
+    <div class="board" style="max-width:640px;">
+      <div class="item"><h3>Custom Apps</h3><div class="dots"></div><p>Full web applications built from scratch — auth, data, integrations, the whole thing.</p></div>
+      <div class="item"><h3>Marketing Sites</h3><div class="dots"></div><p>Fast, good-looking sites that make your business easy to find and easy to hire.</p></div>
+    </div>
+
+    <p class="sg-group-label" style="margin-top:34px;">Testimonial · <code style="color:var(--accent2)">.quote</code></p>
+    <div class="quote" style="max-width:560px;">
+      <p>He took the idea in my head and shipped the exact thing I pictured, a month sooner than I expected.</p>
+      <div class="by">— Name, Title, Company</div>
+    </div>
+
+    <p class="sg-group-label" style="margin-top:14px;">Project card · <code style="color:var(--accent2)">.job / .status / .stack</code></p>
+    <div class="job" style="max-width:560px;">
+      <div class="status">Own product</div>
+      <h3>Afterword</h3>
+      <p class="kind">Estate planning &amp; document management · next-of-kin.us</p>
+      <p>A preparedness tool for families, offered through estate-planning firms and sold directly to families too.</p>
+      <div class="stack"><span>TypeScript</span><span>Turborepo</span><span>AWS</span><span>Postgres</span></div>
+    </div>
+
+    <p class="sg-group-label" style="margin-top:34px;">FAQ · accordions — lives on <code style="color:var(--accent2)">faq.html</code></p>
+    <div class="sg-faq" style="max-width:640px;">
+      <details class="qa" open><summary class="q">What does a project cost?</summary><p class="a">A fixed price, quoted up front — never an open meter. Costs scale with scope, and the price and timeline go in writing before anyone commits.</p></details>
+      <details class="qa"><summary class="q">What do you build with?</summary><p class="a">Mostly TypeScript on Next.js and React, Postgres for data, AWS for hosting — the same stack behind Afterword.</p></details>
+    </div>
+
+    <p class="sg-group-label" style="margin-top:34px;">Form field · <code style="color:var(--accent2)">.tab-field</code></p>
+    <div class="tab-field">
+      <label for="demo">Your name</label>
+      <input id="demo" type="text" placeholder="Type to see the focus state">
+    </div>
+  </section>
+
+  <footer style="padding:40px 0 0;color:var(--muted);font-size:12px;">
+    The Snackbar · internal style reference · not linked from the public site
+    (<code style="font-family:ui-monospace,Menlo,monospace;">noindex</code>).
+  </footer>
+
+</div>
+
+<script>
+/* fill each swatch's value from the live computed token; re-run on theme flip */
+function paintValues(){
+  var root = document.documentElement;
+  var cs = getComputedStyle(root);
+  document.querySelectorAll('[data-token]').forEach(function(el){
+    var t = el.getAttribute('data-token');
+    var valEl = el.querySelector('.sg-val');
+    var swatch = el.querySelector('.sg-chip > i');
+    var v;
+    if(t === 'canvas'){ v = cs.backgroundColor; if(swatch) swatch.style.background = v; }
+    else { v = cs.getPropertyValue(t).trim(); }
+    if(valEl) valEl.textContent = v || '—';
+  });
+  var veil = cs.getPropertyValue('--bg-veil').trim();
+  var ve = document.getElementById('veil-val');
+  if(ve) ve.textContent = veil || '—';
+}
+
+/* theme toggle — shares the site's localStorage key */
+(function(){
+  var btn = document.getElementById('switch');
+  function cur(){ return document.documentElement.getAttribute('data-theme') || 'dark'; }
+  function label(){ btn.textContent = cur() === 'dark' ? 'Lights on' : 'Lights off'; }
+  btn.addEventListener('click', function(){
+    var next = cur() === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if(m) m.setAttribute('content', next === 'dark' ? '#0B0A0A' : '#E8DCC0');
+    try{ localStorage.setItem('vandys-theme', next); }catch(e){}
+    label(); paintValues();
+  });
+  label();
+})();
+
+paintValues();
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(paintValues);
+</script>
+
+</body>
+</html>
