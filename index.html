@@ -845,12 +845,11 @@
   <p class="sub"></p>
 
   <!-- Submitted with fetch() by the script at the bottom of this page, which
-       POSTs JSON to the Lambda Function URL in `data-endpoint`. Replace
-       FORM_ENDPOINT_PLACEHOLDER with the `FunctionUrl` output from
-       `cd infra && npx cdk deploy`. The backend (SES-only, no form service)
-       lives in infra/ — see infra/README.md. `_gotcha` is the honeypot the
-       handler checks; the submitter's `email` becomes the reply-to. -->
-  <form class="tab-form" id="tab-form" data-endpoint="FORM_ENDPOINT_PLACEHOLDER">
+       POSTs the fields to the Formspree endpoint in `data-endpoint` and swaps
+       in a confirmation without leaving the page. `_gotcha` is Formspree's
+       built-in honeypot (a filled value is silently dropped as spam); the
+       submitter's `email` field becomes the reply-to automatically. -->
+  <form class="tab-form" id="tab-form" data-endpoint="https://formspree.io/f/xkjwergv">
 
     <div class="tab-grid">
 
@@ -1190,9 +1189,11 @@
 <script>
 /* ---------- contact form ----------
    Enhances the napkin form: intercept submit, POST the fields as JSON to the
-   Lambda Function URL in data-endpoint, and swap the form for a confirmation
-   without leaving the page. No JS → the form does nothing, which is why the
-   "rather write" email link below the button is the static fallback. */
+   Formspree endpoint in data-endpoint (with Accept: application/json so
+   Formspree answers with JSON instead of redirecting), and swap the form for a
+   confirmation without leaving the page. No JS → the form does nothing, which
+   is why the "rather write" email link below the button is the static
+   fallback. */
 (function(){
   var form = document.getElementById('tab-form');
   if(!form) return;
@@ -1214,18 +1215,13 @@
   form.addEventListener('submit', function(e){
     e.preventDefault();
 
-    /* Not deployed yet — say so rather than silently failing. */
-    if(!endpoint || endpoint === 'FORM_ENDPOINT_PLACEHOLDER'){
-      say('This form isn’t live yet — reach me at noah@vandyssoftware.com for now.', true);
-      return;
-    }
-
     var payload = {
-      first:   form.first.value,
-      last:    form.last.value,
-      email:   form.email.value,
-      idea:    form.idea.value,
-      _gotcha: form._gotcha ? form._gotcha.value : ''
+      first:    form.first.value,
+      last:     form.last.value,
+      email:    form.email.value,
+      idea:     form.idea.value,
+      _gotcha:  form._gotcha ? form._gotcha.value : '',
+      _subject: 'New tab: ' + form.first.value + ' ' + form.last.value
     };
 
     var label = btn.textContent;
@@ -1235,18 +1231,26 @@
 
     fetch(endpoint, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
       body: JSON.stringify(payload)
     }).then(function(res){
       return res.json().catch(function(){ return {}; }).then(function(body){
-        if(res.ok && body.ok){
+        if(res.ok){
           if(intro) intro.style.display = 'none';
           if(sub)   sub.style.display = 'none';
           form.hidden = true;
           done.hidden = false;
           done.scrollIntoView({ behavior:'smooth', block:'center' });
         } else {
-          say(body.error || 'Something went wrong. Try again, or email me directly.', true);
+          /* Formspree returns 4xx with { errors: [{ message }] } on a bad
+             submission, or { error } for a form-level problem. */
+          var msg = body.errors && body.errors.length
+            ? body.errors.map(function(x){ return x.message; }).join(' ')
+            : (body.error || 'Something went wrong. Try again, or email me directly.');
+          say(msg, true);
           btn.disabled = false;
           btn.textContent = label;
         }

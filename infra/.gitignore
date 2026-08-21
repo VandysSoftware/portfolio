@@ -1,9 +1,0 @@
-node_modules/
-cdk.out/
-# pnpm only — keep stray npm/yarn lockfiles out
-package-lock.json
-yarn.lock
-*.js
-*.d.ts
-!lambda/*.mjs
-.cdk.staging/

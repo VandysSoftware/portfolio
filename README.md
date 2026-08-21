@@ -1,9 +1,9 @@
 # Vandy's Software Solutions — site
 
 The marketing site for Vandy's Software Solutions, a one-person software
-consultancy in Kansas City. Three static pages at the repo root, no build step,
-no dependencies. The one exception is `infra/` — the CDK backend for the
-contact form — which carries its own toolchain and never ships to GitHub Pages.
+consultancy in Kansas City. Static pages at the repo root, no build step, no
+dependencies. The contact form posts to Formspree, so there is no backend to
+deploy.
 
 Everything runs on a bar metaphor: the hero is a neon sign hanging on chains,
 services are "what's on tap," testimonials are "the regulars," work is "on the
@@ -20,7 +20,6 @@ Copy changes should keep that voice.
 | `faq.html` | The FAQ — "Ask the bartender," a single-column accordion list (native `<details>`, so answers stay in the HTML while collapsed) with a "still need help" contact prompt up top. Carries the site's `FAQPage` schema; `index.html` teases and links here rather than repeating it. |
 | `styles.css` | Shared foundation: theme palette, base reset, page chrome, closer/footer. |
 | `snackbar.html` | Living style guide (unlisted, `noindex`): the theme tokens + components rendered off the real `styles.css`. Open it to see the whole system at a glance and flip the toggle for both palettes. |
-| `infra/` | CDK backend for the contact form — Lambda Function URL + SES. Self-contained; see `infra/README.md`. |
 
 Page-specific CSS stays inline in the page that uses it — the hanging sign and
 cross-stitch sampler on the home page, the bio sections on about, the steps and
@@ -128,15 +127,15 @@ the foot of `index.html` (`#tab`). Live scheduling (a Google Calendar embed) is
 for a one-line restore if that changes.
 
 **The contact form.** The "start a tab" form on `index.html` reaches
-`noah@vandyssoftware.com`. It POSTs (via `fetch`) to a Lambda Function URL that
-sends the message through SES — there is no third-party form service. That
-backend lives entirely in `infra/` (CDK); its endpoint gets pasted into
-`index.html`'s `data-endpoint`. Until it is deployed, the form shows a "not live
-yet" note that names the email, and the "rather write" mailto under the form is
-the static fallback for anyone without JS. See `infra/README.md`.
+`noah@vandyssoftware.com` through [Formspree](https://formspree.io) (form
+`xkjwergv`, set in `index.html`'s `data-endpoint`). The submit script POSTs the
+fields as JSON with `Accept: application/json`, so Formspree answers with JSON
+instead of redirecting — the page swaps in the "Order's in" confirmation without
+a reload. `_gotcha` is Formspree's built-in honeypot; the submitter's `email`
+becomes the reply-to. With no JS the form does nothing, so the "rather write"
+mailto under the button is the static fallback. Formspree's free tier caps
+submissions per month — watch that if volume climbs.
 
 ## Before this goes live
 
-- [ ] Deploy `infra/` and paste the `FunctionUrl` output into `index.html` in
-      place of `FORM_ENDPOINT_PLACEHOLDER` — then publish the DKIM records
 - [ ] Replace the two placeholder testimonials in "The regulars"
