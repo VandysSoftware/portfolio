@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0B0A0A">
 <script>
-/* apply remembered theme before first paint — shares the site's key, so a flip
+/* apply remembered theme before first paint - shares the site's key, so a flip
    here also flips the main site (same origin) */
 (function(){
   try{
@@ -18,7 +18,7 @@
   }catch(e){}
 })();
 </script>
-<title>The Snackbar — Vandy's style guide</title>
+<title>The Snackbar, Vandy's style guide</title>
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,14 +26,14 @@
 <link rel="stylesheet" href="styles.css">
 <style>
   /* ============================================================
-     THE SNACKBAR — a living style guide for the site.
+     THE SNACKBAR - a living style guide for the site.
 
      - The palette below reads the REAL token values from styles.css
        at runtime (flip the theme, top-right, to see both sets).
      - Shared type/buttons come straight from styles.css.
      - The component rules further down are MIRRORED from index.html's
        inline <style>, which is their source of truth. If you restyle a
-       component there, update it here too — or, better, lift the shared
+       component there, update it here too - or, better, lift the shared
        component CSS into styles.css so this page renders it for free.
      ============================================================ */
 
@@ -90,7 +90,7 @@
   .sg-note code{font-family:ui-monospace,Menlo,monospace;color:var(--text-bright);font-size:.9em;}
 
   /* ============================================================
-     MIRRORED FROM index.html inline <style> — source of truth is
+     MIRRORED FROM index.html inline <style> - source of truth is
      index.html. Keep in sync when you restyle these components.
      ============================================================ */
   .hero-title{
@@ -120,15 +120,33 @@
   .quote p{margin:0 0 8px;font-size:14px;color:var(--text-bright);line-height:1.6;}
   .quote .by{font-size:11px;color:var(--muted);}
 
-  .job{border-left:3px solid var(--accent);padding:4px 0 4px 18px;margin-bottom:8px;}
-  .job .status{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent2);}
-  .job h3{font-family:'Yellowtail',cursive;font-weight:400;font-size:32px;margin:4px 0 2px;color:var(--text-bright);line-height:1.1;}
-  .job .kind{font-size:12px;color:var(--muted);margin:0 0 12px;}
-  .job p{margin:0 0 14px;font-size:13.5px;}
+  /* coaster / beer-mat - the work shelf. Face + ink are the --coaster* roles in
+     styles.css; the lit ring is --glow-coaster (cyan in dark, solid in light). */
+  .coaster{
+    width:150px;aspect-ratio:1;border-radius:50%;background:var(--coaster);color:var(--coaster-ink);
+    border:0;font-family:inherit;cursor:pointer;position:relative;padding:18px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    box-shadow:0 8px 22px rgba(0,0,0,.4);transition:transform .18s ease,box-shadow .25s ease;
+  }
+  .coaster::after{content:"";position:absolute;inset:12px;border-radius:50%;border:1.5px dashed currentColor;opacity:.22;pointer-events:none;}
+  .coaster:hover{transform:translateY(-4px) rotate(-1.2deg);}
+  .coaster.lit{box-shadow:var(--glow-coaster),0 8px 22px rgba(0,0,0,.4);}
+  .coaster .mono{font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.06em;font-size:23px;margin:2px 0;}
+  .coaster .cname{font-family:'Yellowtail',cursive;font-size:19px;line-height:1.05;}
+  .coaster .cat{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;opacity:.6;margin-top:5px;}
+  .coaster .c-latest{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--secondary);margin-bottom:3px;}
+  .coaster .pick-hint{font-family:'Oswald',sans-serif;font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.4;margin-top:9px;}
+  .coaster .sel-mark{font-family:'Oswald',sans-serif;font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--secondary);margin-top:9px;display:none;}
+  .coaster.lit .pick-hint{display:none;}
+  .coaster.lit .sel-mark{display:block;}
+  .coaster.ghost{background:transparent;color:var(--muted);text-decoration:none;box-shadow:inset 0 0 0 2px var(--hair-solid);}
+  .coaster.ghost::after{opacity:.12;}
+  .coaster.ghost:hover{transform:none;color:var(--text);box-shadow:inset 0 0 0 2px var(--accent);}
+  .coaster.ghost .g-label{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;line-height:1.5;}
   .stack{display:flex;flex-wrap:wrap;gap:7px;}
   .stack span{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--hair-solid);padding:3px 9px;color:var(--muted);}
 
-  /* mirrored from faq.html — accordion FAQ (source of truth is faq.html) */
+  /* mirrored from faq.html - accordion FAQ (source of truth is faq.html) */
   .sg-faq{max-width:640px;}
   .sg-faq .qa{border-bottom:1px dashed var(--hair);}
   .sg-faq .qa:last-child{border-bottom:0;}
@@ -170,7 +188,7 @@
       reads.</p>
 
     <div class="sg-note" style="border-left-color:var(--primary);">
-      <strong style="color:var(--text-bright);">How the theme is applied</strong> — one role per job:<br>
+      <strong style="color:var(--text-bright);">How the theme is applied</strong>, one role per job:<br>
       Headings → <code>--heading</code> · Body → <code>--text</code> ·
       Kickers &amp; captions → <code>--muted</code> ·
       CTAs &amp; highlights → <code>--primary</code> ·
@@ -185,11 +203,11 @@
       <div class="sg-swatch" data-token="--muted"><div class="sg-chip"><i style="background:var(--muted)"></i></div><div class="sg-meta"><div class="sg-token">--muted</div><div class="sg-val"></div><div class="sg-use">Secondary text, captions, footnotes</div></div></div>
     </div>
 
-    <p class="sg-group-label">Brand · primary / secondary — change these two, the accents follow</p>
+    <p class="sg-group-label">Brand · primary / secondary, change these two, the accents follow</p>
     <div class="sg-swatches">
       <div class="sg-swatch" data-token="--primary"><div class="sg-chip"><i style="background:var(--primary)"></i></div><div class="sg-meta"><div class="sg-token">--primary</div><div class="sg-val"></div><div class="sg-use">Main brand color. Feeds --accent (ghost border, FAQ +/−, focus). In light it also drives headers, button &amp; sign.</div></div></div>
       <div class="sg-swatch" data-token="--secondary"><div class="sg-chip"><i style="background:var(--secondary)"></i></div><div class="sg-meta"><div class="sg-token">--secondary</div><div class="sg-val"></div><div class="sg-use">Secondary pop. Feeds --accent2 (quote rule, project status, sign rule).</div></div></div>
-      <div class="sg-swatch" data-token="--script"><div class="sg-chip"><i style="background:var(--script)"></i></div><div class="sg-meta"><div class="sg-token">--script</div><div class="sg-val"></div><div class="sg-use">Neon script (Yellowtail) — closers &amp; the sign glow</div></div></div>
+      <div class="sg-swatch" data-token="--script"><div class="sg-chip"><i style="background:var(--script)"></i></div><div class="sg-meta"><div class="sg-token">--script</div><div class="sg-val"></div><div class="sg-use">Neon script (Yellowtail), closers &amp; the sign glow</div></div></div>
     </div>
     <div class="sg-note"><code>--accent</code> = <code>var(--primary)</code> and
       <code>--accent2</code> = <code>var(--secondary)</code>, so the component CSS
@@ -211,7 +229,7 @@
     </div>
 
     <div class="sg-note">The bar photo behind everything is darkened by
-      <code>--bg-veil</code> (currently <span id="veil-val">—</span>, 0 = photo,
+      <code>--bg-veil</code> (currently <span id="veil-val">-</span>, 0 = photo,
       1 = black). It's set in the dark <code>[data-theme]</code> block and only
       applies in dark mode.</div>
   </section>
@@ -223,11 +241,11 @@
       Yellowtail glows, Caveat scribbles, Pixelify blips.</p>
 
     <div class="sg-fonts">
-      <div class="sg-font"><div class="spec-name">Oswald · 400 / 600</div><div class="spec-sample" style="font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;font-size:26px;letter-spacing:.02em;">Software On Tap</div><div class="spec-role">Headers, section titles, eyebrows, buttons, labels, tags — all signage.</div></div>
+      <div class="sg-font"><div class="spec-name">Oswald · 400 / 600</div><div class="spec-sample" style="font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;font-size:26px;letter-spacing:.02em;">Software On Tap</div><div class="spec-role">Headers, section titles, eyebrows, buttons, labels, tags, all signage.</div></div>
       <div class="sg-font"><div class="spec-name">Lora · 400 / 500</div><div class="spec-sample" style="font-family:'Lora',serif;font-size:22px;">The quick brown fox</div><div class="spec-role">Body copy and form fields. The reading voice.</div></div>
-      <div class="sg-font"><div class="spec-name">Yellowtail</div><div class="spec-sample" style="font-family:'Yellowtail',cursive;font-size:34px;color:var(--script);text-shadow:var(--glow-name-sm);">Vandy's</div><div class="spec-role">The neon script — the sign, closers, project titles.</div></div>
-      <div class="sg-font"><div class="spec-name">Caveat · 400 / 500</div><div class="spec-sample" style="font-family:'Caveat',cursive;font-size:28px;">pull up a stool</div><div class="spec-role">Handwriting — the napkin note on the contact form.</div></div>
-      <div class="sg-font"><div class="spec-name">Pixelify Sans · 600 / 700</div><div class="spec-sample" style="font-family:'Pixelify Sans',monospace;font-weight:700;font-size:24px;">GAME ON</div><div class="spec-role">Pixel display — used sparingly for arcade / retro moments.</div></div>
+      <div class="sg-font"><div class="spec-name">Yellowtail</div><div class="spec-sample" style="font-family:'Yellowtail',cursive;font-size:34px;color:var(--script);text-shadow:var(--glow-name-sm);">Vandy's</div><div class="spec-role">The neon script, the sign, closers, project titles.</div></div>
+      <div class="sg-font"><div class="spec-name">Caveat · 400 / 500</div><div class="spec-sample" style="font-family:'Caveat',cursive;font-size:28px;">pull up a stool</div><div class="spec-role">Handwriting, the napkin note on the contact form.</div></div>
+      <div class="sg-font"><div class="spec-name">Pixelify Sans · 600 / 700</div><div class="spec-sample" style="font-family:'Pixelify Sans',monospace;font-weight:700;font-size:24px;">GAME ON</div><div class="spec-role">Pixel display, used sparingly for arcade / retro moments.</div></div>
     </div>
 
     <div style="margin-top:26px;">
@@ -248,7 +266,7 @@
         <div class="sg-spec"><code>.lead</code><br>Lora · 17px · --secondary</div>
       </div>
       <div class="sg-row">
-        <div><p style="margin:0;max-width:52ch;">Body copy runs in Lora at 15px on a 1.7 line height. It's the reading voice for everything that isn't a header or a label — paragraphs, answers, descriptions.</p></div>
+        <div><p style="margin:0;max-width:52ch;">Body copy runs in Lora at 15px on a 1.7 line height. It's the reading voice for everything that isn't a header or a label, paragraphs, answers, descriptions.</p></div>
         <div class="sg-spec"><code>body p</code><br>Lora · 15px · 1.7 · --text</div>
       </div>
       <div class="sg-row">
@@ -266,7 +284,7 @@
       <a class="btn-ghost" href="#" onclick="return false;">More about me</a>
     </div>
     <div class="sg-note"><code>.btn</code> (solid <code>--primary</code>) is the primary
-      action — <strong style="color:var(--text-bright);">hover it</strong> to see it
+      action, <strong style="color:var(--text-bright);">hover it</strong> to see it
       light up like the sign: the fill drops out and a neon outline + glow switches
       on (in light mode that becomes a clean filled&nbsp;→&nbsp;outline color change).
       <code>.btn-ghost</code> (outline) is the secondary.</div>
@@ -276,33 +294,53 @@
   <section class="sg-section">
     <h2 class="section-title">Components</h2>
     <p class="sg-lead-note">The page's building blocks. These live in
-      <code>index.html</code>'s inline <code>&lt;style&gt;</code> — mirrored here.</p>
+      <code>index.html</code>'s inline <code>&lt;style&gt;</code>, mirrored here.</p>
 
     <p class="sg-group-label">Menu board · <code style="color:var(--accent2)">.board / .item / .dots</code></p>
     <div class="board" style="max-width:640px;">
-      <div class="item"><h3>Custom Apps</h3><div class="dots"></div><p>Full web applications built from scratch — auth, data, integrations, the whole thing.</p></div>
+      <div class="item"><h3>Custom Apps</h3><div class="dots"></div><p>Full web applications built from scratch, auth, data, integrations, the whole thing.</p></div>
       <div class="item"><h3>Marketing Sites</h3><div class="dots"></div><p>Fast, good-looking sites that make your business easy to find and easy to hire.</p></div>
     </div>
 
     <p class="sg-group-label" style="margin-top:34px;">Testimonial · <code style="color:var(--accent2)">.quote</code></p>
     <div class="quote" style="max-width:560px;">
       <p>He took the idea in my head and shipped the exact thing I pictured, a month sooner than I expected.</p>
-      <div class="by">— Name, Title, Company</div>
+      <div class="by">Name, Title, Company</div>
     </div>
 
-    <p class="sg-group-label" style="margin-top:14px;">Project card · <code style="color:var(--accent2)">.job / .status / .stack</code></p>
-    <div class="job" style="max-width:560px;">
-      <div class="status">Own product</div>
-      <h3>Afterword</h3>
-      <p class="kind">Estate planning &amp; document management · next-of-kin.us</p>
-      <p>A preparedness tool for families, offered through estate-planning firms and sold directly to families too.</p>
-      <div class="stack"><span>TypeScript</span><span>Turborepo</span><span>AWS</span><span>Postgres</span></div>
+    <p class="sg-group-label" style="margin-top:14px;">Coaster · work shelf · <code style="color:var(--accent2)">.coaster / .lit / .ghost</code></p>
+    <div class="sg-swatch-list">
+      <button type="button" class="coaster">
+        <span class="mono">AB</span>
+        <span class="cname">Project</span>
+        <span class="cat">Category</span>
+        <span class="pick-hint">Tap to read</span>
+        <span class="sel-mark">● Reading</span>
+      </button>
+      <button type="button" class="coaster lit">
+        <span class="c-latest">★ Latest round</span>
+        <span class="mono">AB</span>
+        <span class="cname">Project</span>
+        <span class="cat">Category</span>
+        <span class="pick-hint">Tap to read</span>
+        <span class="sel-mark">● Reading</span>
+      </button>
+      <a class="coaster ghost" href="#" onclick="return false;">
+        <span class="g-label">Next round's<br>on you</span>
+        <span class="cat">Pull up a stool</span>
+      </a>
     </div>
+    <div class="sg-note">Default, selected (<code>.lit</code>, the ring is
+      <code>--glow-coaster</code>), and the <code>.ghost</code> mat that links to the
+      tab form. Face and ink are the <code>--coaster</code> / <code>--coaster-ink</code>
+      roles, flip the theme to watch the cream mat become an inked one. On the page a
+      coaster swaps in a detail panel + deployed-site preview (that layout lives in
+      <code>index.html</code>).</div>
 
-    <p class="sg-group-label" style="margin-top:34px;">FAQ · accordions — lives on <code style="color:var(--accent2)">faq.html</code></p>
+    <p class="sg-group-label" style="margin-top:34px;">FAQ · accordions, lives on <code style="color:var(--accent2)">faq.html</code></p>
     <div class="sg-faq" style="max-width:640px;">
-      <details class="qa" open><summary class="q">What does a project cost?</summary><p class="a">A fixed price, quoted up front — never an open meter. Costs scale with scope, and the price and timeline go in writing before anyone commits.</p></details>
-      <details class="qa"><summary class="q">What do you build with?</summary><p class="a">Mostly TypeScript on Next.js and React, Postgres for data, AWS for hosting — the same stack behind Afterword.</p></details>
+      <details class="qa" open><summary class="q">What does a project cost?</summary><p class="a">A fixed price, quoted up front, never an open meter. Costs scale with scope, and the price and timeline go in writing before anyone commits.</p></details>
+      <details class="qa"><summary class="q">What do you build with?</summary><p class="a">Mostly TypeScript on Next.js and React, Postgres for data, AWS for hosting, the same stack behind Afterword.</p></details>
     </div>
 
     <p class="sg-group-label" style="margin-top:34px;">Form field · <code style="color:var(--accent2)">.tab-field</code></p>
@@ -331,14 +369,14 @@ function paintValues(){
     var v;
     if(t === 'canvas'){ v = cs.backgroundColor; if(swatch) swatch.style.background = v; }
     else { v = cs.getPropertyValue(t).trim(); }
-    if(valEl) valEl.textContent = v || '—';
+    if(valEl) valEl.textContent = v || '-';
   });
   var veil = cs.getPropertyValue('--bg-veil').trim();
   var ve = document.getElementById('veil-val');
-  if(ve) ve.textContent = veil || '—';
+  if(ve) ve.textContent = veil || '-';
 }
 
-/* theme toggle — shares the site's localStorage key */
+/* theme toggle - shares the site's localStorage key */
 (function(){
   var btn = document.getElementById('switch');
   function cur(){ return document.documentElement.getAttribute('data-theme') || 'dark'; }

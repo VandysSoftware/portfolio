@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0B0A0A">
 <script>
-/* see index.html — applies a remembered theme before first paint */
+/* see index.html - applies a remembered theme before first paint */
 (function(){
   try{
     var saved = localStorage.getItem('vandys-theme');
@@ -16,33 +16,33 @@
   }catch(e){}
 })();
 </script>
-<title>About Noah Vandervelden — Vandy's Software Solutions</title>
+<title>About Noah Vandervelden · Vandy's Software Solutions</title>
 <meta name="description" content="Noah Vandervelden is the full-stack software engineer behind Vandy's Software Solutions, a one-person studio in Kansas City building custom web applications for local businesses.">
 <link rel="canonical" href="https://vandyssoftware.com/about.html">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="manifest" href="site.webmanifest">
-<!-- Open Graph / Twitter — the link-preview card in iMessage, Slack, LinkedIn, etc.
+<!-- Open Graph / Twitter - the link-preview card in iMessage, Slack, LinkedIn, etc.
      Load-bearing: property= for og:, name= for twitter:; og:image MUST be an absolute
      URL (the scraper is a different machine) pointing at an opaque 1200x630 card. -->
 <meta property="og:type" content="profile">
 <meta property="og:site_name" content="Vandy's Software Solutions">
 <meta property="profile:first_name" content="Noah">
 <meta property="profile:last_name" content="Vandervelden">
-<meta property="og:title" content="About Noah Vandervelden — Vandy's Software Solutions">
-<meta property="og:description" content="Who's pouring at Vandy's — a Kansas City software developer who starts with the conversation, not the code.">
+<meta property="og:title" content="About Noah Vandervelden · Vandy's Software Solutions">
+<meta property="og:description" content="Who's pouring at Vandy's, a Kansas City software developer who starts with the conversation, not the code.">
 <meta property="og:url" content="https://vandyssoftware.com/about.html">
 <meta property="og:image" content="https://vandyssoftware.com/assets/og-card.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Vandy's — Software on tap">
+<meta property="og:image:alt" content="Vandy's · Software on tap">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="About Noah Vandervelden — Vandy's Software Solutions">
-<meta name="twitter:description" content="Who's pouring at Vandy's — a Kansas City software developer who starts with the conversation, not the code.">
+<meta name="twitter:title" content="About Noah Vandervelden · Vandy's Software Solutions">
+<meta name="twitter:description" content="Who's pouring at Vandy's, a Kansas City software developer who starts with the conversation, not the code.">
 <meta name="twitter:image" content="https://vandyssoftware.com/assets/og-card.png">
-<meta name="twitter:image:alt" content="Vandy's — Software on tap">
+<meta name="twitter:image:alt" content="Vandy's · Software on tap">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Oswald:wght@400;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
@@ -152,7 +152,7 @@
   /* A narrow thermal strip, not a panel: everything monospace, dashed rules,
      values flush right, torn along the bottom.
 
-     No rotation — a fractional transform rasterises the text off the pixel
+     No rotation - a fractional transform rasterises the text off the pixel
      grid and the whole ticket goes soft. The tear is an irregular clip-path
      rather than a repeating mask, which produced an even sawtooth with the
      page showing through the gaps. drop-shadow, not box-shadow, because it
@@ -223,7 +223,7 @@
   }
   .tab-thanks a:hover,.tab-thanks a:focus-visible{text-decoration-color:#2A211C;}
 
-  /* items: quantity, description, value flush right — no dot leaders, real
+  /* items: quantity, description, value flush right - no dot leaders, real
      receipts do not have them */
   .facts{border:0;background:none;padding:0;margin:0;}
   .facts .row{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom: 10px;}
@@ -323,7 +323,7 @@
 </head>
 <body>
 
-<h1 class="visually-hidden">About Noah Vandervelden — Vandy's Software Solutions</h1>
+<h1 class="visually-hidden">About Noah Vandervelden · Vandy's Software Solutions</h1>
 
 <button class="switch" id="switch">Lights on</button>
 
@@ -458,7 +458,7 @@
     var btn  = document.getElementById('switch');
     var meta = document.querySelector('meta[name="theme-color"]');
     var BAR  = {dark:'#0B0A0A', light:'#E8DCC0'};
-    /* adopt whatever the head script settled on — see index.html */
+    /* adopt whatever the head script settled on - see index.html */
     setTheme(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
     function setTheme(mode){
       root.setAttribute('data-theme', mode);

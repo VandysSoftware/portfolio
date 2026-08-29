@@ -1,5 +1,5 @@
 /* ============================================================
-   Vandy's Software Solutions — shared foundation
+   Vandy's Software Solutions - shared foundation
 
    Everything both pages need: the theme palette, the base
    reset, page chrome, and the closer/footer that ends each
@@ -13,14 +13,14 @@
   --text:#CDBFA4;--text-bright:#ffffff;--muted:rgba(205,191,164,.62);
   --hair:rgba(232,220,192,.16);--hair-solid:rgba(232,220,192,.28);
   --surface:rgba(0,0,0,.35);
-  /* brand roles — primary = CTAs & highlights, secondary = small accents,
+  /* brand roles - primary = CTAs & highlights, secondary = small accents,
      script = the neon display face. Change these; the accents follow. */
   --primary:#FF3B3B;--secondary:#35E0E8;
   --script:#FFEAF2;--accent:var(--primary);--accent2:var(--secondary);
   /* text roles: --heading (titles), --text (body), --muted (kickers/captions) */
   --heading:#E8DCC0;
   --btn-bg:var(--primary);--btn-text:#0B0A0A;
-  /* darkness of the veil over the stickerbomb wall — raise toward 1 to darken more */
+  /* darkness of the veil over the stickerbomb wall - raise toward 1 to darken more */
   --bg-veil:.89;
 
   --glow-name-sm:0 0 4px #fff, 0 0 14px #FF3D7F, 0 0 38px rgba(255,61,127,.5);
@@ -28,12 +28,16 @@
   --glow-btn:0 0 5px var(--primary), 0 0 16px var(--primary), 0 0 44px rgba(255,59,59,.5);
   --glow-btn-text:0 0 5px rgba(255,59,59,.9), 0 0 15px rgba(255,59,59,.55);
   --wash3:radial-gradient(ellipse at 50% 60%, rgba(255,61,127,.14), transparent 62%);
+  /* the coaster shelf (work section) - a cream beer-mat on the dark bar; the
+     selected one lights a cyan ring like the sign switching on */
+  --coaster:#EFE6D2;--coaster-ink:#1E1613;
+  --glow-coaster:0 0 0 2px var(--secondary), 0 0 26px rgba(53,224,232,.30);
 }
 [data-theme="light"]{
   --text:#1E1613;--text-bright:#0F0B09;--muted:rgba(30,22,19,.68);
   --hair:rgba(74,18,32,.22);--hair-solid:rgba(74,18,32,.4);
   --surface:rgba(74,18,32,.045);
-  /* brand roles — deep red leads, neon red is the secondary pop */
+  /* brand roles - deep red leads, neon red is the secondary pop */
   --primary:#C7261E;--secondary:#FF3B3B;
   --script:var(--primary);--accent:var(--primary);--accent2:var(--secondary);
   /* light leans red-forward: headings take the primary too */
@@ -43,6 +47,10 @@
   --glow-name-sm:none;
   --glow-btn:none;--glow-btn-text:none;
   --wash3:none;
+  /* the coaster shelf - an inked mat on the printed-menu cream; the selected
+     one gets a solid neon-red ring (no glow in light, matching the buttons) */
+  --coaster:#4A1220;--coaster-ink:#E8DCC0;
+  --glow-coaster:0 0 0 2px var(--secondary);
 }
 
 /* ============ BASE ============ */
@@ -63,7 +71,7 @@ body::before{
   pointer-events:none;background-color:#0B0A0A;
   /* the stickerbomb wall, sunk under a near-black veil so parchment text stays
      readable, with the neon washes tinting the light on top. --bg-veil is the
-     one knob for how dark it goes. Dark theme only — light mode blanks it below. */
+     one knob for how dark it goes. Dark theme only - light mode blanks it below. */
   background-image:
     radial-gradient(ellipse 80% 50% at 12% 4%,  rgba(255,61,127,.13), transparent 62%),
     radial-gradient(ellipse 70% 45% at 92% 38%, rgba(53,224,232,.09),  transparent 62%),
@@ -91,8 +99,8 @@ a{color:inherit;}
   font-family:'Oswald',sans-serif;letter-spacing:.3em;text-transform:uppercase;
   font-size:10px;color:var(--muted);margin:0 0 16px;
 }
-/* Section headers share the hero headline's voice — big, tight, uppercase
-   Oswald — a notch under the H1 so it stays primary, and in signage amber so
+/* Section headers share the hero headline's voice - big, tight, uppercase
+   Oswald - a notch under the H1 so it stays primary, and in signage amber so
    each section reads like a lit menu heading rather than the one bright
    statement up top. The small .eyebrow stays for kickers (e.g. above the H1). */
 .section-title{

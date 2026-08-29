@@ -20,41 +20,41 @@
     document.documentElement.setAttribute('data-theme', saved);
     document.querySelector('meta[name="theme-color"]')
       .setAttribute('content', saved === 'dark' ? '#0B0A0A' : '#E8DCC0');
-  }catch(e){}  /* private mode or storage disabled — the default stands */
+  }catch(e){}  /* private mode or storage disabled - the default stands */
 })();
 </script>
-<title>Vandy's Software Solutions — Software on tap</title>
-<meta name="description" content="Custom web applications for Kansas City businesses — built by Noah, the full-stack developer who also writes the code. Custom apps, marketing sites, dashboards, and fixing software someone else built.">
+<title>Vandy's Software Solutions, Software on tap</title>
+<meta name="description" content="Custom web applications for Kansas City businesses, built by Noah, the full-stack developer who also writes the code. Custom apps, marketing sites, dashboards, and fixing software someone else built.">
 <link rel="canonical" href="https://vandyssoftware.com/">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="manifest" href="site.webmanifest">
-<!-- Open Graph / Twitter — the link-preview card in iMessage, Slack, LinkedIn, etc.
+<!-- Open Graph / Twitter - the link-preview card in iMessage, Slack, LinkedIn, etc.
      Load-bearing: property= for og:, name= for twitter:; og:image MUST be an absolute
      URL (the scraper is a different machine) pointing at an opaque 1200x630 card. -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Vandy's Software Solutions">
-<meta property="og:title" content="Vandy's Software Solutions — Software on tap">
-<meta property="og:description" content="A one-person software studio in Kansas City — custom apps, marketing sites, and fixing software someone else built.">
+<meta property="og:title" content="Vandy's Software Solutions, Software on tap">
+<meta property="og:description" content="A one-person software studio in Kansas City: custom apps, marketing sites, and fixing software someone else built.">
 <meta property="og:url" content="https://vandyssoftware.com/">
 <meta property="og:image" content="https://vandyssoftware.com/assets/og-card.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Vandy's — Software on tap">
+<meta property="og:image:alt" content="Vandy's · Software on tap">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Vandy's Software Solutions — Software on tap">
-<meta name="twitter:description" content="A one-person software studio in Kansas City — custom apps, marketing sites, and fixing software someone else built.">
+<meta name="twitter:title" content="Vandy's Software Solutions, Software on tap">
+<meta name="twitter:description" content="A one-person software studio in Kansas City: custom apps, marketing sites, and fixing software someone else built.">
 <meta name="twitter:image" content="https://vandyssoftware.com/assets/og-card.png">
-<meta name="twitter:image:alt" content="Vandy's — Software on tap">
+<meta name="twitter:image:alt" content="Vandy's · Software on tap">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Caveat:wght@400;500&family=Oswald:wght@400;600&family=Pixelify+Sans:wght@600;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <!-- Structured data: only marks up content actually visible on this page (the
      business, the person, and the real FAQ below). TODO before launch: add
-     "sameAs" arrays (LinkedIn, GitHub, directory profiles) to both entities —
+     "sameAs" arrays (LinkedIn, GitHub, directory profiles) to both entities -
      that consistency is what earns an entity/knowledge panel. Validate with
      Google's Rich Results Test. -->
 <script type="application/ld+json">
@@ -65,7 +65,7 @@
       "@type": "ProfessionalService",
       "@id": "https://vandyssoftware.com/#business",
       "name": "Vandy's Software Solutions",
-      "description": "A one-person software studio in Kansas City — custom web applications, marketing sites, dashboards, and fixing software someone else built.",
+      "description": "A one-person software studio in Kansas City: custom web applications, marketing sites, dashboards, and fixing software someone else built.",
       "url": "https://vandyssoftware.com/",
       "email": "noah@vandyssoftware.com",
       "image": "https://vandyssoftware.com/assets/og-card.png",
@@ -145,7 +145,7 @@
     /* screen px the docked sign slides left out of centre. JS owns it. */
     --slide:0px;
 
-    /* the tube's bend radius. Themeless — the corner is the same shape lit
+    /* the tube's bend radius. Themeless - the corner is the same shape lit
        or painted, only its colour changes. */
     --tube-r:clamp(10px, 1vw, 22px);
   }
@@ -170,7 +170,7 @@
   }
   /* scaling from 50% 0 keeps the chain tops welded to the ceiling at every
      scale, so the sign shrinks toward the bar instead of sliding up to it.
-     translateX comes first so it is not multiplied by the scale — --slide is
+     translateX comes first so it is not multiplied by the scale - --slide is
      already in screen px, measured against the viewport edge. */
   .hanger{
     transform:translateX(var(--slide)) scale(var(--s));
@@ -193,7 +193,7 @@
     transform:rotateX(var(--tiltX)) rotateY(var(--tiltY));
     transform-style:preserve-3d;will-change:transform;
   }
-  /* glass tube bends in a radius — it cannot miter a 90° corner — so the
+  /* glass tube bends in a radius - it cannot miter a 90° corner - so the
      panel is rounded to the same figure the tubing traces around it */
   .plate{
     position:absolute;inset:0;transform:translateZ(-16px);
@@ -202,7 +202,7 @@
   }
   html[data-theme="light"] .plate{box-shadow:0 18px 38px rgba(74,18,32,.28);}
   /* the tube rides its own pseudo so the flicker dims the glass and not the
-     panel behind it — a backing sign does not blink, the neon on it does */
+     panel behind it - a backing sign does not blink, the neon on it does */
   .plate::before{
     content:"";position:absolute;inset:0;z-index:1;
     border:var(--tube-w) solid var(--tube);border-radius:var(--tube-r);
@@ -293,7 +293,7 @@
   /* In the intro the solid and ghost buttons sit as a pair, so they must match.
      Bring the ghost up to the standard .btn geometry, and give .btn a
      transparent 1px border so the ghost's real border doesn't leave it 2px
-     taller. Scoped to .intro-cta — the standalone ghost buttons are untouched. */
+     taller. Scoped to .intro-cta - the standalone ghost buttons are untouched. */
   .intro-cta .btn{border:1px solid transparent;}
   .intro-cta .btn-ghost{
     font-size:12px;letter-spacing:.26em;text-indent:.26em;padding:14px 30px;
@@ -301,7 +301,7 @@
 
   /* ---- THE FIRST DOLLAR ----
      A dive-bar keepsake hung on the wall beside "Just the Right Pour": the first
-     dollar the shop ever made, framed and — like every real bar's — never quite
+     dollar the shop ever made, framed and - like every real bar's - never quite
      straight. Unassuming by design; you catch it on the way past, and it levels
      itself when you do. It's a physical object, so the bill keeps its own money
      colors (the napkin bottle SVG does the same) while the frame and caption sit
@@ -330,7 +330,7 @@
   }
   .fd-bill{display:block;width:100%;height:auto;border-radius:1px;
     box-shadow:0 1px 3px rgba(0,0,0,.5);}
-  /* a little brass plaque low on the mat — dark text incised into the gold.
+  /* a little brass plaque low on the mat - dark text incised into the gold.
      margin-top opens space off the bill; the mat's bottom padding is the gap
      to the frame. */
   .fd-cap{
@@ -344,7 +344,7 @@
                inset 0 1px 0 rgba(255,255,255,.45),
                inset 0 -1px 0 rgba(0,0,0,.28);
   }
-  /* the glass: one sheet over the whole opening — a diagonal reflection and a
+  /* the glass: one sheet over the whole opening - a diagonal reflection and a
      hairline edge, so bill and caption both sit behind glazing */
   .fd-glass{
     position:absolute;inset:8px;pointer-events:none;border-radius:1px;
@@ -399,24 +399,100 @@
   .quote p{margin:0 0 8px;font-size:14px;color:var(--text-bright);line-height:1.6;}
   .quote .by{font-size:11px;color:var(--muted);}
 
-  .job{border-left:3px solid var(--accent);padding:4px 0 4px 18px;margin-bottom:34px;}
-  .job .status{
-    font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.26em;
-    text-transform:uppercase;color:var(--accent2);
+  /* ============ ON THE SHELF (the work) ============
+     A pile of coaster/beer-mats, one per job. Tapping a coaster lights it and
+     swaps the detail panel + deployed-site preview below. Coaster face and the
+     lit ring come from the --coaster* roles in styles.css so both themes flip.
+     JS-off: the featured (lit) coaster's panel is the one rendered visible; the
+     rest carry `hidden`, so it degrades to a single case study. */
+  .shelf-lede{font-size:14px;color:var(--muted);margin:0 0 26px;max-width:52ch;}
+
+  /* fixed-width mats that wrap - reads right at one project and grows cleanly */
+  .pile{display:flex;flex-wrap:wrap;gap:16px;}
+  .coaster{
+    width:150px;aspect-ratio:1;border-radius:50%;background:var(--coaster);color:var(--coaster-ink);
+    border:0;font-family:inherit;cursor:pointer;position:relative;padding:18px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    box-shadow:0 8px 22px rgba(0,0,0,.4);
+    transition:transform .18s ease,box-shadow .25s ease;
   }
-  .job h3{
-    font-family:'Yellowtail',cursive;font-weight:400;font-size:32px;margin:4px 0 2px;
-    color:var(--text-bright);line-height:1.1;
-  }
-  .job .kind{font-size:12px;color:var(--muted);margin:0 0 12px;}
-  .job p{margin:0 0 14px;font-size:13.5px;}
+  /* dashed inner ring, tinted from the face's own ink (no extra token needed) */
+  .coaster::after{content:"";position:absolute;inset:12px;border-radius:50%;
+    border:1.5px dashed currentColor;opacity:.22;pointer-events:none;}
+  .coaster:hover{transform:translateY(-4px) rotate(-1.2deg);}
+  .coaster.lit{box-shadow:var(--glow-coaster),0 8px 22px rgba(0,0,0,.4);}
+  .coaster .mono{font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.06em;font-size:23px;margin:2px 0;}
+  .coaster .cname{font-family:'Yellowtail',cursive;font-size:19px;line-height:1.05;}
+  .coaster .cat{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;opacity:.6;margin-top:5px;}
+  .coaster .c-latest{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--secondary);margin-bottom:3px;}
+  .coaster .pick-hint{font-family:'Oswald',sans-serif;font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.4;margin-top:9px;}
+  .coaster .sel-mark{font-family:'Oswald',sans-serif;font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--secondary);margin-top:9px;display:none;}
+  .coaster.lit .pick-hint{display:none;}
+  .coaster.lit .sel-mark{display:block;}
+
+  /* the "next round's on you" mat is a link to the tab form, not a job */
+  .coaster.ghost{background:transparent;color:var(--muted);text-decoration:none;
+    box-shadow:inset 0 0 0 2px var(--hair-solid);}
+  .coaster.ghost::after{opacity:.12;}
+  .coaster.ghost:hover{transform:none;color:var(--text);box-shadow:inset 0 0 0 2px var(--accent);}
+  .coaster.ghost .g-label{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;line-height:1.5;}
+
+  .shelf-details{margin-top:34px;border-top:1px solid var(--hair);padding-top:28px;}
+  .job-detail{display:grid;grid-template-columns:1fr;gap:26px;align-items:start;}
+  .job-detail[hidden]{display:none;}
+  .jd-kicker{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--secondary);margin:0;}
+  .jd-name{font-family:'Yellowtail',cursive;font-weight:400;font-size:34px;margin:2px 0 12px;color:var(--text-bright);line-height:1.05;}
+  .jd-blurb{margin:0 0 16px;font-size:13.5px;}
+  .jd-meta{display:flex;flex-direction:column;gap:14px;}
+  .live-pill{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;
+    font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--secondary);border:1px solid var(--hair-solid);padding:5px 11px;}
+  .live-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--secondary);}
+  .wip-pill{display:inline-flex;align-self:flex-start;
+    font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);border:1px solid var(--hair-solid);padding:5px 11px;}
+
+  /* deployed-site preview, in a little browser frame */
+  .browser{border:1px solid var(--hair-solid);border-radius:8px;overflow:hidden;
+    background:var(--surface);box-shadow:0 12px 30px rgba(0,0,0,.4);}
+  /* the frame is a link to the live site - lift + light the edge on hover */
+  .preview-link{display:block;text-decoration:none;color:inherit;cursor:pointer;
+    transition:transform .18s ease,border-color .2s ease,box-shadow .25s ease;}
+  .preview-link:hover{transform:translateY(-3px);border-color:var(--accent);
+    box-shadow:0 18px 40px rgba(0,0,0,.5);}
+  .preview-link:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+  .browser-bar{display:flex;align-items:center;gap:10px;padding:8px 11px;
+    background:var(--surface);border-bottom:1px solid var(--hair);}
+  .browser-bar .lights{display:flex;gap:6px;}
+  .browser-bar .lights span{width:8px;height:8px;border-radius:50%;background:var(--hair-solid);}
+  .browser-bar .addr{flex:1;min-width:0;font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.05em;
+    color:var(--muted);background:var(--surface);border:1px solid var(--hair);border-radius:20px;
+    padding:4px 11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .browser-body{position:relative;overflow:hidden;aspect-ratio:16/9;
+    display:flex;align-items:center;justify-content:center;
+    background:repeating-linear-gradient(45deg,var(--hair) 0 12px,transparent 12px 24px);}
+  /* a screenshot just fills the frame */
+  .browser-body .shot{width:100%;height:100%;border:0;display:block;background:#fff;
+    object-fit:cover;object-position:top;pointer-events:none;}
+  /* a live embed renders at desktop 1920×1080 and is shrunk to fit - the shelf
+     script sets the exact scale on load/resize; the .25 is just a pre-JS fallback.
+     pointer-events:none keeps it a preview (no click/scroll capture). */
+  .browser-body .shot-live{position:absolute;top:0;left:0;width:1920px;height:1080px;
+    border:0;background:#fff;transform-origin:top left;transform:scale(.25);pointer-events:none;}
+  .ph{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:20px;}
+  .ph .ph-icon{opacity:.5;}
+  .ph .ph-label{font-family:'Oswald',sans-serif;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);}
+  .ph .ph-url{font-family:'Lora',serif;font-size:12.5px;color:var(--secondary);}
+  .ph .ph-drop{font-family:'Oswald',sans-serif;font-size:8px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--muted);opacity:.75;border:1px dashed var(--hair-solid);padding:3px 8px;margin-top:2px;}
+
   .stack{display:flex;flex-wrap:wrap;gap:7px;}
   .stack span{
     font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.14em;
     text-transform:uppercase;border:1px solid var(--hair-solid);padding:3px 9px;color:var(--muted);
   }
 
-  /* The FAQ moved to its own page — see faq.html (open bar-menu list + the
+  /* The FAQ moved to its own page - see faq.html (open bar-menu list + the
      FAQPage schema). Index just teases it and links out. */
 
   @media (max-width:520px){
@@ -427,7 +503,7 @@
     .chain.l{left:calc(50% - 66px);}
     .chain.r{left:calc(50% + 66px);}
     .bracket{width:150px;}
-    .job h3{font-size:27px;}
+    .jd-name{font-size:28px;}
   }
 
   /* ============ START A TAB ============
@@ -454,7 +530,7 @@
 
   /* ---- THE NAPKIN ----
      A white linen cocktail napkin: hemstitch border, embroidered mark bottom
-     right. A physical object on the bar, so it does not theme — same linen and
+     right. A physical object on the bar, so it does not theme - same linen and
      same ink lit or painted, exactly like the cross-stitch sampler above it.
      One that went dark at night would break the illusion. */
   .napkin{
@@ -471,7 +547,7 @@
     background-image:
       /* The ring a wet glass left. Two circles rather than one, slightly
          offset and different radii, because a single clean gradient reads as
-         a printed target — the overlap is what makes the edge look wicked
+         a printed target - the overlap is what makes the edge look wicked
          into the cloth. The rim is darker than the middle: that is where the
          liquid dried last. */
       radial-gradient(circle at 20% 80%,
@@ -486,14 +562,14 @@
         transparent 26.5%),
       /* light falling across the cloth */
       radial-gradient(ellipse 74% 62% at 26% 14%, rgba(255,255,255,.85), transparent 60%),
-      /* linen weave — the sampler's trick, finer and neutral */
+      /* linen weave - the sampler's trick, finer and neutral */
       repeating-linear-gradient(0deg,  rgba(140,140,146,.055) 0 1px, transparent 1px 3px),
       repeating-linear-gradient(90deg, rgba(140,140,146,.055) 0 1px, transparent 1px 3px);
     box-shadow:0 16px 38px rgba(0,0,0,.45), inset 0 0 44px rgba(150,150,158,.10);
   }
   /* The field kills its own outline, because a browser focus rectangle landing
      on a piece of cloth looks like a bug. This puts the indicator on the
-     napkin instead — and doubles as the test for whether the click is even
+     napkin instead - and doubles as the test for whether the click is even
      reaching the textarea: no ring means no focus, which means no caret. */
   .napkin:focus-within{
     box-shadow:0 16px 38px rgba(0,0,0,.45),
@@ -515,7 +591,7 @@
     background-position:left top, left bottom, left top, right top;
     background-repeat:no-repeat;
   }
-  /* the folded hem just outside the openwork — barely there, but it is what
+  /* the folded hem just outside the openwork - barely there, but it is what
      stops the border reading as a printed rectangle */
   .napkin::after{
     content:"";position:absolute;inset:calc(var(--hem) - 7px);pointer-events:none;
@@ -524,7 +600,7 @@
   .napkin textarea{
     position:relative;z-index:1;flex:1;width:100%;
     background:transparent;border:0;outline:none;resize:none;padding:0;
-    /* ballpoint, not the page's ink — it has to sit on the cloth */
+    /* ballpoint, not the page's ink - it has to sit on the cloth */
     font-family:'Caveat',cursive;font-size:21px;line-height:1.5;color:#26364B;
     /* the blinking caret. Stated rather than inherited from color, so it
        survives any later change to the ink. */
@@ -533,7 +609,7 @@
   .napkin textarea::placeholder{color:rgba(38,54,75,.4);}
 
   /* the embroidered mark. Yellowtail because that is the logo's face on the
-     sign — the same name, stitched instead of lit. */
+     sign - the same name, stitched instead of lit. */
   .napkin-mark{
     position:absolute;z-index:1;pointer-events:none;
     bottom:calc(var(--hem) + 10px);right:calc(var(--hem) + 14px);
@@ -619,7 +695,12 @@
     /* last row of two loses the divider, not just the final item */
     .item:nth-last-child(-n+2){border-bottom:0;padding-bottom:0;margin-bottom:18px;}
 
-    .regulars,.shelf{display:grid;grid-template-columns:1fr 1fr;column-gap:46px;}
+    .regulars{display:grid;grid-template-columns:1fr 1fr;column-gap:46px;}
+
+    /* bigger mats on desktop; the detail panel splits: writeup | preview */
+    .coaster{width:172px;}
+    .pile{gap:22px;}
+    .job-detail{grid-template-columns:1fr 1.05fr;gap:40px;}
 
     /* the sampler was sized against a 680px column and reads small in 1040 */
     .frame{max-width:620px;border-width:12px;}
@@ -628,7 +709,7 @@
     .band{height:34px;background-size:84px 34px;}
 
     /* fields left, napkin right. align-items:start because the napkin's
-       height comes from its own width via aspect-ratio — let the grid
+       height comes from its own width via aspect-ratio - let the grid
        stretch it and it stops being square. */
     .tab-grid{grid-template-columns:1fr 1fr;gap:30px;align-items:start;}
   }
@@ -639,7 +720,7 @@
   .scroll-cue{
     position:fixed;left:0;right:0;bottom:5vh;z-index:35;
     display:flex;justify-content:center;pointer-events:none;
-    /* tied to --enter, so it is gone as soon as the sign starts its descent —
+    /* tied to --enter, so it is gone as soon as the sign starts its descent -
        and comes back if you return to the top */
     opacity:calc(1 - var(--enter));
   }
@@ -668,7 +749,7 @@
 
   @media (prefers-reduced-motion:reduce){
     .word .front,.plate::before,.mouse::after{animation:none;}
-    /* still arrives late, but only by fading — nothing travels */
+    /* still arrives late, but only by fading - nothing travels */
     .cue-in{animation:cue-fade .5s ease-out 2.2s backwards;}
     @keyframes cue-fade{from{opacity:0}to{opacity:1}}
   }
@@ -721,8 +802,8 @@
 
   <section class="intro">
     <h1 class="hero-title">Custom web apps for Kansas City businesses.</h1>
-    <p class="lead">Built by the person who actually writes the code. I'm Noah — a full-stack software engineer who takes on a few projects at a time, so yours gets real attention start to finish.</p>
-    <p>I build software for businesses that need something specific and can't buy it off the shelf — custom apps, marketing sites, dashboards, and repairs to software that works but hurts. The best of it doesn't start with code; it starts with understanding what you're actually trying to do.</p>
+    <p class="lead">Built by the person who actually writes the code. I'm Noah, a full-stack software engineer who takes on a few projects at a time, so yours gets real attention start to finish.</p>
+    <p>I build software for businesses that need something specific and can't buy it off the shelf: custom apps, marketing sites, dashboards, and repairs to software that works but hurts. The best of it doesn't start with code; it starts with understanding what you're actually trying to do.</p>
     <!-- "Pull up a stool" scrolls to the napkin form at the foot of the page.
          Live scheduling (a Google Calendar embed) is tabled for now; the old
          scheduler URL is parked here so it's a one-line restore if that changes:
@@ -738,7 +819,7 @@
     <div class="board">
       <div class="item">
         <h3>Custom Apps</h3><div class="dots"></div>
-        <p>Full web applications built from scratch — auth, data, integrations, the whole thing.</p>
+        <p>Full web applications built from scratch: auth, data, integrations, the whole thing.</p>
       </div>
       <div class="item">
         <h3>Marketing Sites</h3><div class="dots"></div>
@@ -789,12 +870,12 @@
     <h2 class="section-title">The regulars</h2>
     <div class="regulars">
       <div class="quote">
-        <p>[Client quote goes here — one or two sentences about what you built and what changed for their business.]</p>
-        <div class="by">— Name, Title, Company</div>
+        <p>[Client quote goes here, one or two sentences about what you built and what changed for their business.]</p>
+        <div class="by">Name, Title, Company</div>
       </div>
       <div class="quote">
         <p>[Second quote. The strongest ones name a specific outcome rather than saying you were nice to work with.]</p>
-        <div class="by">— Name, Title, Company</div>
+        <div class="by">Name, Title, Company</div>
       </div>
     </div>
   </section>
@@ -808,33 +889,70 @@
         <div class="band flip"></div>
       </div>
     </div>
-    <p class="blurb">One master agreement signed once, a statement of work for each project, and an NDA any time you want one. Scope, price, and ownership all go in writing before I start — so nothing about the paperwork is a surprise later.</p>
+    <p class="blurb">One master agreement signed once, a statement of work for each project, and an NDA any time you want one. Scope, price, and ownership all go in writing before I start, so nothing about the paperwork is a surprise later.</p>
     <p class="blurb-cta"><a class="btn-ghost" href="house-rules.html">Read the house rules</a></p>
   </section>
 
   <section>
     <h2 class="section-title">On the shelf</h2>
-    <div class="shelf">
-      <div class="job">
-        <div class="status">Own product</div>
-        <h3>Afterword</h3>
-        <p class="kind">Estate planning &amp; document management &middot; next-of-kin.us</p>
-        <p>A preparedness tool for families. Estate planning firms offer it to their clients so everything — documents, accounts, wishes — is organized in advance instead of assembled during the worst week of someone's life. Also sold directly to families who don't have a planner.</p>
-        <div class="stack"><span>TypeScript</span><span>Turborepo</span><span>AWS</span><span>Postgres</span></div>
-      </div>
-      <div class="job">
-        <div class="status">In progress</div>
-        <h3>Real estate portfolio site</h3>
-        <p class="kind">Client work &middot; house flipping &amp; listings</p>
-        <p>A site for a flipper to show off finished renovations and current listings — before-and-after work that sells itself once people can actually see it.</p>
-        <div class="stack"><span>Web</span><span>Responsive</span><span>Listings</span></div>
-      </div>
+    <p class="shelf-lede">First round's up on the bar. Tap the coaster to read it.</p>
+
+    <!-- The coasters. Each button toggles the matching .job-detail below; the
+         script at the foot of the page does the swap. The featured one carries
+         .lit so it's the default when JS is off. The "next round" mat is a link
+         to the tab form, not a job, so the script ignores it. Only Chase is up
+         for now - add a coaster + a matching .job-detail below for each new job. -->
+    <div class="pile">
+      <button type="button" class="coaster lit" data-project="chase" aria-pressed="true">
+        <span class="c-latest">★ Latest round</span>
+        <span class="mono">CW</span>
+        <span class="cname">Chase Wealth</span>
+        <span class="cat">Fee-only advisor</span>
+        <span class="pick-hint">Tap to read</span>
+        <span class="sel-mark">● Reading</span>
+      </button>
+      <a class="coaster ghost" href="#tab">
+        <span class="g-label">Next round's<br>on you</span>
+        <span class="cat">Pull up a stool</span>
+      </a>
+    </div>
+
+    <div class="shelf-details">
+      <!-- Chase Wealth - featured / visible by default -->
+      <article class="job-detail" data-detail="chase">
+        <div>
+          <p class="jd-kicker">Latest round &middot; Client work</p>
+          <h3 class="jd-name">Chase Wealth Management</h3>
+          <p class="jd-blurb">A modern portfolio site for a fee-only fiduciary in Kansas City. Clean, quick, and built search-first so the right clients actually find it. A polished front door that earns the first call before a word is spoken.</p>
+          <div class="jd-meta">
+            <div class="stack"><span>Portfolio</span><span>SEO</span><span>Responsive</span></div>
+            <span class="live-pill"><span class="dot"></span>Live &middot; chasewm.com</span>
+          </div>
+        </div>
+        <!-- The whole frame links out to the live site. Preview host for now -
+             swap BOTH the href and the iframe src to https://chasewm.com when the
+             custom domain goes live (the iframe is pointer-events:none, so clicks
+             land on this anchor). -->
+        <a class="preview-link browser" href="https://vandyssoftware.github.io/chase-wealth/"
+           target="_blank" rel="noopener"
+           aria-label="Open the Chase Wealth Management site in a new tab">
+          <div class="browser-bar">
+            <span class="lights"><span></span><span></span><span></span></span>
+            <span class="addr">https://chasewm.com</span>
+          </div>
+          <div class="browser-body">
+            <iframe class="shot-live" src="https://vandyssoftware.github.io/chase-wealth/"
+                    title="Chase Wealth Management, live site" loading="lazy"
+                    scrolling="no" tabindex="-1"></iframe>
+          </div>
+        </a>
+      </article>
     </div>
   </section>
 
   <section>
     <h2 class="section-title">Ask the bartender</h2>
-    <p class="blurb">Cost, timelines, what I build with, working with your team, what happens after launch — the questions people actually ask, answered straight.</p>
+    <p class="blurb">Cost, timelines, what I build with, working with your team, what happens after launch. The questions people actually ask, answered straight.</p>
     <p class="blurb-cta"><a class="btn-ghost" href="faq.html">Read the FAQ</a></p>
   </section>
 
@@ -870,7 +988,7 @@
         </div>
       </div>
 
-      <!-- the napkin. The label is real but hidden — the object is the point,
+      <!-- the napkin. The label is real but hidden - the object is the point,
            and a floating "Your idea" caption above it would give the game away -->
       <div class="napkin">
         <label class="visually-hidden" for="idea">What are you building?</label>
@@ -911,7 +1029,7 @@
        heading and the sub above it are hidden at the same time -->
   <div class="tab-done" hidden>
     <div class="q">Order's in.</div>
-    <p>Thanks — your note landed. I read everything that comes through here myself, and I'll be in touch shortly.</p>
+    <p>Thanks, your note landed. I read everything that comes through here myself, and I'll be in touch shortly.</p>
   </div>
 </section>
 
@@ -926,9 +1044,9 @@
   var btn  = document.getElementById('switch');
   var meta = document.querySelector('meta[name="theme-color"]');
   /* the two page background colours from styles.css. The browser chrome has
-     to be told separately — it does not read the body's background. */
+     to be told separately - it does not read the body's background. */
   var BAR = {dark:'#0B0A0A', light:'#E8DCC0'};
-  /* the head script has already settled the theme — a remembered choice if
+  /* the head script has already settled the theme - a remembered choice if
      there is one, otherwise the dark default. Adopt it and label the button
      to match, rather than deciding a second time and risking disagreement.
      Never seeds from prefers-color-scheme: the lit sign is the whole first
@@ -972,18 +1090,18 @@
   /* --- the parked-right waypoint (desktop only) ---
      Stage A lowers the sign onto its chains and floats it into the empty
      column to the right of the intro copy; Stage B takes it from there to
-     the top-left header. These three knobs place the parked sign — tune by
+     the top-left header. These three knobs place the parked sign - tune by
      eye against the "Behind the Bar" section. */
   var PARK_SCALE   = 0.5;    /* sign size while parked, relative to full */
   var PARK_X_FRAC  = 0.72;   /* horizontal centre of the parked sign, as a fraction of viewport width */
   var PARK_TOP_VH  = 0.28;   /* panel top the moment it parks, in viewport heights */
   /* once parked the sign is anchored to the page and rides up with the scroll,
-     staying beside the section, until its top reaches TOP_TRIGGER_VH — "about to
-     hit the top" — where it peels off into the corner. Small = it climbs nearly
+     staying beside the section, until its top reaches TOP_TRIGGER_VH - "about to
+     hit the top" - where it peels off into the corner. Small = it climbs nearly
      out of view with the section before docking; raise it to peel off earlier. */
   var TOP_TRIGGER_VH = 0.05;
 
-  /* a viewport-sized sign has no single correct dock scale or runway length —
+  /* a viewport-sized sign has no single correct dock scale or runway length -
      both get measured off the rendered panel instead of guessed in vh */
   var panel     = document.querySelector('.panel');
   var hanger    = document.querySelector('.hanger');
@@ -1001,8 +1119,8 @@
   var clientW = root.clientWidth;
 
   /* Writes a custom property only when its value actually changed. Every
-     setProperty on :root invalidates style for everything reading it — and
-     --dock is read by .wall, .bar, .sign-tag, .sign-legal and .scroll-cue —
+     setProperty on :root invalidates style for everything reading it - and
+     --dock is read by .wall, .bar, .sign-tag, .sign-legal and .scroll-cue -
      so writing unchanged values 60x a second keeps the neon stack recalculating
      while nothing is moving. With this the loop goes quiet once the sign
      settles, which is most of the time the page is open. */
@@ -1025,7 +1143,7 @@
     if(!h) return;
     dockScale = clamp(DOCK_PANEL_PX / h, 0.06, 0.5);
 
-    /* phones keep the runway they have always had — one-stage dock, no park */
+    /* phones keep the runway they have always had - one-stage dock, no park */
     if(window.innerWidth < 900){
       isWide = false;
       if(heroSpace) heroSpace.style.height = '';
@@ -1034,7 +1152,7 @@
     }
     isWide = true;
 
-    /* the runway only has to clear the sign at rest — any taller and the
+    /* the runway only has to clear the sign at rest - any taller and the
        sign docks while the intro is still a screen away, which reads as
        a long stretch of nothing */
     var vh = window.innerHeight;
@@ -1044,8 +1162,8 @@
 
     /* Stage A finishes a little past the runway so the sign parks just as the
        intro settles into view. It is then anchored to the page and rides up
-       with the scroll for holdDistance — the 1:1 climb from the parked height
-       to the top trigger — before Stage B peels it into the top-left header. */
+       with the scroll for holdDistance - the 1:1 climb from the parked height
+       to the top trigger - before Stage B peels it into the top-left header. */
     parkDistance  = Math.max(240, runway * 0.62);
     holdDistance  = Math.max(0, (PARK_TOP_VH - TOP_TRIGGER_VH) * vh);
     dockDistance2 = parkDistance + holdDistance + Math.max(vh * 0.35, runway * 0.5);
@@ -1064,7 +1182,7 @@
   function lerp(a,b,t){ return a + (b-a)*t; }
   function clamp(v,lo,hi){ return v < lo ? lo : (v > hi ? hi : v); }
   function easeOutCubic(t){ return 1 - Math.pow(1-t, 3); }
-  /* eased both ends — Stage B glides out of the park and into the dock without
+  /* eased both ends - Stage B glides out of the park and into the dock without
      a hard start or stop */
   function smooth(t){ return t * t * (3 - 2 * t); }
 
@@ -1169,7 +1287,7 @@
     pendingDelta = 0;
 
     /* --drop sits inside the scaled hanger, so divide it back out and the
-       value becomes on-screen pixels — without this the chain is multiplied by
+       value becomes on-screen pixels - without this the chain is multiplied by
        the scale and all but disappears */
     write('--slide', slide.toFixed(2) + 'px');
     write('--dock',  dock.toFixed(4));
@@ -1260,6 +1378,51 @@
       btn.disabled = false;
       btn.textContent = label;
     });
+  });
+})();
+</script>
+
+<script>
+/* On the shelf: tap a coaster to light it and swap the detail panel below.
+   Progressive enhancement - with no JS the featured (.lit) coaster's panel is
+   the one already visible, the rest carry `hidden`, and the page still reads. */
+(function(){
+  /* Live embeds render at desktop 1920 and are scaled to the frame's real width,
+     so each card shows the full desktop composition rather than a narrow layout.
+     Recompute on load/resize/font-load, and after a swap (a hidden panel has
+     width 0 until it's shown). */
+  function fitPreviews(){
+    document.querySelectorAll('.browser-body').forEach(function(body){
+      var live = body.querySelector('.shot-live');
+      if(!live) return;
+      var w = body.clientWidth;
+      if(!w) return;
+      live.style.transform = 'scale(' + (w / 1920) + ')';
+    });
+  }
+  fitPreviews();
+  window.addEventListener('resize', fitPreviews, {passive:true});
+  window.addEventListener('load', fitPreviews);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitPreviews);
+
+  var pile = document.querySelector('.pile');
+  if(!pile) return;
+  var details = document.querySelectorAll('.job-detail');
+
+  pile.addEventListener('click', function(e){
+    var mat = e.target.closest('.coaster[data-project]');
+    if(!mat) return;                       /* the ghost mat is a plain #tab link */
+    var id = mat.getAttribute('data-project');
+
+    pile.querySelectorAll('.coaster[data-project]').forEach(function(c){
+      var on = c === mat;
+      c.classList.toggle('lit', on);
+      c.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    details.forEach(function(d){
+      d.hidden = d.getAttribute('data-detail') !== id;
+    });
+    fitPreviews();
   });
 })();
 </script>
