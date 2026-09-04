@@ -136,7 +136,7 @@
 </head>
 <body>
 
-<button class="switch" id="switch">Lights on</button>
+<button class="switch" id="switch" aria-label="Toggle light and dark theme"><span class="lever"></span></button>
 
 <header>
   <a class="back" href="index.html">&larr; Back to the bar</a>
@@ -225,7 +225,6 @@
     function setTheme(mode){
       root.setAttribute('data-theme', mode);
       if(meta) meta.setAttribute('content', BAR[mode]);
-      btn.textContent = mode === 'dark' ? 'Lights on' : 'Lights out';
       btn.setAttribute('aria-label',
         mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
     }

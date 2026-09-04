@@ -164,7 +164,7 @@
 </head>
 <body>
 
-<button class="switch" id="switch">Lights on</button>
+<button class="switch" id="switch" aria-label="Toggle light and dark theme"><span class="lever"></span></button>
 
 <div class="sg-wrap">
 
@@ -380,7 +380,7 @@ function paintValues(){
 (function(){
   var btn = document.getElementById('switch');
   function cur(){ return document.documentElement.getAttribute('data-theme') || 'dark'; }
-  function label(){ btn.textContent = cur() === 'dark' ? 'Lights on' : 'Lights off'; }
+  function label(){ btn.setAttribute('aria-label', cur() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'); }
   btn.addEventListener('click', function(){
     var next = cur() === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);

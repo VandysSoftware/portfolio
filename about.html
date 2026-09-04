@@ -118,12 +118,16 @@
   }
   /* square window, the way an SX-70 print is */
   .shot{
-    aspect-ratio:1/1;background:var(--photo-bg);
+    aspect-ratio:1/1;background:var(--photo-bg);overflow:hidden;
     display:flex;align-items:center;justify-content:center;text-align:center;
     font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.2em;
     text-transform:uppercase;color:rgba(232,220,192,.5);padding:10px;
   }
-  .shot img{width:100%;height:100%;object-fit:cover;display:block;}
+  /* scaled up and anchored on the face to zoom in on the head */
+  .shot img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transform:scale(1.6);transform-origin:50% 4%;
+  }
   .caption{
     position:absolute;left:0;right:0;bottom:9px;
     text-align:center;font-family:'Yellowtail',cursive;
@@ -275,6 +279,29 @@
     margin-top:8px;line-height:1.7;
   }
 
+  /* ---- OFF-THE-CLOCK SNAPSHOT ---- */
+  /* a polaroid like the portrait up top - same cream paper, tape and script
+     caption so it stays on theme - but the image keeps its own aspect (a
+     couple photo, not a square crop) the way the chase-wealth one does. On
+     desktop it floats beside the copy; on mobile it centres above it. */
+  .snap{
+    position:relative;width:230px;margin:8px auto 22px;
+    background:#F3EFE6;padding:12px 12px 0;
+    box-shadow:0 14px 22px rgba(0,0,0,.42);
+  }
+  html[data-theme="light"] .snap{box-shadow:0 12px 18px rgba(74,18,32,.28);}
+  .snap img{display:block;width:100%;height:auto;}
+  .snap figcaption{
+    text-align:center;font-family:'Yellowtail',cursive;
+    font-size:20px;line-height:1.1;color:#3B2F28;padding:12px 6px 16px;
+  }
+  /* one piece of tape across the top, matching the portrait's tabs */
+  .snap::before{
+    content:"";position:absolute;top:-11px;left:50%;margin-left:-31px;
+    width:62px;height:19px;background:var(--tape);
+    border:1px solid rgba(255,255,255,.06);transform:rotate(-3deg);
+  }
+
   @media (max-width:430px){
     .display{font-size:15px;letter-spacing:.28em;text-indent:.28em;}
     .closer .q{font-size:34px;}
@@ -307,6 +334,10 @@
     /* parks in the rail under its label, filling the gap a one-paragraph
        section would otherwise leave beside the gutter */
     .coaster{grid-column:1;margin:22px 0 0;}
+    /* off-the-clock copy and photo share the text column; the snapshot floats
+       right and the paragraphs wrap around it */
+    .offclock-body{grid-column:2;max-width:76ch;}
+    .offclock-body .snap{float:right;width:236px;margin:2px 0 14px 32px;}
 
     /* the quote spans both columns and is capped and centred, so it reads as
        a set-apart statement rather than another paragraph in the text column */
@@ -340,10 +371,18 @@
 
 <h1 class="visually-hidden">About Noah Vandervelden · Vandy's Software Solutions</h1>
 
-<button class="switch" id="switch">Lights on</button>
+<nav class="topbar" aria-label="Primary">
+  <a class="brand" href="index.html" aria-label="Vandy's Software Solutions home">Vandy's</a>
+  <div class="links">
+    <a class="navlink" href="index.html">Home</a>
+    <a class="navlink" href="about.html" aria-current="page">About</a>
+    <a class="navlink" href="house-rules.html">House Rules</a>
+    <a class="btn" href="index.html#tab">Contact</a>
+    <button class="switch" id="switch" aria-label="Toggle light and dark theme"><span class="lever"></span></button>
+  </div>
+</nav>
 
 <header>
-  <a class="back" href="index.html">&larr; Back to the bar</a>
   <p class="display">Behind the Bar</p>
   <p class="sub">Who you'd be working with, and how I got here.</p>
 </header>
@@ -353,8 +392,7 @@
   <div class="opening">
     <div class="photo">
       <div class="portrait">
-        <!-- Swap the text inside .shot for <img src="noah.jpg" alt="Noah Vandervelden"> -->
-        <div class="shot">Photo goes here</div>
+        <div class="shot"><img src="assets/noah-portrait.jpg" alt="Noah"></div>
         <span class="caption">Noah</span>
       </div>
     </div>
@@ -448,15 +486,21 @@
     </div>
   </section>
 
-  <section class="bio">
+  <section class="bio offclock">
     <p class="eyebrow">Off the clock</p>
     <div class="coaster" aria-hidden="true">
       <span class="c-name">Vandy's</span>
       <span class="c-sub">Software<br>on tap</span>
     </div>
-    <p>When I'm away from the keyboard, you'll usually find me running, cycling, swimming, playing sports, or finding ways to connect with and contribute to my community. Most of all, I love spending time with my wife, who I married this year in 2026.</p>
+    <div class="offclock-body">
+      <figure class="snap">
+        <img src="assets/noah-and-wife.jpg" alt="Noah and his wife">
+        <figcaption>The Vandy's, 2026</figcaption>
+      </figure>
+      <p>When I'm away from the keyboard, you'll usually find me running, cycling, swimming, playing sports, or finding ways to connect with and contribute to my community. Most of all, I love spending time with my wife, who I married this year in 2026! 🎉❤️</p>
 
-    <p>If you're looking for someone who values thoughtful communication, well-crafted software, and a collaborative process from the first conversation to the final launch, I'd love to hear what you're building. If you'd rather see how I run a project before we talk, <a href="house-rules.html">the house rules</a> are all written down.</p>
+      <p>If you're looking for someone who values thoughtful communication, well-crafted software, and a collaborative process from the first conversation to the final launch, I'd love to hear what you're building. If you'd rather see how I run a project before we talk, <a href="house-rules.html">the house rules</a> are all written down.</p>
+    </div>
   </section>
 
 </main>
@@ -482,7 +526,6 @@
     function setTheme(mode){
       root.setAttribute('data-theme', mode);
       if(meta) meta.setAttribute('content', BAR[mode]);
-      btn.textContent = mode === 'dark' ? 'Lights on' : 'Lights out';
       btn.setAttribute('aria-label',
         mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
     }

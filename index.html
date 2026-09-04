@@ -164,6 +164,38 @@
     background:var(--bar-bg);border-bottom:1px solid var(--hair);
     opacity:var(--dock);
   }
+  /* Primary nav rides top-right. The hanging sign is the brand: it docks into
+     the top-left corner on scroll (see the rig script), and .bar fades in behind
+     both, so the whole thing resolves into a topbar with the neon sign as its
+     logo. No second "Vandy's" wordmark needed. */
+  .home-nav{
+    position:fixed;top:0;right:0;z-index:50;
+    display:flex;align-items:center;gap:24px;height:62px;padding:0 22px;
+  }
+  .home-nav .navlink{
+    position:relative;padding:4px 0;text-decoration:none;color:var(--muted);
+    font-family:'Oswald',sans-serif;font-weight:600;font-size:12px;
+    letter-spacing:.2em;text-indent:.2em;text-transform:uppercase;
+    transition:color .2s ease;
+  }
+  .home-nav .navlink:hover{color:var(--text-bright);}
+  .home-nav .navlink[aria-current="page"]{color:var(--primary);}
+  .home-nav .navlink[aria-current="page"]::after{
+    content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--primary);
+  }
+  html[data-theme="dark"] .home-nav .navlink[aria-current="page"]::after{
+    box-shadow:0 0 10px rgba(255,59,59,.55);
+  }
+  .home-nav .btn{padding:11px 22px;font-size:11px;letter-spacing:.22em;text-indent:.22em;}
+  /* the toggle sits inline in the nav instead of floating fixed */
+  .home-nav .switch{position:static;top:auto;right:auto;}
+  /* the sign becomes a home link, but only once it has docked into the corner -
+     inert while it is the full-size hero so it doesn't swallow hero clicks */
+  .sign-link{position:absolute;inset:0;z-index:6;pointer-events:none;}
+  html.sign-docked .sign-link{pointer-events:auto;cursor:pointer;}
+  @media (max-width:640px){
+    .home-nav{gap:14px 16px;padding:10px 14px;height:auto;flex-wrap:wrap;justify-content:flex-end;}
+  }
   .stage{
     position:fixed;top:0;left:0;right:0;z-index:40;
     display:flex;justify-content:center;perspective:900px;pointer-events:none;
@@ -757,7 +789,14 @@
 </head>
 <body>
 
-<button class="switch" id="switch">Lights on</button>
+<nav class="home-nav" aria-label="Primary">
+  <!-- the docked sign is the visible Home link; this keeps one for keyboard/AT -->
+  <a class="navlink visually-hidden" href="index.html" aria-current="page">Home</a>
+  <a class="navlink" href="about.html">About</a>
+  <a class="navlink" href="house-rules.html">House Rules</a>
+  <a class="btn" href="#tab">Contact</a>
+  <button class="switch" id="switch" aria-label="Toggle light and dark theme"><span class="lever"></span></button>
+</nav>
 
 <div class="wall"></div>
 <div class="bar"></div>
@@ -787,6 +826,8 @@
         <div class="sign-rule"></div>
         <div class="sign-tag">SOFTWARE ON TAP</div>
         <div class="sign-legal">Vandy's Software Solutions LLC &middot; Kansas City</div>
+        <!-- covers the sign; only clickable once the sign has docked (see JS) -->
+        <a class="sign-link" href="index.html" aria-label="Vandy's home" tabindex="-1"></a>
       </div>
     </div>
   </div>
@@ -1056,7 +1097,6 @@
   function setTheme(mode){
     root.setAttribute('data-theme', mode);
     if(meta) meta.setAttribute('content', BAR[mode]);
-    btn.textContent = mode === 'dark' ? 'Lights on' : 'Lights out';
     btn.setAttribute('aria-label',
       mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
   }
@@ -1291,6 +1331,8 @@
        the scale and all but disappears */
     write('--slide', slide.toFixed(2) + 'px');
     write('--dock',  dock.toFixed(4));
+    /* the sign is only a clickable home link once it has settled into the corner */
+    document.documentElement.classList.toggle('sign-docked', dock > 0.9);
     write('--enter', enter.toFixed(4));
     write('--drop',  (dropPx / s).toFixed(2) + 'px');
     write('--s',     s.toFixed(4));
