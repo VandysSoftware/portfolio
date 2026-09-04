@@ -17,7 +17,7 @@
 })();
 </script>
 <title>House Rules · Vandy's Software Solutions</title>
-<meta name="description" content="How an engagement with Vandy's Software Solutions runs, the process, terms, and a plain-English glossary of the MSA, SOW, and NDA behind every project.">
+<meta name="description" content="How an engagement with Vandy's Software Solutions runs: the process, the terms, and a plain-English look at the Services Agreement and NDA behind every project.">
 <link rel="canonical" href="https://vandyssoftware.com/house-rules.html">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -72,6 +72,15 @@
   header p{margin:0 auto;max-width:46ch;font-size:13px;color:var(--muted);}
 
   /* ---- HOW IT GOES ---- */
+  /* the busy stickerbomb wall drowns the timeline, so it sits on its own
+     dimmed, blurred panel that rides the theme */
+  .timeline-card{
+    background:rgba(11,10,10,.66);border:1px solid var(--hair);
+    border-radius:12px;padding:28px 30px 8px;
+    backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  }
+  html[data-theme="light"] .timeline-card{background:rgba(240,232,212,.85);}
+  .timeline-card .eyebrow{margin-bottom:20px;}
   .steps{border-left:1px solid var(--hair-solid);margin-left:8px;padding-left:0;}
   .step{position:relative;padding:0 0 26px 26px;}
   .step::before{
@@ -82,14 +91,14 @@
     display:block;font-family:'Oswald',sans-serif;font-weight:600;font-size:12px;
     letter-spacing:.16em;text-transform:uppercase;color:var(--text-bright);
   }
-  .step span{display:block;font-size:13px;color:var(--muted);margin-top:4px;}
-  .step em{
-    font-style:normal;font-family:'Oswald',sans-serif;font-size:9px;
-    letter-spacing:.2em;text-transform:uppercase;color:var(--accent2);
-  }
+  .step span{display:block;font-size:13px;color:var(--text);margin-top:4px;}
+  /* the highlight reads as the same body text, only in the accent colour */
+  .step em{font-style:normal;color:var(--accent2);}
 
   /* ---- RULES ---- */
   .sign{border:2px solid var(--hair-solid);padding:8px;background:var(--surface);}
+  /* in light mode the rules panel matches the "How it goes" card */
+  html[data-theme="light"] .sign{background:rgba(240,232,212,.85);}
   .sign-inner{border:1px solid var(--hair);padding:26px 20px 22px;}
   .sign h2{
     font-family:'Oswald',sans-serif;font-weight:600;font-size:14px;letter-spacing:.34em;
@@ -147,6 +156,7 @@
 <main class="shell">
 
   <section>
+    <div class="timeline-card">
     <p class="eyebrow">How it goes</p>
     <div class="steps">
 
@@ -157,34 +167,30 @@
 
       <div class="step">
         <b>2 &middot; NDA, if you want one</b>
-        <span>If your idea is sensitive and you'd rather have it signed before we get into detail, say so and I'll sign one. Some clients want it before step one. That's fine too. <em>On request</em></span>
+        <span>If your idea or business is sensitive and you'd rather have it signed before we get into detail, say so and I'll sign one. Some clients want it before step one. That's fine too. <em>On request</em></span>
       </div>
 
       <div class="step">
-        <b>3 &middot; Master Services Agreement</b>
-        <span>The one-time contract that governs our whole relationship: payment terms, confidentiality, IP ownership, liability limits, and how either of us can end things. Signed once, and every project after this skips straight to step four. <em>Signed once per client</em></span>
+        <b>3 &middot; Services Agreement</b>
+        <span>One contract for the project: what I'm building, the deliverables, the timeline, and the price, plus payment terms, IP ownership, confidentiality, and the warranty. Signed before work starts, one per project. <em>One per project</em></span>
       </div>
 
       <div class="step">
-        <b>4 &middot; Statement of Work</b>
-        <span>The project-specific document: what I'm building, what you're getting, the milestones, the timeline, and the price. This is where scope gets pinned down so neither of us is guessing. <em>One per project</em></span>
+        <b>4 &middot; Deposit, then build</b>
+        <span>A deposit starts the work. From there you get regular check-ins and something you can actually click on, not a three-month silence followed by a reveal. <em>Deposit up front</em></span>
       </div>
 
       <div class="step">
-        <b>5 &middot; Deposit, then build</b>
-        <span>A deposit starts the work. From there you get regular check-ins and something you can actually click on, not a three-month silence followed by a reveal. <em>Milestone billing</em></span>
-      </div>
-
-      <div class="step">
-        <b>6 &middot; Handoff</b>
+        <b>5 &middot; Handoff</b>
         <span>Code, accounts, documentation, and access all transferred to you. You leave owning the thing, not renting it. <em>Everything transfers</em></span>
       </div>
 
       <div class="step">
-        <b>7 &middot; After</b>
+        <b>6 &middot; After</b>
         <span>Defects in what I delivered get fixed on my time for a set window after launch. Past that, bring me back as needed or set up a retainer. <em>Warranty window</em></span>
       </div>
 
+    </div>
     </div>
   </section>
 
@@ -195,35 +201,27 @@
         <p class="sub">Posted so there are no surprises later.</p>
         <ol class="rules">
           <li>
-            <b>We start with an MSA</b>
-            <span>One master agreement per client, signed once. It covers payment terms, IP ownership, confidentiality, liability limits, and termination. Sign it once and every project after that moves faster.</span>
-          </li>
-          <li>
-            <b>Every project gets its own SOW</b>
-            <span>Scope, deliverables, milestones, timeline, price. The MSA stays put; the SOW is what changes project to project. If we can't describe it in a SOW, we don't understand it well enough to start.</span>
+            <b>One agreement per project</b>
+            <span>Every project runs on a single Services Agreement: scope, deliverables, timeline, and price, plus payment terms, IP ownership, confidentiality, liability limits, and termination. If we can't describe it in the agreement, we don't understand it well enough to start.</span>
           </li>
           <li>
             <b>An NDA can be signed on request</b>
-            <span>Confidentiality is already covered in the MSA, but if you want a standalone NDA before we talk specifics, just ask. No friction, no charge.</span>
+            <span>Confidentiality is already covered in the Services Agreement, but if you want a standalone NDA before we talk specifics, just ask. No friction, no charge.</span>
           </li>
           <li>
             <b>You own what you paid for</b>
             <span>The finished deliverable is yours outright: code, accounts, and access all transfer at handoff. I keep rights to the general-purpose libraries and tooling I bring with me, which is what keeps your build from starting at zero.</span>
           </li>
           <li>
-            <b>Scope changes get written down</b>
-            <span>New ideas are welcome. They become a change order or a new SOW rather than quietly stretching the original timeline, which protects your budget as much as my schedule.</span>
-          </li>
-          <li>
-            <b>Deposit up front, then milestones</b>
-            <span>A deposit starts the work, with the balance tied to milestones in the SOW. Invoice terms are set in the MSA so they're the same on every project.</span>
+            <b>Deposit up front, balance on completion</b>
+            <span>A deposit starts the work. The balance is invoiced once everything's finished and handed off, on the terms set in the Services Agreement.</span>
           </li>
           <li>
             <b>Bugs are on me after launch</b>
-            <span>Defects in delivered work get fixed free during the warranty window named in your SOW. New features are billable, repairs aren't.</span>
+            <span>Defects in delivered work get fixed free during the warranty window named in your agreement. New features are billable, repairs aren't.</span>
           </li>
         </ol>
-        <div class="foot">Want to read the paperwork before we talk? Ask and I'll send the MSA and a sample SOW.</div>
+        <div class="foot">Want to read the paperwork before we talk? Ask and I'll send a sample Services Agreement.</div>
       </div>
     </div>
   </section>
@@ -232,26 +230,16 @@
     <p class="eyebrow">Plain english</p>
 
     <div class="term">
-      <b>MSA, Master Services Agreement</b>
-      <span>The rules of the relationship. Signed once. Nothing in it is project-specific, which is exactly why it only has to be negotiated a single time.</span>
-    </div>
-
-    <div class="term">
-      <b>SOW, Statement of Work</b>
-      <span>The rules of one project. Signed each time. It hangs off the MSA, so it can stay short and focus on what's actually being built.</span>
+      <b>Services Agreement</b>
+      <span>The one contract behind a project. Signed each time, it covers everything: scope, deliverables, price, payment terms, IP ownership, confidentiality, and the warranty. One document, one signature, per project.</span>
     </div>
 
     <div class="term">
       <b>NDA, Non-Disclosure Agreement</b>
-      <span>A promise to keep your idea to myself. Available standalone on request, and also folded into the MSA once that's signed.</span>
+      <span>A promise to keep your idea to myself. Available standalone on request, and also covered by the Services Agreement once it's signed.</span>
     </div>
 
-    <div class="term">
-      <b>Change order</b>
-      <span>A short written amendment when scope grows mid-project. It says what's being added, what it costs, and what it does to the timeline.</span>
-    </div>
-
-    <p class="fineprint">This page describes how I like to work. It's a plain-english summary, not the contract itself and not legal advice. The signed MSA and SOW are the documents that actually govern the engagement, and you're welcome to have your own attorney review them before signing anything.</p>
+    <p class="fineprint">This page describes how I like to work. It's a plain-english summary, not the contract itself and not legal advice. The signed Services Agreement is the document that actually governs the engagement, and you're welcome to have your own attorney review it before signing anything.</p>
   </section>
 
 </main>

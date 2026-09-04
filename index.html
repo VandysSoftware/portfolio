@@ -187,8 +187,9 @@
     box-shadow:0 0 10px rgba(255,59,59,.55);
   }
   .home-nav .btn{padding:11px 22px;font-size:11px;letter-spacing:.22em;text-indent:.22em;}
-  /* the toggle sits inline in the nav instead of floating fixed */
-  .home-nav .switch{position:static;top:auto;right:auto;}
+  /* the toggle sits inline in the nav instead of floating fixed (relative, not
+     static, so it stays the positioning context for its absolutely-placed lever) */
+  .home-nav .switch{position:relative;top:auto;right:auto;}
   /* the sign becomes a home link, but only once it has docked into the corner -
      inert while it is the full-size hero so it doesn't swallow hero clicks */
   .sign-link{position:absolute;inset:0;z-index:6;pointer-events:none;}
@@ -794,6 +795,7 @@
   <a class="navlink visually-hidden" href="index.html" aria-current="page">Home</a>
   <a class="navlink" href="about.html">About</a>
   <a class="navlink" href="house-rules.html">House Rules</a>
+  <a class="navlink" href="faq.html">FAQ</a>
   <a class="btn" href="#tab">Contact</a>
   <button class="switch" id="switch" aria-label="Toggle light and dark theme"><span class="lever"></span></button>
 </nav>
