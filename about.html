@@ -45,7 +45,7 @@
 <meta name="twitter:image:alt" content="Vandy's · Software on tap">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Oswald:wght@400;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Oswald:wght@400;600&family=Lora:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
   /* Palette, base and page chrome live in styles.css.
@@ -167,6 +167,10 @@
   .tab{
     max-width:288px;
     background:#F4ECDA;color:#2A211C;
+    /* the ticket is a thermal receipt, so it keeps its own monospace face
+       (DM Mono, the site's original body font) while the rest of the page
+       runs on Lora. The .tab-logo overrides this back to the Yellowtail script. */
+    font-family:'DM Mono',ui-monospace,monospace;
     font-size:11px;line-height:1.6;
     padding:22px 18px 26px;margin:0;
     filter:drop-shadow(0 14px 26px rgba(0,0,0,.5));
